@@ -1,0 +1,5 @@
+- Purpose: Contains small, generic utility functions that are independent of the project’s business logic and can be reused across different components, services, and hooks.
+- Examples:
+  + Formatting numbers, dates, and time.
+  + String manipulation (e.g., capitalizing, trimming).
+  + Utility functions like debounce, throttle, or deepClone.
