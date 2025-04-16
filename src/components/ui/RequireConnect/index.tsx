@@ -23,7 +23,7 @@ function RequireConnect({ children, ...rest }: RequireConnectProps) {
         ref={authViewRef}
         direction={DRAWER_DIRECTION.RIGHT}
         trigger={
-          <Box {...rest}>
+          <Box {...rest} sx={{ position: "relative" }}>
             {children}
             <Box sx={{ position: "absolute", inset: 0, zIndex: 10 }}></Box>
           </Box>

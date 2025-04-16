@@ -36,11 +36,16 @@ const BackHeader = (props: BackHeaderProps) => {
     >
       {!hideBack && (
         <Box
+          component="button"
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: "0.5rem",
+            gap: "0.25rem",
             cursor: "pointer",
+            "&:active": {
+              transform: "translateX(-0.25rem)",
+              transition: "transform 0.2s ease-in-out",
+            },
           }}
           onClick={back as UnknownFunction}
         >

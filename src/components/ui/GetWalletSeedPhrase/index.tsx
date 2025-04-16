@@ -23,7 +23,7 @@ function GetWalletSeedPhrase({ children, ...rest }: GetWalletSeedPhraseProps) {
         ref={getSeedPhraseViewRef}
         direction={DRAWER_DIRECTION.RIGHT}
         trigger={
-          <Box {...rest}>
+          <Box {...rest} sx={{ position: "relative" }}>
             {children}
             <Box sx={{ position: "absolute", inset: 0, zIndex: 10 }}></Box>
           </Box>
