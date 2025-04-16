@@ -82,7 +82,13 @@ const theme: ThemeOptions = createTheme({
       fontSize: "0.75rem",
     },
     theBorderRadius: {
-      full: "100%",
+      full: "50%",
+    },
+    center: {
+      position: "absolute",
+      left: "50%",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
     },
   },
 });

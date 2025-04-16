@@ -14,6 +14,7 @@ declare module "@mui/material/styles" {
     noteContent: React.CSSProperties;
     pagePadding: React.CSSProperties;
     theBorderRadius: Record<string, string>;
+    center: React.CSSProperties;
   }
 
   interface TypeBackground {

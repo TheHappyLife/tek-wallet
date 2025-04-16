@@ -3,7 +3,7 @@ import { GeneralProps, UnknownFunction } from "../../../types/ui";
 import BackArrow from "../BackArrow";
 import useCustomRouter from "../../../hooks/useCustomRouter";
 import Text from "../Text";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 interface BackHeaderProps extends GeneralProps {
   overrideBack?: (e: React.MouseEvent<HTMLDivElement>) => void;
@@ -13,6 +13,7 @@ interface BackHeaderProps extends GeneralProps {
 
 const BackHeader = (props: BackHeaderProps) => {
   const router = useCustomRouter();
+  const theme = useTheme();
   const { center, children, hideBack } = props;
   const back = (e: React.MouseEvent<HTMLDivElement>) => {
     if (props.overrideBack) {
@@ -43,16 +44,14 @@ const BackHeader = (props: BackHeaderProps) => {
           }}
           onClick={back as UnknownFunction}
         >
-          <BackArrow /> <Text sx={{ color: "whiteText.main" }}>Back</Text>
+          <BackArrow />{" "}
+          <Text sx={{ color: theme.palette.text.white }}>Back</Text>
         </Box>
       )}
       {!!center && (
         <Box
           sx={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
+            ...theme.mixins.center,
           }}
         >
           {center}
