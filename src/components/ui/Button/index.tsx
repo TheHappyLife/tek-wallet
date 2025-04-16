@@ -1,7 +1,8 @@
-import cn from "../../../utils/cn";
+/* eslint-disable react-hooks/rules-of-hooks */
 import {
   Button as MuiButton,
   ButtonProps as MuiButtonProps,
+  useTheme,
 } from "@mui/material";
 
 export enum BUTTON_STATUS {
@@ -18,14 +19,10 @@ const Button: React.FC<ButtonProps> & {
   Primary: React.FC<ButtonProps>;
   Secondary: React.FC<ButtonProps>;
 } = (props: ButtonProps) => {
-  const { status = BUTTON_STATUS.ENABLED, className, ...rest } = props;
+  const { status = BUTTON_STATUS.ENABLED, ...rest } = props;
 
   return (
-    <MuiButton
-      className={cn("", className)}
-      disabled={status !== BUTTON_STATUS.ENABLED}
-      {...rest}
-    >
+    <MuiButton disabled={status !== BUTTON_STATUS.ENABLED} {...rest}>
       {props.children}
     </MuiButton>
   );
@@ -35,6 +32,7 @@ Button.displayName = "Button";
 
 Button.Primary = (props: ButtonProps) => {
   const { sx, ...rest } = props;
+  const theme = useTheme();
 
   return (
     <Button
@@ -42,8 +40,7 @@ Button.Primary = (props: ButtonProps) => {
       variant="contained"
       color="primary"
       sx={{
-        borderRadius: "999px",
-        color: "#000000",
+        borderRadius: theme.mixins.theBorderRadius.full,
         ...sx,
       }}
     />
@@ -53,19 +50,16 @@ Button.Primary = (props: ButtonProps) => {
 Button.Primary.displayName = "Button.Primary";
 
 Button.Secondary = (props: ButtonProps) => {
-  const { className, sx, ...rest } = props;
+  const { sx, ...rest } = props;
+  const theme = useTheme();
 
   return (
     <Button
       {...rest}
       variant="contained"
       color="secondary"
-      className={cn(
-        "text-16 leading-120 !capitalize font-500 px-4 py-2.5",
-        className
-      )}
       sx={{
-        borderRadius: "999px",
+        borderRadius: theme.mixins.theBorderRadius.full,
         ...sx,
       }}
     />

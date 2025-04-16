@@ -13,16 +13,10 @@ import OTP, { OtpInputType } from "../../../components/ui/OTP";
 import { useRef, useState } from "react";
 import Text from "../../../components/ui/Text";
 import useWalletData from "../../../hooks/useWalletData";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import Button from "../../ui/Button";
 import Icon from "../../ui/Icon";
 import getIcon from "../../../utils/getIcon";
-import {
-  noteContent,
-  sessionDescription,
-  sessionTitle,
-} from "../../../theme/mui/styles";
-import theme from "../../../theme/mui/theme";
 
 interface GetSeedPhraseWalletViewProps extends GeneralProps {
   onBack: () => void;
@@ -36,6 +30,7 @@ export enum GetSeedPhraseWalletViewStep {
 const passcodeLength = 6;
 
 const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
+  const theme = useTheme();
   const [otp, setOtp] = useState("");
   const [isShowSeedPhrase, setIsShowSeedPhrase] = useState(false);
   const [seedPhrase, setSeedPhrase] = useState<string | undefined>(undefined);
@@ -152,7 +147,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
             >
               <Text
                 sx={{
-                  ...sessionTitle,
+                  ...theme.mixins.sessionTitle,
                 }}
               >
                 Enter Passcode
@@ -165,7 +160,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
               />
               <Text
                 sx={{
-                  ...sessionDescription,
+                  ...theme.mixins.sessionDescription,
                 }}
               >
                 Enter your passcode to get your wallet seed phrase
@@ -193,22 +188,22 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
                   <Text
                     key={index}
                     sx={{
-                      color: theme.palette.whiteText.main,
+                      color: theme.palette.text.white,
                       padding: "0.5rem 0.75rem",
-                      backgroundColor: theme.palette.blackBackground._16,
-                      borderRadius: "0.5rem",
-                      fontSize: theme.palette.fontSize._14,
-                      fontWeight: theme.palette.fontWeight._400,
+                      backgroundColor: theme.palette.background.black16,
+                      borderRadius: "0.75rem",
+                      fontSize: theme.typography.fontSize14,
+                      fontWeight: theme.typography.fontWeight400,
                       textAlign: "center",
                       width: "100%",
-                      border: "1px solid blackBackground.24",
+                      border: `1px solid ${theme.palette.background.white24}`,
                     }}
                   >
                     {index + 1}. {isShowSeedPhrase ? word : "********"}
                   </Text>
                 ))}
               </Box>
-              <Text sx={{ marginTop: "auto", ...noteContent }}>
+              <Text sx={{ marginTop: "auto", ...theme.mixins.noteContent }}>
                 Please do not store your seed phrase digitally (e.g., text files
                 on your computer, email...). Write it down and keep it in a
                 secure, confidential location that is resistant to adverse
@@ -226,8 +221,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
               >
                 <Icon
                   src={getIcon(
-                    isShowSeedPhrase ? "show_seed_phrase" : "hide_seed_phrase",
-                    "svg"
+                    isShowSeedPhrase ? "show_seed_phrase" : "hide_seed_phrase"
                   )}
                   onClick={toggleShowSeedPhrase}
                   sx={{

@@ -12,7 +12,7 @@ import PageHeader from "../../../components/ui/PageHeader";
 import { useRef, useState } from "react";
 import Text from "../../../components/ui/Text";
 import Button from "../../ui/Button";
-import { Box, TextareaAutosize } from "@mui/material";
+import { Box, TextareaAutosize, useTheme } from "@mui/material";
 import useWalletData from "../../../hooks/useWalletData";
 interface ImportWalletViewProps extends GeneralProps {
   onBack: () => void;
@@ -24,6 +24,7 @@ export enum ImportWalletViewStep {
 }
 
 const ImportWalletView = (props: ImportWalletViewProps) => {
+  const theme = useTheme();
   const [seedPhrase, setSeedPhrase] = useState("");
   const swiperControlledRef = useRef<SwiperControlledRef>(null);
   const childPageLayoutRef = useRef<ChildPageLayoutRef>(null);
@@ -94,9 +95,7 @@ const ImportWalletView = (props: ImportWalletViewProps) => {
             >
               <Text
                 sx={{
-                  color: "text.white",
-                  fontWeight: "500",
-                  fontSize: "16px",
+                  ...theme.mixins.sessionTitle,
                 }}
               >
                 Your seed phrase
@@ -115,14 +114,21 @@ const ImportWalletView = (props: ImportWalletViewProps) => {
                   placeholder="Enter your seed phrase"
                   style={{
                     width: "100%",
-                    backgroundColor: "ui.background.primary",
-                    borderRadius: "lg",
+                    backgroundColor: theme.palette.background.black16,
+                    borderRadius: "0.75rem",
                     padding: "1rem",
-                    color: "text.white",
+                    color: theme.palette.text.white,
+                    fontSize: theme.typography.fontSize16,
+                    fontWeight: theme.typography.fontWeight400,
+                    border: `1px solid ${theme.palette.background.white24}`,
                   }}
                 />
               </Box>
-              <Text className="text-ui-text-white font-400 text-13 text-center">
+              <Text
+                sx={{
+                  ...theme.mixins.sessionDescription,
+                }}
+              >
                 Your seed phrase is a list of words that are used to create your
                 wallet. It is important to keep it safe and private.
               </Text>

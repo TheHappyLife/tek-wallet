@@ -13,15 +13,15 @@ import { useRef } from "react";
 import getIcon from "../../../utils/getIcon";
 import ImportWalletView from "../ImportWalletView";
 import ChildPageLayout from "../../layouts/ChildPageLayout";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import PageHeader from "../../ui/PageHeader";
-import { sessionDescription } from "../../../theme/mui/styles";
 
 interface AuthViewProps extends GeneralProps {
   onBack?: () => void;
 }
 
 const AuthView = (props: AuthViewProps) => {
+  const theme = useTheme();
   const createWalletDrawerRef = useRef<DrawerComponentRef>(null);
   const importWalletDrawerRef = useRef<DrawerComponentRef>(null);
   const onBackCreateWallet = () => {
@@ -95,7 +95,7 @@ const AuthView = (props: AuthViewProps) => {
 
           <Text
             sx={{
-              ...sessionDescription,
+              ...theme.mixins.sessionDescription,
             }}
           >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,

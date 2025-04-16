@@ -13,9 +13,7 @@ import OTP, { OtpInputType } from "../../../components/ui/OTP";
 import { useRef, useState } from "react";
 import Text from "../../../components/ui/Text";
 import useWalletData from "../../../hooks/useWalletData";
-import { Box } from "@mui/material";
-import { sessionDescription, sessionTitle } from "../../../theme/mui/styles";
-
+import { Box, useTheme } from "@mui/material";
 interface CreateWalletViewProps extends GeneralProps {
   onBack: () => void;
 }
@@ -28,6 +26,7 @@ export enum CreateWalletViewStep {
 const passcodeLength = 6;
 
 const CreateWalletView = (props: CreateWalletViewProps) => {
+  const theme = useTheme();
   const [otp, setOtp] = useState("");
   const [confirmOtp, setConfirmOtp] = useState("");
   const swiperControlledRef = useRef<SwiperControlledRef>(null);
@@ -139,7 +138,7 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
             >
               <Text
                 sx={{
-                  ...sessionTitle,
+                  ...theme.mixins.sessionTitle,
                 }}
               >
                 Create Passcode
@@ -152,7 +151,7 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
               />
               <Text
                 sx={{
-                  ...sessionDescription,
+                  ...theme.mixins.sessionDescription,
                 }}
               >
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -173,7 +172,7 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
             >
               <Text
                 sx={{
-                  ...sessionTitle,
+                  ...theme.mixins.sessionTitle,
                 }}
               >
                 Confirm Passcode
@@ -186,7 +185,7 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
               />
               <Text
                 sx={{
-                  ...sessionDescription,
+                  ...theme.mixins.sessionDescription,
                 }}
               >
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.

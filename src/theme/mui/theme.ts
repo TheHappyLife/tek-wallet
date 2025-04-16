@@ -1,78 +1,90 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeOptions } from "@mui/material/styles";
 
-const theme = createTheme({
+const theme: ThemeOptions = createTheme({
   palette: {
     primary: {
       main: "#ffffff",
+      light: "rgba(255, 255, 255, 0.64)",
+      dark: "rgba(255, 255, 255, 0.24)",
+      contrastText: "#ff0000",
     },
     secondary: {
       main: "#01FF00",
+      contrastText: "#0000ff",
     },
-    whiteBackground: {
-      main: "#ffffff",
-      _16: "rgba(255, 255, 255, 0.16)",
-      _24: "rgba(255, 255, 255, 0.24)",
+    background: {
+      white: "#ffffff",
+      white64: "rgba(255, 255, 255, 0.64)",
+      white24: "rgba(255, 255, 255, 0.24)",
+      white16: "rgba(255, 255, 255, 0.16)",
+      black: "#000000",
+      black64: "rgba(0, 0, 0, 0.64)",
+      black24: "rgba(0, 0, 0, 0.24)",
+      black16: "rgba(0, 0, 0, 0.16)",
     },
-    whiteText: {
-      main: "#ffffff",
-      _16: "rgba(255, 255, 255, 0.16)",
-      _24: "rgba(255, 255, 255, 0.24)",
-      _80: "rgba(255, 255, 255, 0.8)",
+    text: {
+      white: "#ffffff",
+      white64: "rgba(255, 255, 255, 0.64)",
+      white24: "rgba(255, 255, 255, 0.24)",
     },
-    whiteBorder: {
-      main: "#ffffff",
-      _16: "rgba(255, 255, 255, 0.16)",
-      _24: "rgba(255, 255, 255, 0.24)",
+    divider: "rgba(255, 255, 255, 0.16)",
+  },
+  typography: {
+    fontSize10: "0.625rem",
+    fontSize11: "0.6875rem",
+    fontSize12: "0.75rem",
+    fontSize13: "0.8125rem",
+    fontSize14: "0.875rem",
+    fontSize15: "0.9375rem",
+    fontSize16: "1rem",
+    fontSize17: "1.0625rem",
+    fontSize18: "1.125rem",
+    fontSize19: "1.1875rem",
+    fontSize20: "1.25rem",
+    fontSize21: "1.3125rem",
+    fontSize22: "1.375rem",
+    fontSize24: "1.5rem",
+    fontWeight300: 300,
+    fontWeight400: 400,
+    fontWeight500: 500,
+    fontWeight600: 600,
+    fontWeight700: 700,
+  },
+  spacing: 8,
+  mixins: {
+    pagePadding: {
+      paddingLeft: "1rem",
+      paddingRight: "1rem",
+      paddingTop: "1rem",
+      paddingBottom: "2rem",
     },
-    blackBackground: {
-      main: "#000000",
-      _16: "rgba(0, 0, 0, 0.16)",
-      _24: "rgba(0, 0, 0, 0.24)",
+    sessionTitle: {
+      color: "#ffffff",
+      fontWeight: 600,
+      fontSize: "1.125rem",
+      textAlign: "center",
     },
-    fontSize: {
-      _10: "0.625rem",
-      _11: "0.6875rem",
-      _12: "0.75rem",
-      _13: "0.8125rem",
-      _14: "0.875rem",
-      _15: "0.9375rem",
-      _16: "1rem",
-      _17: "1.0625rem",
-      _18: "1.125rem",
-      _19: "1.1875rem",
-      _20: "1.25rem",
-      _21: "1.3125rem",
-      _22: "1.375rem",
-      _23: "1.4375rem",
-      _24: "1.5rem",
-      _25: "1.5625rem",
-      _26: "1.625rem",
-      _27: "1.6875rem",
-      _28: "1.75rem",
-      _29: "1.8125rem",
-      _30: "1.875rem",
+    sessionDescription: {
+      color: "text.white64",
+      fontWeight: 400,
+      fontSize: "0.875rem",
+      textAlign: "center",
     },
-    fontWeight: {
-      _400: "400",
-      _500: "500",
-      _600: "600",
-      _700: "700",
-      _800: "800",
+    headerTitle: {
+      color: "text.white",
+      fontWeight: 600,
+      fontSize: "1rem",
+      textAlign: "center",
     },
-    lineHeight: {
-      _100: "100%",
-      _120: "120%",
-      _140: "140%",
-      _160: "160%",
-      _180: "180%",
+    noteContent: {
+      color: "text.white64",
+      fontWeight: 400,
+      fontSize: "0.75rem",
     },
-    padding: {
-      pageX: "1rem",
-      pageTop: "1rem",
-      pageBottom: "2rem",
+    theBorderRadius: {
+      full: "100%",
     },
   },
-  spacing: (factor: number) => `${factor * 1}rem`,
 });
 
 export default theme;

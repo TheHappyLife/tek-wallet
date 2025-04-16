@@ -1,17 +1,16 @@
 "use client";
-import theme from "../../../theme/mui/theme";
 import { GeneralProps } from "../../../types/ui";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 
 interface DefaultPageLayoutProps extends GeneralProps {}
 
 const DefaultPageLayout = (props: DefaultPageLayoutProps) => {
+  const theme = useTheme();
+
   return (
     <Box
       sx={{
-        padding: theme.palette.padding.pageX,
-        paddingTop: theme.palette.padding.pageTop,
-        paddingBottom: theme.palette.padding.pageBottom,
+        ...theme.mixins.pagePadding,
         minHeight: "100%",
         width: "100%",
         ...props.sx,
