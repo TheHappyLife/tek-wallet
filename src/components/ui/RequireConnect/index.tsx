@@ -5,14 +5,13 @@ import DrawerComponent, {
 } from "../DrawerComponent";
 import AuthView from "../../../components/views/AuthView";
 import { GeneralProps } from "../../../types/ui";
-import cn from "../../../utils/cn";
 import useWalletData from "../../../hooks/useWalletData";
 import { useRef } from "react";
+import { Box } from "@mui/material";
 export interface RequireConnectProps extends GeneralProps {
   children: React.ReactNode;
 }
-function RequireConnect({ children, ...props }: RequireConnectProps) {
-  const { className } = props;
+function RequireConnect({ children, ...rest }: RequireConnectProps) {
   const authViewRef = useRef<DrawerComponentRef>(null);
   const { isAuthenticated } = useWalletData();
   const backAuthView = () => {
@@ -24,9 +23,10 @@ function RequireConnect({ children, ...props }: RequireConnectProps) {
         ref={authViewRef}
         direction={DRAWER_DIRECTION.RIGHT}
         trigger={
-          <button className={cn("relative", className)}>
-            {children} <div className="absolute inset-0 z-10"></div>
-          </button>
+          <Box {...rest}>
+            {children}
+            <Box sx={{ position: "absolute", inset: 0, zIndex: 10 }}></Box>
+          </Box>
         }
       >
         <AuthView onBack={backAuthView} />

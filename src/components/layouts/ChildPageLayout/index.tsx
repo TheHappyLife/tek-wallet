@@ -30,6 +30,10 @@ const ChildPageLayout = forwardRef<ChildPageLayoutRef, ChildPageLayoutProps>(
           setStatus(StatusDisplayType.Normal);
         },
         showLoading: () => {
+          console.warn(
+            "🚀 ~ useImperativeHandle ~ StatusDisplayType:",
+            StatusDisplayType.Loading
+          );
           setStatus(StatusDisplayType.Loading);
         },
         showSuccess: () => {

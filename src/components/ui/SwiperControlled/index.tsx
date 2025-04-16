@@ -1,5 +1,4 @@
 import cn from "../../../utils/cn";
-// import "swiper/css";
 import { Swiper, SwiperProps, SwiperRef } from "swiper/react";
 import { Swiper as SwiperType } from "swiper/types";
 import { GeneralProps } from "../../../types/ui";
