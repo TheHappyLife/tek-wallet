@@ -56,7 +56,7 @@ Button.Secondary = (props: ButtonProps) => {
   return (
     <Button
       {...rest}
-      variant="contained"
+      variant="outlined"
       color="secondary"
       sx={{
         borderRadius: theme.mixins.theBorderRadius.full,

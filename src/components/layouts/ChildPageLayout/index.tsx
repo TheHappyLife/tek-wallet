@@ -15,7 +15,6 @@ export type ChildPageLayoutRef = {
   showLoading: () => void;
   showSuccess: () => void;
   showError: () => void;
-  showWarning: () => void;
 };
 
 const ChildPageLayout = forwardRef<ChildPageLayoutRef, ChildPageLayoutProps>(
@@ -38,9 +37,6 @@ const ChildPageLayout = forwardRef<ChildPageLayoutRef, ChildPageLayoutProps>(
         },
         showError: () => {
           setStatus(StatusDisplayType.Error);
-        },
-        showWarning: () => {
-          setStatus(StatusDisplayType.Warning);
         },
       };
     });
