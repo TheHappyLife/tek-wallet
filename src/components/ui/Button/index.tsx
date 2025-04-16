@@ -11,7 +11,6 @@ export enum BUTTON_STATUS {
   ENABLED = "enabled",
 }
 export interface ButtonProps extends MuiButtonProps {
-  className?: string;
   status?: BUTTON_STATUS;
 }
 

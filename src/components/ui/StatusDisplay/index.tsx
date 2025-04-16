@@ -1,10 +1,8 @@
-import cn from "../../../utils/cn";
 import getIcon from "../../../utils/getIcon";
 import Image from "../Image";
 import Text from "../Text";
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 interface StatusDisplayProps {
-  className?: string;
   status: StatusDisplayType;
 }
 
@@ -26,7 +24,13 @@ const StatusDisplay = (props: StatusDisplayProps) => {
   };
 
   return (
-    <div className={cn("flex items-center gap-1", props.className)}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: "1rem",
+      }}
+    >
       <Image
         src={getIcon(`status_${props.status}`, "gif")}
         sx={{ width: "1.5rem", height: "1.5rem" }}
@@ -38,7 +42,7 @@ const StatusDisplay = (props: StatusDisplayProps) => {
       >
         {props.status}
       </Text>
-    </div>
+    </Box>
   );
 };
 

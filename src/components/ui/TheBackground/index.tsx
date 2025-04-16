@@ -1,9 +1,7 @@
 import { Box } from "@mui/material";
 import { GeneralProps } from "../../../types/ui";
 import getImage from "../../../utils/getImage";
-interface TheBackgroundProps extends GeneralProps {
-  className?: string;
-}
+interface TheBackgroundProps extends GeneralProps {}
 
 const TheBackground = (props: TheBackgroundProps) => {
   return (

@@ -9,7 +9,6 @@ export enum DRAWER_DIRECTION {
 }
 
 interface DrawerComponentProps extends GeneralProps {
-  className?: string;
   onOpen?: () => void;
   onClose?: () => void;
   trigger?: React.ReactNode;
