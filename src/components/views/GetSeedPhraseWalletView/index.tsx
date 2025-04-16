@@ -188,7 +188,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
                   <Text
                     key={index}
                     sx={{
-                      color: theme.palette.text.white,
+                      color: theme.palette.text.white80,
                       padding: "0.5rem 0.75rem",
                       backgroundColor: theme.palette.background.black16,
                       borderRadius: "0.75rem",
@@ -199,7 +199,8 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
                       border: `1px solid ${theme.palette.background.white24}`,
                     }}
                   >
-                    {index + 1}. {isShowSeedPhrase ? word : "********"}
+                    {index + 1}. <span> </span>{" "}
+                    {isShowSeedPhrase ? word : "********"}
                   </Text>
                 ))}
               </Box>
@@ -215,7 +216,6 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
                   display: "flex",
                   alignItems: "stretch",
                   gap: "1rem",
-                  height: "fit-content",
                   width: "100%",
                 }}
               >

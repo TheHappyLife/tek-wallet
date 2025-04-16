@@ -1,4 +1,4 @@
-import cn from "../../../utils/cn";
+import { Box } from "@mui/material";
 import { GeneralProps } from "../../../types/ui";
 export interface IconProps
   extends Omit<GeneralProps, "onClick">,
@@ -8,18 +8,19 @@ export interface IconProps
 }
 
 const Icon = (props: IconProps) => {
-  const { src, alt, className, onClick, ...rest } = props;
+  const { src, alt, onClick, ...rest } = props;
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      className={cn("block", className)}
+    <Box
+      component="img"
       src={src}
       alt={alt}
       onClick={onClick}
       {...rest}
+      sx={{
+        display: "block",
+      }}
     />
   );
 };
-
 export default Icon;

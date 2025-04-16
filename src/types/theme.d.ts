@@ -3,6 +3,7 @@ import "@mui/material/styles";
 declare module "@mui/material/styles" {
   interface TypeText {
     white: string;
+    white80: string;
     white64: string;
     white24: string;
     successStatus: string;

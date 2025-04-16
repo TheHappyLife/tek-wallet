@@ -19,10 +19,17 @@ const Button: React.FC<ButtonProps> & {
   Primary: React.FC<ButtonProps>;
   Secondary: React.FC<ButtonProps>;
 } = (props: ButtonProps) => {
-  const { status = BUTTON_STATUS.ENABLED, ...rest } = props;
+  const { status = BUTTON_STATUS.ENABLED, sx, ...rest } = props;
 
   return (
-    <MuiButton disabled={status !== BUTTON_STATUS.ENABLED} {...rest}>
+    <MuiButton
+      disabled={status !== BUTTON_STATUS.ENABLED}
+      {...rest}
+      sx={{
+        textTransform: "capitalize",
+        ...sx,
+      }}
+    >
       {props.children}
     </MuiButton>
   );
