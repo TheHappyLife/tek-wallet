@@ -5,6 +5,9 @@ declare module "@mui/material/styles" {
     white: string;
     white64: string;
     white24: string;
+    successStatus: string;
+    errorStatus: string;
+    loadingStatus: string;
   }
 
   interface Mixins {

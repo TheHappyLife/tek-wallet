@@ -26,6 +26,9 @@ const theme: ThemeOptions = createTheme({
       white: "#ffffff",
       white64: "rgba(255, 255, 255, 0.64)",
       white24: "rgba(255, 255, 255, 0.24)",
+      successStatus: "#01FF00",
+      errorStatus: "#FE6565",
+      loadingStatus: "#01FFFF",
     },
     divider: "rgba(255, 255, 255, 0.16)",
   },
@@ -82,7 +85,7 @@ const theme: ThemeOptions = createTheme({
       fontSize: "0.75rem",
     },
     theBorderRadius: {
-      full: "50%",
+      full: "999px",
     },
     center: {
       position: "absolute",

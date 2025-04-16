@@ -2,7 +2,7 @@ import cn from "../../../utils/cn";
 import getIcon from "../../../utils/getIcon";
 import Image from "../Image";
 import Text from "../Text";
-import clsx from "clsx";
+import { useTheme } from "@mui/material";
 interface StatusDisplayProps {
   className?: string;
   status: StatusDisplayType;
@@ -11,13 +11,20 @@ interface StatusDisplayProps {
 export enum StatusDisplayType {
   Success = "success",
   Error = "error",
-  Warning = "warning",
-  Info = "info",
   Loading = "loading",
   Normal = "normal",
 }
 
 const StatusDisplay = (props: StatusDisplayProps) => {
+  const theme = useTheme();
+
+  const statusColor: Record<StatusDisplayType, string> = {
+    [StatusDisplayType.Success]: theme.palette.text.successStatus,
+    [StatusDisplayType.Error]: theme.palette.text.errorStatus,
+    [StatusDisplayType.Loading]: theme.palette.text.loadingStatus,
+    [StatusDisplayType.Normal]: theme.palette.text.white,
+  };
+
   return (
     <div className={cn("flex items-center gap-1", props.className)}>
       <Image
@@ -25,12 +32,9 @@ const StatusDisplay = (props: StatusDisplayProps) => {
         sx={{ width: "1.5rem", height: "1.5rem" }}
       />
       <Text
-        className={clsx("text-13", {
-          "text-ui-text-error": props.status === StatusDisplayType.Error,
-          "text-ui-text-warning": props.status === StatusDisplayType.Warning,
-          "text-ui-text-success": props.status === StatusDisplayType.Success,
-          "text-ui-text-loading": props.status === StatusDisplayType.Loading,
-        })}
+        sx={{
+          color: statusColor[props.status],
+        }}
       >
         {props.status}
       </Text>
