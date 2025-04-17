@@ -1,7 +1,11 @@
-import { styled } from "@mui/system";
 import { GeneralProps } from "../../../types/ui";
 import { Box, SwipeableDrawer } from "@mui/material";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import {
+  forwardRef,
+  ReactEventHandler,
+  useImperativeHandle,
+  useState,
+} from "react";
 
 export enum DRAWER_DIRECTION {
   LEFT = "left",
@@ -9,8 +13,8 @@ export enum DRAWER_DIRECTION {
 }
 
 interface DrawerComponentProps extends GeneralProps {
-  onOpen?: () => void;
-  onClose?: () => void;
+  onOpen?: ReactEventHandler;
+  onClose?: ReactEventHandler;
   trigger?: React.ReactNode;
   onToggle?: (status?: boolean) => unknown;
   direction?: DRAWER_DIRECTION;
@@ -21,25 +25,16 @@ export interface DrawerComponentRef {
   close: () => void;
 }
 
-const CustomDrawer = styled(SwipeableDrawer)({
-  "& .MuiDrawer-paper": {
-    backgroundColor: "transparent",
-    overflow: "hidden",
-    boxShadow: "none",
-  },
-});
 const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
   (props, ref) => {
     const [isShowDrawerComponent, setIsShowDrawerComponent] = useState(false);
 
     const handleOpen = () => {
       setIsShowDrawerComponent(true);
-      props.onOpen?.();
     };
 
     const handleClose = () => {
       setIsShowDrawerComponent(false);
-      props.onClose?.();
     };
 
     const toggle = () => {
@@ -52,19 +47,36 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
       close: handleClose,
     }));
 
+    const onClose: ReactEventHandler = (e) => {
+      setIsShowDrawerComponent(false);
+      props.onClose?.(e);
+    };
+
+    const onOpen: ReactEventHandler = (e) => {
+      setIsShowDrawerComponent(true);
+      props.onOpen?.(e);
+    };
+
     return (
       <>
         <Box sx={props.sx} onClick={toggle}>
           {props.trigger}
         </Box>
-        <CustomDrawer
-          onOpen={() => {}}
+        <SwipeableDrawer
+          sx={{
+            "& .MuiDrawer-paper": {
+              backgroundColor: "transparent",
+              overflow: "hidden",
+              boxShadow: "none",
+            },
+          }}
+          onOpen={onOpen}
           anchor={props.direction || "bottom"}
           open={isShowDrawerComponent}
-          onClose={handleClose}
+          onClose={onClose}
         >
           {props.children}
-        </CustomDrawer>
+        </SwipeableDrawer>
       </>
     );
   }
