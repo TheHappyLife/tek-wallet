@@ -8,7 +8,7 @@ export default async function getSeedPhraseService(
   body: GetSeedPhraseServiceBody
 ): Promise<GetSeedPhraseServiceResponse> {
   const response = await userClientRequest.post(
-    "/wallets/export/seed-pharse",
+    "/wallets/export/seed-pharseh",
     body
   );
   console.warn("🚀 ~ response:", response);

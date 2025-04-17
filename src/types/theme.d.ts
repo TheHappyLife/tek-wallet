@@ -47,6 +47,12 @@ declare module "@mui/material/styles" {
     fontSize21: string;
     fontSize22: string;
     fontSize24: string;
+    leading100: string;
+    leading120: string;
+    leading140: string;
+    leading160: string;
+    leading180: string;
+    leading200: string;
     fontWeight300: number;
     fontWeight400: number;
     fontWeight500: number;
@@ -69,6 +75,12 @@ declare module "@mui/material/styles" {
     fontSize21?: string;
     fontSize22?: string;
     fontSize24?: string;
+    leading100?: string;
+    leading120?: string;
+    leading140?: string;
+    leading160?: string;
+    leading180?: string;
+    leading200?: string;
     fontWeight300?: number;
     fontWeight400?: number;
     fontWeight500?: number;

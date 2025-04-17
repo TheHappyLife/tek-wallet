@@ -64,7 +64,6 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
   const handleBack = () => {
     switch (currentStep) {
       case GetSeedPhraseWalletViewStep.SHOW_SEED_PHRASE:
-        // gotoStep(GetSeedPhraseWalletViewStep.ENTER_PASSCODE);
         handleDone();
         break;
       case GetSeedPhraseWalletViewStep.ENTER_PASSCODE:
@@ -197,6 +196,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
                       textAlign: "center",
                       width: "100%",
                       border: `1px solid ${theme.palette.background.white24}`,
+                      lineHeight: theme.typography.leading100,
                     }}
                   >
                     {index + 1}. <span> </span>{" "}

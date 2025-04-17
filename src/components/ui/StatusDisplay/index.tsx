@@ -28,7 +28,7 @@ const StatusDisplay = (props: StatusDisplayProps) => {
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: "1rem",
+        gap: "0.5rem",
       }}
     >
       <Image
@@ -38,6 +38,7 @@ const StatusDisplay = (props: StatusDisplayProps) => {
       <Text
         sx={{
           color: statusColor[props.status],
+          textTransform: "capitalize",
         }}
       >
         {props.status}

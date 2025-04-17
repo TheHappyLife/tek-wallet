@@ -90,6 +90,7 @@ export interface WalletProviderDataType {
   ) => Promise<GetSeedPhraseServiceResponse>;
 }
 
+export type Wallet = Omit<WalletProviderDataType, "session">;
 export interface LoginInfo {
   accessToken: string;
   refreshToken: string;

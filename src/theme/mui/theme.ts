@@ -7,7 +7,7 @@ const theme: ThemeOptions = createTheme({
       contrastText: "#000000",
     },
     secondary: {
-      main: "#01FFFF29",
+      main: "#01FFFF",
       contrastText: "#01FFFF",
     },
     background: {
@@ -46,6 +46,12 @@ const theme: ThemeOptions = createTheme({
     fontSize21: "1.3125rem",
     fontSize22: "1.375rem",
     fontSize24: "1.5rem",
+    leading100: "100%",
+    leading120: "120%",
+    leading140: "140%",
+    leading160: "160%",
+    leading180: "180%",
+    leading200: "200%",
     fontWeight300: 300,
     fontWeight400: 400,
     fontWeight500: 500,
