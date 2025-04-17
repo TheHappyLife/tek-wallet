@@ -49,6 +49,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     };
     const prevStep = () => {
       swiperRef.current?.prev();
+      setCurrentStep(currentStep - 1);
     };
     useImperativeHandle(ref, () => ({
       open: open,
