@@ -33,15 +33,17 @@ const createWalletHandler = async (req: NextRequest) => {
     }
 
     return NextResponse.json(response);
-  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     console.error("🚀 ~ createWalletHandler ~ err:", err);
 
     return NextResponse.json(
       {
         status: 500,
         message: "Internal server error",
+        error: err,
       },
-      { status: 500 }
+      { status: err?.status || 500 }
     );
   }
 };

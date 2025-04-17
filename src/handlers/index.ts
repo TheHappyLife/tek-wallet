@@ -8,17 +8,17 @@ const tekWalletHandler = async (req: NextRequest) => {
   console.warn("🚀 ~ tekWalletHandler ~ pathname:", pathname);
 
   switch (pathname?.replace("/api/tek-wallet", "")) {
+    case "/auth/create": {
+      return await createWalletHandler(req);
+    }
     case "/auth/import": {
       return await importWalletHandler(req);
-    }
-    case "/auth/signout": {
-      return await signoutHandler();
     }
     case "/auth/login": {
       return await loginHandler();
     }
-    case "/auth/create": {
-      return await createWalletHandler(req);
+    case "/auth/signout": {
+      return await signoutHandler();
     }
     default: {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
