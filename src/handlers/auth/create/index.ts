@@ -1,6 +1,7 @@
 import createWalletExternalService from "../../../services/axios/create-wallet-service/createWalletExternalService";
 import { NextRequest, NextResponse } from "next/server";
 import setLoginInfoToCookies from "../functions/setLoginInfoToCookies";
+import errorHandler from "../functions/errorHandler";
 
 const createWalletHandler = async (req: NextRequest) => {
   try {
@@ -35,16 +36,7 @@ const createWalletHandler = async (req: NextRequest) => {
     return NextResponse.json(response);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    console.error("🚀 ~ createWalletHandler ~ err:", err);
-
-    return NextResponse.json(
-      {
-        status: 500,
-        message: "Internal server error",
-        error: err,
-      },
-      { status: err?.status || 500 }
-    );
+    return errorHandler(err);
   }
 };
 

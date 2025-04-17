@@ -1,6 +1,7 @@
 import importWalletExternalService from "../../../services/axios/import-wallet-service/importWalletExternalService";
 import { NextRequest, NextResponse } from "next/server";
 import setLoginInfoToCookies from "../functions/setLoginInfoToCookies";
+import errorHandler from "../functions/errorHandler";
 
 const importWalletHandler = async (req: NextRequest) => {
   try {
@@ -34,13 +35,7 @@ const importWalletHandler = async (req: NextRequest) => {
 
     return NextResponse.json(response);
   } catch (err) {
-    console.error("🚀 ~ importWalletHandler ~ err:", err);
-
-    return NextResponse.json({
-      status: 500,
-      message: "Internal server error",
-      error: err,
-    });
+    return errorHandler(err);
   }
 };
 

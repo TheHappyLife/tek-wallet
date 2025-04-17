@@ -10,11 +10,11 @@ import DrawerComponent, {
 } from "../../../components/ui/DrawerComponent";
 import CreateWalletView from "../CreateWalletView";
 import { useRef } from "react";
-import getIcon from "../../../utils/getIcon";
 import ImportWalletView from "../ImportWalletView";
 import ChildPageLayout from "../../layouts/ChildPageLayout";
 import { Box, useTheme } from "@mui/material";
 import PageHeader from "../../ui/PageHeader";
+import getImage from "../../../utils/getImage";
 
 interface AuthViewProps extends GeneralProps {
   onBack?: () => void;
@@ -49,7 +49,7 @@ const AuthView = (props: AuthViewProps) => {
         }}
       >
         <Image
-          src={getIcon("eth")}
+          src={getImage("logo", "jpg")}
           sx={{
             width: "80%",
             aspectRatio: "1",

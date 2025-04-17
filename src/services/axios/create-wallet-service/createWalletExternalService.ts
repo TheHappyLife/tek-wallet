@@ -7,8 +7,7 @@ import {
 const createWalletExternalService = async (
   body: CreateWalletServiceBody
 ): Promise<CreateWalletServiceResponse> => {
-  const response = await generalRequest.post("/wallets/create/masterdd", body);
-  console.warn("🚀 ~ createWalletExternalService ~ response:", response);
+  const response = await generalRequest.post("/wallets/create/master", body);
 
   return response?.data;
 };
