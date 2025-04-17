@@ -29,7 +29,7 @@ const BackHeader = (props: BackHeaderProps) => {
       sx={{
         display: "flex",
         alignItems: "center",
-        gap: "1rem",
+        gap: theme.mixins.gaps.g16,
         height: "100%",
         ...props.sx,
       }}
@@ -40,7 +40,7 @@ const BackHeader = (props: BackHeaderProps) => {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: "0.25rem",
+            gap: theme.mixins.gaps.g4,
             cursor: "pointer",
             "&:active": {
               transform: "translateX(-0.25rem)",

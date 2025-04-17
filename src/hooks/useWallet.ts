@@ -4,18 +4,18 @@ import {
   initialWalletData,
 } from "../providers/WalletDataProvider";
 import { Wallet } from "../types/expose-type";
-function useWalletData(): Wallet {
+function useWallet(): Wallet {
   try {
     const data = useContext(WalletDataContext);
     delete data.session;
 
     return data;
   } catch (error) {
-    console.error("🚀 ~ useWalletData ~ error:", error);
+    console.error("🚀 ~ useWallet ~ error:", error);
     delete initialWalletData.session;
 
     return initialWalletData;
   }
 }
 
-export default useWalletData;
+export default useWallet;

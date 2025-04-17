@@ -223,6 +223,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
                   src={getIcon(
                     isShowSeedPhrase ? "show_seed_phrase" : "hide_seed_phrase"
                   )}
+                  width={24}
                   onClick={toggleShowSeedPhrase}
                   sx={{
                     aspectRatio: 1,

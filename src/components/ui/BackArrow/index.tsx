@@ -10,9 +10,8 @@ const BackArrow = (props: BackArrowProps) => {
   return (
     <Icon
       src={getIcon("arrow_back")}
+      width={24}
       sx={{
-        width: "1.5rem",
-        height: "1.5rem",
         ...props.sx,
       }}
       {...rest}

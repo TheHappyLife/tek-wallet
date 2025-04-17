@@ -11,6 +11,23 @@ declare module "@mui/material/styles" {
     loadingStatus: string;
   }
 
+  interface BorderType {
+    white: string;
+    white64: string;
+    white24: string;
+    white16: string;
+    black: string;
+    black64: string;
+    black24: string;
+    black16: string;
+    secondary: string;
+    secondary16: string;
+  }
+
+  interface PaletteOptions {
+    border?: Partial<BorderType>;
+  }
+
   interface Mixins {
     sessionTitle: React.CSSProperties;
     sessionDescription: React.CSSProperties;
@@ -19,6 +36,11 @@ declare module "@mui/material/styles" {
     pagePadding: React.CSSProperties;
     theBorderRadius: Record<string, string>;
     center: React.CSSProperties;
+    fieldTitle: React.CSSProperties;
+    value: React.CSSProperties;
+    valueDescription: React.CSSProperties;
+    customPadding: Record<string, string>;
+    gaps: Record<string, string>;
   }
 
   interface TypeBackground {
@@ -30,6 +52,8 @@ declare module "@mui/material/styles" {
     black64: string;
     black24: string;
     black16: string;
+    secondary: string;
+    secondary16: string;
   }
 
   interface TypographyVariants {

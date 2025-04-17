@@ -5,10 +5,12 @@ export interface IconProps
     React.ImgHTMLAttributes<HTMLImageElement> {
   src?: string;
   alt?: string;
+  width?: number;
+  height?: number;
 }
 
 const Icon = (props: IconProps) => {
-  const { src, alt, onClick, ...rest } = props;
+  const { src, alt, onClick, width, height, ...rest } = props;
 
   return (
     <Box
@@ -19,6 +21,15 @@ const Icon = (props: IconProps) => {
       {...rest}
       sx={{
         display: "block",
+        width:
+          (width ?? height ?? false)
+            ? `${(width || height || 0) / 16}rem`
+            : "auto",
+        height:
+          (height ?? width ?? false)
+            ? `${(height || width || 0) / 16}rem`
+            : "auto",
+        ...props.sx,
       }}
     />
   );
