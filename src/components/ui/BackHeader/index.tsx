@@ -29,6 +29,7 @@ const BackHeader = (props: BackHeaderProps) => {
       sx={{
         ...theme.mixins.row,
         gap: theme.mixins.gaps.g16,
+        position: "relative",
         height: "100%",
         ...props.sx,
       }}
