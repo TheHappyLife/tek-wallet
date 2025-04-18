@@ -25,7 +25,7 @@ export interface TokenData {
 }
 
 const TokenSelection = (props: TokenSelectionProps) => {
-  const { tokenData: tokenDataString, ...rest } = props;
+  const { tokenData: tokenDataString, sx, ...rest } = props;
   const theme = useTheme();
   const tokenData = useMemo<TokenData | undefined>(
     () => parsePropsData<TokenData>(tokenDataString),
@@ -34,6 +34,7 @@ const TokenSelection = (props: TokenSelectionProps) => {
 
   return (
     <Box
+      onClick={() => props?.onClick?.(tokenData)}
       sx={{
         backgroundColor: "background.white16",
         border: "1px solid",
@@ -42,29 +43,35 @@ const TokenSelection = (props: TokenSelectionProps) => {
         padding: theme.mixins.customPadding.p12,
         display: "flex",
         alignItems: "center",
+        cursor: "pointer",
+        ...sx,
       }}
       {...rest}
     >
       <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.25rem",
+          ...theme.mixins.row,
+          gap: theme.mixins.gaps.g12,
         }}
       >
-        <Icon className="size-4 rounded-full" />
-        <Text className="text-14 font-500 leading-140 text-ui-text-white">
-          {tokenData?.name}
-        </Text>
+        <Icon width={20} />
+        <Box
+          sx={{
+            ...theme.mixins.column,
+          }}
+        >
+          <Text sx={theme.mixins.value}>{tokenData?.name}</Text>
+          <Text sx={theme.mixins.valueDescription}>{"tokenData.name"}</Text>
+        </Box>
       </Box>
-      <div className="text-right ml-auto">
-        <Text className="text-14 font-500 leading-140 text-ui-text-white">
+      <Box sx={{ ...theme.mixins.column, marginLeft: "auto" }}>
+        <Text sx={theme.mixins.value}>
           <Formatter value={20000} />
         </Text>
-        <Text className="text-11 font-500 leading-140 text-ui-text-b1b1b1">
+        <Text sx={theme.mixins.valueDescription}>
           <Formatter value={2000} />
         </Text>
-      </div>
+      </Box>
     </Box>
   );
 };

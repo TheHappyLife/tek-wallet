@@ -41,6 +41,8 @@ declare module "@mui/material/styles" {
     valueDescription: React.CSSProperties;
     customPadding: Record<string, string>;
     gaps: Record<string, string>;
+    row: React.CSSProperties;
+    column: React.CSSProperties;
   }
 
   interface TypeBackground {

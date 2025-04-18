@@ -1,6 +1,7 @@
 import { SxProps } from "@mui/system";
 
-export type UnknownFunction = (data?: unknown) => unknown;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type UnknownFunction = (data?: any) => any;
 
 export type GeneralProps = {
   children?: React.ReactNode;

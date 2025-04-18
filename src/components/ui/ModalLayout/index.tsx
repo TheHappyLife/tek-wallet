@@ -3,8 +3,9 @@ import CloseModal from "../CloseModal";
 import { Box, Divider, useTheme } from "@mui/material";
 import { GeneralProps } from "../../../types/ui";
 import getImage from "../../../utils/getImage";
+import { ReactNode } from "react";
 interface ModalLayoutProps extends GeneralProps {
-  title?: string;
+  title?: ReactNode;
   onClose?: () => void;
   hideHeader?: boolean;
 }

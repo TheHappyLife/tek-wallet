@@ -106,6 +106,14 @@ const theme: ThemeOptions = createTheme({
       g32: "2rem",
       g40: "2.5rem",
     },
+    row: {
+      display: "flex",
+      alignItems: "center",
+    },
+    column: {
+      display: "flex",
+      flexDirection: "column",
+    },
     headerTitle: {
       color: "text.white",
       fontWeight: "typography.fontWeight500",

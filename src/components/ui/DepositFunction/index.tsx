@@ -24,6 +24,7 @@ import getIcon from "../../../utils/getIcon";
 import Share from "../Share";
 import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
+import { Balance } from "../../../types/expose-type";
 interface DepositFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -54,6 +55,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     const [currentStep, setCurrentStep] = useState<DepositStep>(
       DepositStep.SELECT_TOKEN
     );
+    const [selectedToken, setSelectedToken] = useState<Balance | undefined>();
     const { tokens } = useWalletData();
     const open = () => {
       drawerRef.current?.open();
@@ -61,7 +63,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     const close = () => {
       drawerRef.current?.close();
     };
-    const prevStep = () => {
+    const handleBack = () => {
       swiperRef.current?.prev();
       setCurrentStep(currentStep - 1);
     };
@@ -70,6 +72,13 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       close,
     }));
 
+    const handleSelectToken = (token: Balance) => {
+      setSelectedToken(token);
+      if (!!token) {
+        swiperRef.current?.next();
+      }
+    };
+
     return (
       <DrawerComponent
         ref={drawerRef}
@@ -77,19 +86,19 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
         onOpen={props.onOpen}
         onClose={props.onClose}
       >
-        <ModalLayout title={DEPOSIT_STEP_NAME[currentStep]} onClose={close}>
-          <SwiperControlled
-            ref={swiperRef}
-            // initialActiveTab={currentStep}
-            // swiperProps={{ autoHeight: true }}
-          >
+        <ModalLayout
+          title={
+            <BackHeader
+              overrideBack={handleBack}
+              hideBack={currentStep === DepositStep.SELECT_TOKEN}
+            >
+              <ModalTitle>{DEPOSIT_STEP_NAME[currentStep]}</ModalTitle>
+            </BackHeader>
+          }
+          onClose={close}
+        >
+          <SwiperControlled ref={swiperRef} swiperProps={{ autoHeight: true }}>
             <SwiperSlide key={DepositStep.SELECT_TOKEN}>
-              <BackHeader sx={{ paddingBottom: "1rem" }} hideBack>
-                <ModalTitle>Select token</ModalTitle>
-              </BackHeader>
-              <Box sx={{ color: "red" }} onClick={() => console.warn(tokens)}>
-                Click
-              </Box>
               <Box
                 sx={{
                   display: "flex",
@@ -106,21 +115,16 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
 
                   return (
                     <TokenSelection
+                      onClick={handleSelectToken}
                       key={(item as any).id}
                       tokenData={stringifiedTokenData}
-                      // active={index === 1}
+                      active={selectedToken?.id != "kf"}
                     />
                   );
                 })}
               </Box>
             </SwiperSlide>
             <SwiperSlide key={DepositStep.SELECT_NETWORK}>
-              <BackHeader
-                sx={{ paddingBottom: "1rem" }}
-                overrideBack={prevStep}
-              >
-                <ModalTitle>Select network</ModalTitle>
-              </BackHeader>
               <Box
                 sx={{
                   display: "flex",
@@ -142,12 +146,6 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
               </Box>
             </SwiperSlide>
             <SwiperSlide key={DepositStep.SHOW_QR_CODE}>
-              <BackHeader
-                sx={{ paddingBottom: "1rem" }}
-                overrideBack={prevStep}
-              >
-                <ModalTitle>Scan QR code</ModalTitle>
-              </BackHeader>
               <Box
                 sx={{
                   display: "flex",
