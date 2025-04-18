@@ -57,6 +57,7 @@ const BackHeader = (props: BackHeaderProps) => {
         <Box
           sx={{
             ...theme.mixins.center,
+            ...theme.mixins.headerTitle,
           }}
         >
           {center}
