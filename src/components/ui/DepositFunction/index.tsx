@@ -1,4 +1,11 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+"use client";
+import {
+  forwardRef,
+  ReactEventHandler,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { GeneralProps } from "../../../types/ui";
 import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
 import SwiperControlled, { SwiperControlledRef } from "../SwiperControlled";
@@ -9,7 +16,6 @@ import { SwiperSlide } from "swiper/react";
 import BackHeader from "../BackHeader";
 import ModalTitle from "../ModalTitle";
 import QRCode from "../QRCode";
-import HorizontalScroll from "../HorizontalScroll";
 import Text from "../Text";
 import { useTheme, Box } from "@mui/material";
 import CopyTextComponent from "../CopyTextComponent";
@@ -19,7 +25,10 @@ import getIcon from "../../../utils/getIcon";
 import Share from "../Share";
 import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
-interface DepositFunctionProps extends GeneralProps {}
+interface DepositFunctionProps extends GeneralProps {
+  onClose?: ReactEventHandler;
+  onOpen?: ReactEventHandler;
+}
 
 type DepositFunctionRef = {
   open: () => void;
@@ -52,13 +61,18 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       setCurrentStep(currentStep - 1);
     };
     useImperativeHandle(ref, () => ({
-      open: open,
-      close: close,
+      open,
+      close,
     }));
 
     return (
-      <DrawerComponent ref={drawerRef} trigger={props.children}>
-        <ModalLayout title="Select token" onClose={close} hideHeader>
+      <DrawerComponent
+        ref={drawerRef}
+        trigger={props.children}
+        onOpen={props.onOpen}
+        onClose={props.onClose}
+      >
+        <ModalLayout title="Deposit" onClose={close} hideHeader>
           <CloseModal
             onClick={close}
             sx={{
@@ -69,10 +83,10 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
           />
           <SwiperControlled
             ref={swiperRef}
-            initialActiveTab={currentStep}
+            // initialActiveTab={currentStep}
             swiperProps={{ autoHeight: true }}
           >
-            <SwiperSlide key={"slice1"}>
+            <SwiperSlide key={DepositStep.SELECT_TOKEN}>
               <BackHeader sx={{ paddingBottom: "1rem" }} hideBack>
                 <ModalTitle>Select token</ModalTitle>
               </BackHeader>
@@ -80,7 +94,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: "0.75rem",
+                  gap: theme.mixins.gaps.g16,
                 }}
               >
                 {tokens?.map((item, index) => {
@@ -100,7 +114,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 })}
               </Box>
             </SwiperSlide>
-            <SwiperSlide key={"slice2"}>
+            <SwiperSlide key={DepositStep.SELECT_NETWORK}>
               <BackHeader
                 sx={{ paddingBottom: "1rem" }}
                 overrideBack={prevStep}
@@ -110,31 +124,37 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
-                  gap: "0.75rem",
+                  alignItems: "center",
+                  gap: theme.mixins.gaps.g12,
                 }}
               >
-                <HorizontalScroll>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
-                      return (
-                        <NetworkSelection
-                          key={item}
-                          networkData={JSON.stringify({
-                            name: `network ${item}`,
-                            icon: "https://via.placeholder.com/150",
-                          })}
-                        />
-                      );
-                    })}
-                  </Box>
-                </HorizontalScroll>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
+                  return (
+                    <NetworkSelection
+                      key={item}
+                      networkData={JSON.stringify({
+                        name: `network ${item}`,
+                        icon: "https://via.placeholder.com/150",
+                      })}
+                    />
+                  );
+                })}
+              </Box>
+            </SwiperSlide>
+            <SwiperSlide key={DepositStep.SHOW_QR_CODE}>
+              <BackHeader
+                sx={{ paddingBottom: "1rem" }}
+                overrideBack={prevStep}
+              >
+                <ModalTitle>Scan QR code</ModalTitle>
+              </BackHeader>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: theme.mixins.gaps.g16,
+                }}
+              >
                 <Box
                   sx={{
                     width: "100%",
