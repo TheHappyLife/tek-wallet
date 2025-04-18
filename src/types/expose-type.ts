@@ -57,7 +57,7 @@ export interface GetBalanceServiceResponse {
   address: string;
   app_slug: string[];
   balances: Balance[];
-  blockchain_wallets: Blockchainwallet[];
+  blockchain_wallets: BlockchainWallet[];
 }
 
 // 3. Models (Data related Interfaces)
@@ -110,7 +110,7 @@ export interface WalletData {
   address: string;
   app_slug: string[];
   balances: Balance[];
-  blockchain_wallets: Blockchainwallet[];
+  blockchain_wallets: BlockchainWallet[];
   seed_pharse: string;
   user: User;
 }
@@ -124,7 +124,7 @@ export interface User {
   refresh_expires_in: number;
 }
 
-export interface Blockchainwallet {
+export interface BlockchainWallet {
   master_address: string;
   blockchain_address: string;
   network_slug: string;

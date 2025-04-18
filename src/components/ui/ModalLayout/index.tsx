@@ -31,14 +31,23 @@ const ModalLayout = (props: ModalLayoutProps) => {
         <>
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
+              width: "100%",
+              position: "relative",
+              minHeight: "2rem",
             }}
           >
             <ModalTitle>{props.title}</ModalTitle>
-            <CloseModal sx={{ marginLeft: "auto" }} onClick={props.onClose} />
+            <CloseModal
+              sx={{
+                position: "absolute",
+                right: "1em",
+                top: "50%",
+                transform: "translateY(-50%)",
+              }}
+              onClick={props.onClose}
+            />
           </Box>
-          <Divider sx={{ my: 1 }} />
+          <Divider sx={{ my: "0.75rem" }} />
         </>
       )}
       <Box sx={{ flex: 1, overflowY: "auto" }}>{props.children}</Box>

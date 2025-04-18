@@ -11,7 +11,6 @@ import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
 import SwiperControlled, { SwiperControlledRef } from "../SwiperControlled";
 import useWalletData from "../../../hooks/useWalletData";
 import ModalLayout from "../ModalLayout";
-import CloseModal from "../CloseModal";
 import { SwiperSlide } from "swiper/react";
 import BackHeader from "../BackHeader";
 import ModalTitle from "../ModalTitle";
@@ -40,6 +39,12 @@ enum DepositStep {
   SELECT_NETWORK = 2,
   SHOW_QR_CODE = 3,
 }
+
+const DEPOSIT_STEP_NAME = {
+  [DepositStep.SELECT_TOKEN]: "Select token",
+  [DepositStep.SELECT_NETWORK]: "Select network",
+  [DepositStep.SHOW_QR_CODE]: "Scan QR code",
+};
 
 const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
   (props, ref) => {
@@ -72,15 +77,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
         onOpen={props.onOpen}
         onClose={props.onClose}
       >
-        <ModalLayout title="Deposit" onClose={close} hideHeader>
-          <CloseModal
-            onClick={close}
-            sx={{
-              position: "absolute",
-              right: "1rem",
-              zIndex: 10,
-            }}
-          />
+        <ModalLayout title={DEPOSIT_STEP_NAME[currentStep]} onClose={close}>
           <SwiperControlled
             ref={swiperRef}
             // initialActiveTab={currentStep}
@@ -100,7 +97,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   gap: theme.mixins.gaps.g16,
                 }}
               >
-                {tokens?.map((item, index) => {
+                {tokens?.map((item) => {
                   const stringifiedTokenData = JSON.stringify({
                     ...item,
                     name: "Fake",
@@ -111,7 +108,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                     <TokenSelection
                       key={(item as any).id}
                       tokenData={stringifiedTokenData}
-                      active={index === 1}
+                      // active={index === 1}
                     />
                   );
                 })}
