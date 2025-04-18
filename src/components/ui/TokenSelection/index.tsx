@@ -34,7 +34,7 @@ const TokenSelection = (props: TokenSelectionProps) => {
 
   return (
     <Box
-      onClick={() => props?.onClick?.(tokenData)}
+      // onClick={() => props?.onClick?.(tokenData)}
       sx={{
         backgroundColor: "background.white16",
         border: "1px solid",
