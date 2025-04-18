@@ -13,7 +13,6 @@ import useWalletData from "../../../hooks/useWalletData";
 import ModalLayout from "../ModalLayout";
 import { SwiperSlide } from "swiper/react";
 import BackHeader from "../BackHeader";
-import ModalTitle from "../ModalTitle";
 import QRCode from "../QRCode";
 import Text from "../Text";
 import { useTheme, Box } from "@mui/material";
@@ -56,6 +55,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       DepositStep.SELECT_TOKEN
     );
     const [selectedToken, setSelectedToken] = useState<Balance | undefined>();
+    // const [selectedNetwork, setSelectedNetwork] = useState<any>()
     const { tokens } = useWalletData();
     const open = () => {
       drawerRef.current?.open();
@@ -96,9 +96,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
             <BackHeader
               overrideBack={handleBack}
               hideBack={currentStep === DepositStep.SELECT_TOKEN}
-            >
-              <ModalTitle>{DEPOSIT_STEP_NAME[currentStep]}</ModalTitle>
-            </BackHeader>
+              center={DEPOSIT_STEP_NAME[currentStep]}
+            ></BackHeader>
           }
           onClose={close}
         >

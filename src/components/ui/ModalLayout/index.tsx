@@ -34,14 +34,13 @@ const ModalLayout = (props: ModalLayoutProps) => {
             sx={{
               width: "100%",
               position: "relative",
-              minHeight: "2rem",
             }}
           >
             <ModalTitle>{props.title}</ModalTitle>
             <CloseModal
               sx={{
                 position: "absolute",
-                right: "1em",
+                right: 0,
                 top: "50%",
                 transform: "translateY(-50%)",
               }}
