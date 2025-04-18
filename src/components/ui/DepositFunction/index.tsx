@@ -56,7 +56,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       DepositStep.SELECT_TOKEN
     );
     const [selectedToken, setSelectedToken] = useState<Balance | undefined>();
-    // const [selectedNetwork, setSelectedNetwork] = useState<any>()
+    const [selectedNetwork, setSelectedNetwork] = useState<any>();
     const { tokens } = useWalletData();
     const open = () => {
       drawerRef.current?.open();
@@ -85,6 +85,12 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       }
     };
 
+    const handleSelectNetwork = (network: any) => {
+      console.warn("network", selectedNetwork);
+      setSelectedNetwork(network);
+      nextStep();
+    };
+
     return (
       <DrawerComponent
         ref={drawerRef}
@@ -99,6 +105,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 width: "100%",
                 paddingBottom: theme.mixins.customPadding.p16,
                 display: "flex",
+                alignItems: "center",
               }}
               overrideBack={handleBack}
               hideBack={currentStep === DepositStep.SELECT_TOKEN}
@@ -111,7 +118,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
         >
           <SwiperControlled
             ref={swiperRef}
-            swiperProps={{ autoHeight: true }}
+            swiperProps={{ autoHeight: true, spaceBetween: 32 }}
             key={tokens?.length}
           >
             <SwiperSlide key={DepositStep.SELECT_TOKEN}>
@@ -151,6 +158,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   return (
                     <NetworkSelection
                       key={item}
+                      onClick={handleSelectNetwork}
                       networkData={JSON.stringify({
                         name: `network ${item}`,
                         icon: "https://via.placeholder.com/150",
@@ -171,39 +179,34 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 <Box
                   sx={{
                     width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "0.75rem",
-                    backgroundColor: "ui-background-222",
-                    borderRadius: "0.75rem",
-                    padding: "1.5rem",
+                    ...theme.mixins.column,
+                    gap: theme.mixins.gaps.g12,
+                    backgroundColor: theme.palette.background.black24,
+                    borderRadius: theme.mixins.theBorderRadius.r16,
+                    padding: theme.mixins.customPadding.p16,
                     alignItems: "flex-start",
+                    backdropFilter: "blur(10px)",
                   }}
                   id="share-deposit-info"
                 >
                   <Box
                     sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.125rem",
+                      ...theme.mixins.column,
+                      gap: theme.mixins.gaps.g4,
                       color: "text.white",
                       alignSelf: "center",
                     }}
                   >
                     <Text
                       sx={{
-                        fontSize: theme.typography.fontSize12,
-                        fontWeight: theme.typography.fontWeight500,
-                        leading: "typography.leading150",
+                        ...theme.mixins.value,
                       }}
                     >
                       Harry Andrew
                     </Text>
                     <Text
                       sx={{
-                        fontSize: theme.typography.fontSize12,
-                        fontWeight: theme.typography.fontWeight400,
-                        leading: "typography.leading150",
+                        ...theme.mixins.valueDescription,
                       }}
                     >
                       @user1234we
@@ -216,31 +219,28 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       height: "fit-content",
                       alignSelf: "center",
                       borderRadius: theme.mixins.theBorderRadius.r12,
+                      overflow: "hidden",
                     }}
                   >
                     <QRCode />
                   </Box>
                   <Box
                     sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.125rem",
+                      ...theme.mixins.column,
+                      gap: theme.mixins.gaps.g4,
                       color: "text.white",
                     }}
                   >
                     <Text
                       sx={{
-                        fontSize: theme.typography.fontSize10,
-                        leading: "typography.leading150",
+                        ...theme.mixins.valueDescription,
                       }}
                     >
                       Network
                     </Text>
                     <Text
                       sx={{
-                        fontSize: theme.typography.fontSize13,
-                        fontWeight: theme.typography.fontWeight500,
-                        leading: "typography.leading150",
+                        ...theme.mixins.value,
                       }}
                     >
                       Ethereum (ERC20)
@@ -248,25 +248,21 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   </Box>
                   <Box
                     sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.125rem",
+                      ...theme.mixins.column,
+                      gap: theme.mixins.gaps.g4,
                       color: "text.white",
                     }}
                   >
                     <Text
                       sx={{
-                        fontSize: theme.typography.fontSize10,
-                        leading: "typography.leading150",
+                        ...theme.mixins.valueDescription,
                       }}
                     >
                       Address
                     </Text>
                     <Text
                       sx={{
-                        fontSize: theme.typography.fontSize13,
-                        fontWeight: theme.typography.fontWeight500,
-                        leading: "typography.leading150",
+                        ...theme.mixins.value,
                         wordBreak: "break-all",
                       }}
                     >
@@ -275,15 +271,18 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   </Box>
                   <Box
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      backgroundColor: "ui-background-white-16",
-                      borderRadius: "12px",
-                      padding: "8px 12px",
+                      ...theme.mixins.column,
+                      gap: theme.mixins.gaps.g4,
+                      backgroundColor: theme.palette.background.white16,
+                      borderRadius: theme.mixins.theBorderRadius.r12,
+                      padding: theme.mixins.customPadding.p8,
                     }}
                   >
-                    <Text className="text-11 text-ui-text-white leading-140">
+                    <Text
+                      sx={{
+                        ...theme.mixins.valueDescription,
+                      }}
+                    >
                       Deposit min <strong>0.001</strong> ETH and select the
                       correct network, {`or you'll lose your assets.`}
                     </Text>
@@ -291,9 +290,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 </Box>
                 <Box
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.75rem",
+                    ...theme.mixins.row,
+                    gap: theme.mixins.gaps.g12,
                     justifyContent: "center",
                   }}
                 >
@@ -315,9 +313,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   <Share elementId="share-deposit-info">
                     <Button.Secondary
                       sx={{
-                        gap: "0.125rem",
-                        display: "flex",
-                        alignItems: "center",
+                        gap: theme.mixins.gaps.g4,
+                        ...theme.mixins.row,
                       }}
                     >
                       <Text
@@ -330,7 +327,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       >
                         Share
                       </Text>
-                      <Icon src={getIcon("copy")} width={20} />
+                      <Icon src={getIcon("share")} width={20} />
                     </Button.Secondary>
                   </Share>
                 </Box>
