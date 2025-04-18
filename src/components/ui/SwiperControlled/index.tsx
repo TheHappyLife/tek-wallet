@@ -9,7 +9,7 @@ interface SwiperControlledProps extends GeneralProps {
   tabsClassName?: string;
   swiperProps?: SwiperProps;
   disableSwipe?: boolean;
-  swiperStyle?: React.StyleHTMLAttributes<HTMLDivElement>;
+  swiperStyle?: Record<string, string | number>;
 }
 
 export interface SwiperControlledRef {

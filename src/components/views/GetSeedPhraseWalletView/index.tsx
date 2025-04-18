@@ -132,6 +132,9 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
           ref={swiperControlledRef}
           disableSwipe
           sx={{ height: "100%" }}
+          swiperStyle={{
+            flex: 1,
+          }}
         >
           <SwiperSlide>
             <Box
