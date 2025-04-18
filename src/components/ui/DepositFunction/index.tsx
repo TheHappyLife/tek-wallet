@@ -102,7 +102,11 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
           }
           onClose={close}
         >
-          <SwiperControlled ref={swiperRef} swiperProps={{ autoHeight: true }}>
+          <SwiperControlled
+            ref={swiperRef}
+            swiperProps={{ autoHeight: true }}
+            key={tokens?.length}
+          >
             <SwiperSlide key={DepositStep.SELECT_TOKEN}>
               <Box
                 sx={{
