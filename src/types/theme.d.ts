@@ -28,6 +28,10 @@ declare module "@mui/material/styles" {
     border?: Partial<BorderType>;
   }
 
+  interface Palette {
+    border: BorderType;
+  }
+
   interface Mixins {
     sessionTitle: React.CSSProperties;
     sessionDescription: React.CSSProperties;

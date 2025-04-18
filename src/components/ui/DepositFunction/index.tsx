@@ -94,22 +94,17 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       >
         <ModalLayout
           overrideHeader={
-            <Box
+            <BackHeader
               sx={{
+                width: "100%",
                 display: "flex",
               }}
+              overrideBack={handleBack}
+              hideBack={currentStep === DepositStep.SELECT_TOKEN}
+              center={DEPOSIT_STEP_NAME[currentStep]}
             >
-              <BackHeader
-                overrideBack={handleBack}
-                hideBack={currentStep === DepositStep.SELECT_TOKEN}
-                center={DEPOSIT_STEP_NAME[currentStep]}
-              >
-                <CloseModal
-                  sx={{ marginLeft: "auto" }}
-                  onClick={props.onClose}
-                />
-              </BackHeader>
-            </Box>
+              <CloseModal sx={{ marginLeft: "auto" }} onClick={props.onClose} />
+            </BackHeader>
           }
           onClose={close}
         >

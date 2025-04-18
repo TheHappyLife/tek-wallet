@@ -27,6 +27,7 @@ const ModalLayout = (props: ModalLayoutProps) => {
         display: "flex",
         flexDirection: "column",
         ...theme.mixins.pagePadding,
+        ...props.sx,
       }}
     >
       {!props.hideHeader && !props.overrideHeader && (

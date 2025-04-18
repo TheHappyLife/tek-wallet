@@ -29,8 +29,9 @@ const NetworkSelection = (props: NetworkSelectionProps) => {
       sx={{
         backgroundColor: "background.white16",
         padding: "0.5rem",
-        borderRadius: "0.75rem",
-        border: "1px solid border.white16",
+        borderRadius: theme.mixins.theBorderRadius.r12,
+        border: "1px solid",
+        borderColor: theme.palette.border.white,
       }}
     >
       <Icon
@@ -39,9 +40,9 @@ const NetworkSelection = (props: NetworkSelectionProps) => {
       />
       <Text
         sx={{
-          fontSize: "typography.fontSize14",
-          fontWeight: "typography.fontWeight500",
-          leading: "140%",
+          fontSize: theme.typography.fontSize14,
+          fontWeight: theme.typography.fontWeight500,
+          leading: theme.typography.leading140,
           color: "text.white",
           whiteSpace: "nowrap",
           textTransform: "capitalize",
