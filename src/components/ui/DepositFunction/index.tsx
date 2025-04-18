@@ -24,6 +24,7 @@ import Share from "../Share";
 import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
 import { Balance } from "../../../types/expose-type";
+import CloseModal from "../CloseModal";
 interface DepositFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -92,12 +93,23 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
         onClose={props.onClose}
       >
         <ModalLayout
-          title={
-            <BackHeader
-              overrideBack={handleBack}
-              hideBack={currentStep === DepositStep.SELECT_TOKEN}
-              center={DEPOSIT_STEP_NAME[currentStep]}
-            ></BackHeader>
+          overrideHeader={
+            <Box
+              sx={{
+                display: "flex",
+              }}
+            >
+              <BackHeader
+                overrideBack={handleBack}
+                hideBack={currentStep === DepositStep.SELECT_TOKEN}
+                center={DEPOSIT_STEP_NAME[currentStep]}
+              >
+                <CloseModal
+                  sx={{ marginLeft: "auto" }}
+                  onClick={props.onClose}
+                />
+              </BackHeader>
+            </Box>
           }
           onClose={close}
         >

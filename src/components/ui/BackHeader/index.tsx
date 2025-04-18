@@ -27,8 +27,7 @@ const BackHeader = (props: BackHeaderProps) => {
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
+        ...theme.mixins.row,
         gap: theme.mixins.gaps.g16,
         height: "100%",
         ...props.sx,

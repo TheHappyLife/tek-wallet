@@ -8,6 +8,7 @@ interface ModalLayoutProps extends GeneralProps {
   title?: ReactNode;
   onClose?: () => void;
   hideHeader?: boolean;
+  overrideHeader?: ReactNode;
 }
 
 const ModalLayout = (props: ModalLayoutProps) => {
@@ -28,7 +29,7 @@ const ModalLayout = (props: ModalLayoutProps) => {
         ...theme.mixins.pagePadding,
       }}
     >
-      {!props.hideHeader && (
+      {!props.hideHeader && !props.overrideHeader && (
         <>
           <Box
             sx={{
@@ -50,6 +51,7 @@ const ModalLayout = (props: ModalLayoutProps) => {
           <Divider sx={{ my: "0.75rem" }} />
         </>
       )}
+      {props.overrideHeader}
       <Box sx={{ flex: 1, overflowY: "auto" }}>{props.children}</Box>
     </Box>
   );
