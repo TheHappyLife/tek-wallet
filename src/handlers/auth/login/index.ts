@@ -26,9 +26,6 @@ const loginHandler = async (): Promise<
       });
     }
 
-    const refreshedTokens = await refreshTokenKeycloak(loginInfo.refreshToken);
-    console.warn("🚀 ~ refreshedTokens dd:", refreshedTokens);
-
     //refresh token is expired
     if (isExpired(loginInfo.refreshExpiresAt)) {
       await clearLoginInfo();
