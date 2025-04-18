@@ -34,9 +34,11 @@ const TokenSelection = (props: TokenSelectionProps) => {
 
   return (
     <Box
-      // onClick={() => props?.onClick?.(tokenData)}
+      onClick={() => props?.onClick?.(tokenData)}
       sx={{
-        backgroundColor: "background.white16",
+        backgroundColor: props.active
+          ? "background.secondary16"
+          : "background.white16",
         border: "1px solid",
         borderColor: props.active ? "border.secondary" : "transparent",
         borderRadius: theme.mixins.theBorderRadius.r12,
@@ -64,7 +66,9 @@ const TokenSelection = (props: TokenSelectionProps) => {
           <Text sx={theme.mixins.valueDescription}>{"tokenData.name"}</Text>
         </Box>
       </Box>
-      <Box sx={{ ...theme.mixins.column, marginLeft: "auto" }}>
+      <Box
+        sx={{ ...theme.mixins.column, marginLeft: "auto", alignItems: "end" }}
+      >
         <Text sx={theme.mixins.value}>
           <Formatter value={20000} />
         </Text>

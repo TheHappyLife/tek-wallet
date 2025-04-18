@@ -97,6 +97,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
             <BackHeader
               sx={{
                 width: "100%",
+                paddingBottom: theme.mixins.customPadding.p16,
                 display: "flex",
               }}
               overrideBack={handleBack}
@@ -208,11 +209,13 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       @user1234we
                     </Text>
                   </Box>
+
                   <Box
                     sx={{
+                      width: "fit-content",
+                      height: "fit-content",
                       alignSelf: "center",
-                      padding: "0.75rem",
-                      backgroundColor: "ui-background-white",
+                      borderRadius: theme.mixins.theBorderRadius.r12,
                     }}
                   >
                     <QRCode />

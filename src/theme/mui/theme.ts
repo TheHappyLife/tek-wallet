@@ -86,6 +86,10 @@ const pagePadding = {
 };
 
 const customPadding = {
+  p4: "0.25rem",
+  p6: "0.375rem",
+  p8: "0.5rem",
+  p10: "0.625rem",
   p12: "0.75rem",
   p16: "1rem",
   p20: "1.25rem",
