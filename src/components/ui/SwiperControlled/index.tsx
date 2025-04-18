@@ -9,6 +9,7 @@ interface SwiperControlledProps extends GeneralProps {
   tabsClassName?: string;
   swiperProps?: SwiperProps;
   disableSwipe?: boolean;
+  swiperStyle?: React.StyleHTMLAttributes<HTMLDivElement>;
 }
 
 export interface SwiperControlledRef {
@@ -65,7 +66,8 @@ const SwiperControlled = forwardRef<SwiperControlledRef, SwiperControlledProps>(
           initialSlide={activeTab}
           style={{
             width: "100%",
-            flex: 1,
+            // flex: 1,
+            ...props.swiperStyle,
           }}
           allowTouchMove={!props.disableSwipe}
         >

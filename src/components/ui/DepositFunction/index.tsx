@@ -63,19 +63,24 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     const close = () => {
       drawerRef.current?.close();
     };
-    const handleBack = () => {
-      swiperRef.current?.prev();
-      setCurrentStep(currentStep - 1);
-    };
     useImperativeHandle(ref, () => ({
       open,
       close,
     }));
+    const handleBack = () => {
+      swiperRef.current?.prev();
+      setCurrentStep(currentStep - 1);
+    };
+
+    const nextStep = () => {
+      swiperRef.current?.next();
+      setCurrentStep((prev) => prev + 1);
+    };
 
     const handleSelectToken = (token: Balance) => {
       setSelectedToken(token);
       if (!!token) {
-        swiperRef.current?.next();
+        nextStep();
       }
     };
 
@@ -97,13 +102,13 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
           }
           onClose={close}
         >
-          <SwiperControlled ref={swiperRef}>
+          <SwiperControlled ref={swiperRef} swiperProps={{ autoHeight: true }}>
             <SwiperSlide key={DepositStep.SELECT_TOKEN}>
               <Box
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: theme.mixins.gaps.g16,
+                  ...theme.mixins.column,
+                  gap: theme.mixins.gaps.g12,
+                  height: "fit-content",
                 }}
               >
                 {tokens?.map((item) => {
@@ -127,8 +132,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
             <SwiperSlide key={DepositStep.SELECT_NETWORK}>
               <Box
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
+                  ...theme.mixins.column,
                   gap: theme.mixins.gaps.g12,
                 }}
               >
