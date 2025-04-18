@@ -1,4 +1,3 @@
-"use client";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { GeneralProps } from "../../../types/ui";
 import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
