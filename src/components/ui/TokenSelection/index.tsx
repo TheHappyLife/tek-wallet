@@ -33,7 +33,7 @@ const TokenSelection = (props: TokenSelectionProps) => {
   );
 
   return (
-    <div
+    <Box
       sx={{
         backgroundColor: "background.white16",
         border: "1px solid",
@@ -65,7 +65,7 @@ const TokenSelection = (props: TokenSelectionProps) => {
           <Formatter value={2000} />
         </Text>
       </div>
-    </div>
+    </Box>
   );
 };
 
