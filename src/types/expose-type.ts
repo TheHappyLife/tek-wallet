@@ -31,7 +31,6 @@ export interface SignOutResponse {
 
 export interface CreateWalletServiceBody {
   passcode: string;
-  appSlug: string;
 }
 
 export interface CreateWalletServiceResponse {
@@ -90,7 +89,14 @@ export interface WalletProviderDataType {
   ) => Promise<GetSeedPhraseServiceResponse>;
 }
 
-export type Wallet = Omit<WalletProviderDataType, "session">;
+export interface DepositProviderDataType {
+  isLoadingDepositToken: boolean;
+  depositTokens: DepositCurrency[] | undefined;
+  updateDepositToken: () => void;
+}
+
+export type Wallet = Omit<WalletProviderDataType, "session"> &
+  DepositProviderDataType;
 export interface LoginInfo {
   accessToken: string;
   refreshToken: string;
@@ -199,4 +205,56 @@ export interface ImportWalletServiceBody {
 export interface ResponseError<T = string> {
   status: number;
   message: T;
+}
+
+export interface DepositTokenListResponse {
+  success: boolean;
+  message: string;
+  data: DepositTokenList;
+  timestamp: string;
+}
+
+export interface DepositTokenList {
+  data: DepositCurrency[];
+  paginated: Paginated;
+}
+
+export interface Paginated {
+  keyword: string;
+  page: number;
+  take: number;
+  sort: string;
+  sorted: string;
+  from_date: string;
+  to_date: string;
+  number_records: number;
+  pages: number;
+  has_prev: boolean;
+  has_next: boolean;
+}
+
+export interface Networkdata {
+  id: number;
+  status: string;
+  name: string;
+  slug: string;
+  network_type: string;
+}
+
+export interface DepositCurrency {
+  id: number;
+  status: string;
+  name: string;
+  slug: string;
+  is_crypto_token: boolean;
+  address: string;
+  network: number;
+  wallet_integrations_currencies: number;
+  wallet_integrations_input_withdrawn: number;
+  wallet_integrations_output_withdrawn: number;
+  full_name: string;
+  icon: string;
+  usd_rate: string;
+  icon_svg: string;
+  network_data: Networkdata;
 }

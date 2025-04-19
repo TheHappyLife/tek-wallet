@@ -106,6 +106,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 paddingBottom: theme.mixins.customPadding.p16,
                 display: "flex",
                 alignItems: "center",
+                my: theme.mixins.customPadding.p24,
               }}
               overrideBack={handleBack}
               hideBack={currentStep === DepositStep.SELECT_TOKEN}

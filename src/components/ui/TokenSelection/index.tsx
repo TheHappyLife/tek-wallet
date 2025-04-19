@@ -41,7 +41,7 @@ const TokenSelection = (props: TokenSelectionProps) => {
           : "background.white16",
         border: "1px solid",
         borderColor: props.active ? "border.secondary" : "transparent",
-        borderRadius: theme.mixins.theBorderRadius.r12,
+        borderRadius: theme.mixins.theBorderRadius.r16,
         padding: theme.mixins.customPadding.p12,
         display: "flex",
         alignItems: "center",

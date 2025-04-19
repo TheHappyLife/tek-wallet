@@ -25,9 +25,7 @@ export const initialWalletData: WalletProviderDataType = {
   isAuthLoading: true,
   tokens: undefined,
   isTokensLoading: true,
-  updateLogin: () => {
-    console.warn("update login void");
-  },
+  updateLogin: () => {},
   updateBalance: () => {},
   disconnect: () => {},
   createWallet: () => Promise.resolve({} as CreateWalletServiceResponse),

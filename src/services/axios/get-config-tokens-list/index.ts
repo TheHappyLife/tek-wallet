@@ -1,10 +1,21 @@
-import { GetConfigTokenListResponse } from "./type";
 import userClientRequest from "../clients/userClientRequest";
 
-const getConfigTokenList = async (): Promise<GetConfigTokenListResponse> => {
-  const response = await userClientRequest.get("/platform-config/list-tokens");
-  console.warn("🚀 ~ getConfigTokenList ~ response:", response);
+export type TransactionType = "deposit" | "withdrawn" | "transfer-internal";
+export interface GetConfigTokenListQuery {
+  page?: number;
+  take?: number;
+  transactionType: TransactionType;
+}
 
-  return response?.data?.data;
+const getConfigTokenList = async <T>(
+  query?: GetConfigTokenListQuery
+): Promise<T> => {
+  const response = await userClientRequest.get("/platform-config/list-tokens", {
+    params: query,
+  });
+
+  console.warn("🚀 ~ getConfigTokenList response:", response);
+
+  return response.data;
 };
 export default getConfigTokenList;

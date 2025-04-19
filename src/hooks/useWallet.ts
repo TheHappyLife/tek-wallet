@@ -1,20 +1,23 @@
 import { useContext } from "react";
+import { DepositContext, initialDeposit } from "../providers/DepositProvider";
 import {
-  WalletDataContext,
   initialWalletData,
+  WalletDataContext,
 } from "../providers/WalletDataProvider";
 import { Wallet } from "../types/expose-type";
-function useWallet(): Wallet {
-  try {
-    const data = useContext(WalletDataContext);
-    delete data.session;
 
-    return data;
+function useWallet(): Wallet {
+  const depositData = useContext(DepositContext);
+  const walletData = useContext(WalletDataContext);
+  try {
+    delete walletData.session;
+
+    return { ...walletData, ...depositData };
   } catch (error) {
     console.error("🚀 ~ useWallet ~ error:", error);
     delete initialWalletData.session;
 
-    return initialWalletData;
+    return { ...initialWalletData, ...initialDeposit };
   }
 }
 
