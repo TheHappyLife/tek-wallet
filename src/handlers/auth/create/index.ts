@@ -6,10 +6,9 @@ import errorHandler from "../functions/errorHandler";
 const createWalletHandler = async (req: NextRequest) => {
   try {
     console.warn("🚀 ~ createWalletHandler ~ req:", req);
-    const { passcode, appSlug } = await req.json();
+    const { passcode } = await req.json();
     const response = await createWalletExternalService({
       passcode,
-      appSlug,
     });
     console.warn("🚀 ~ createWalletHandler ~ response:", response);
 

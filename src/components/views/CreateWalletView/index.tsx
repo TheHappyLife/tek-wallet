@@ -90,7 +90,6 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
       createWallet(
         {
           passcode: value,
-          appSlug: process.env.NEXT_PUBLIC_TEK_WALLET_APP_SLUG || "",
         },
         () => {
           console.warn("start loading");
