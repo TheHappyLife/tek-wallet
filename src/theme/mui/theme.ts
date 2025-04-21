@@ -132,6 +132,7 @@ const theme: ThemeOptions = createTheme({
     column: {
       display: "flex",
       flexDirection: "column",
+      width: "100%",
     },
     headerTitle: {
       color: "text.white",
