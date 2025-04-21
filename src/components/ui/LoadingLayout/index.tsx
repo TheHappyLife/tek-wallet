@@ -32,7 +32,7 @@ const LoadingLayout = forwardRef<LoadingLayoutRef, LoadingLayoutProps>(
       <Box
         sx={{
           position: "relative",
-          width: "100%",
+          width: "fit-content",
           height: "fit-content",
           ...sx,
         }}

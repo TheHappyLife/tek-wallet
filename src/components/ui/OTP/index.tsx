@@ -31,7 +31,7 @@ const CustomOtpInput = (props: CustomOtpInputProps) => {
           }}
           renderInput={(props) => (
             <>
-              <input {...props} inputMode="decimal" />
+              <input {...props} inputMode="decimal" autoComplete="off" />
               <style>
                 {`input::selection {
             background-color: transparent; 
@@ -46,7 +46,9 @@ const CustomOtpInput = (props: CustomOtpInputProps) => {
       return (
         <OtpInput
           {...rest}
-          renderInput={(props) => <input {...props} inputMode="text" />}
+          renderInput={(props) => (
+            <input {...props} inputMode="text" autoComplete="off" />
+          )}
         />
       );
   }
