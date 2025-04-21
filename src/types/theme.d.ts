@@ -47,6 +47,8 @@ declare module "@mui/material/styles" {
     gaps: Record<string, string>;
     row: React.CSSProperties;
     column: React.CSSProperties;
+    validationError: React.CSSProperties;
+    whiteLoadingOverlay: React.CSSProperties;
   }
 
   interface TypeBackground {

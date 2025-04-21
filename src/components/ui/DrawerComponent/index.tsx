@@ -1,4 +1,4 @@
-import { GeneralProps } from "../../../types/ui";
+import { GeneralProps, UnknownFunction } from "../../../types/ui";
 import { Box, SwipeableDrawer } from "@mui/material";
 import {
   forwardRef,
@@ -12,9 +12,9 @@ export enum DRAWER_DIRECTION {
   RIGHT = "right",
 }
 
-interface DrawerComponentProps extends GeneralProps {
-  onOpen?: ReactEventHandler;
-  onClose?: ReactEventHandler;
+export interface DrawerComponentProps extends GeneralProps {
+  onOpen?: UnknownFunction;
+  onClose?: UnknownFunction;
   trigger?: React.ReactNode;
   onToggle?: (status?: boolean) => unknown;
   direction?: DRAWER_DIRECTION;

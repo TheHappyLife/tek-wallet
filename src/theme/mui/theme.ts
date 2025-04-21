@@ -180,6 +180,16 @@ const theme: ThemeOptions = createTheme({
       fontSize: typography.fontSize12,
       lineHeight: typography.leading140,
     },
+    validationError: {
+      color: text.errorStatus,
+      fontWeight: typography.fontWeight400,
+      fontSize: typography.fontSize12,
+      lineHeight: typography.leading140,
+    },
+    whiteLoadingOverlay: {
+      backgroundColor: "background.white16",
+      backdropFilter: "blur(2px)",
+    },
   },
 });
 
