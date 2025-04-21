@@ -9,7 +9,9 @@ import { LockData } from "./type";
 import LineValue from "../LineValue";
 import Formatter from "../Formatter";
 import ConfirmByPasscode from "../ConfirmByPasscode";
-interface LockTokenProps extends GeneralProps, ConfirmLayoutProps {
+interface LockTokenProps
+  extends GeneralProps,
+    Omit<ConfirmLayoutProps, "action"> {
   lockData: LockData;
 }
 
