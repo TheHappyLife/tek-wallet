@@ -25,6 +25,11 @@ const LockToken = (props: LockTokenProps) => {
     confirmByPasscodeRef.current?.clearData();
   };
 
+  const closeAuthModal = () => {
+    confirmByPasscodeDrawerRef.current?.close();
+    confirmByPasscodeRef.current?.clearData();
+  };
+
   const handleLockToken = () => {
     confirmByPasscodeDrawerRef.current?.close();
     console.warn("🚀 ~ handleLockToken ~ lockData:", props.lockData);
@@ -48,11 +53,13 @@ const LockToken = (props: LockTokenProps) => {
               <Button.Primary sx={{ width: "100%" }}>Confirm</Button.Primary>
             }
             onOpen={handleClearConfirmData}
+            onClose={handleClearConfirmData}
           >
             <ConfirmByPasscode
               ref={confirmByPasscodeRef}
               action={ActionConfirm.LOCK}
               onConfirmSuccess={handleLockToken}
+              onClose={closeAuthModal}
             />
           </DrawerComponent>
         </Box>

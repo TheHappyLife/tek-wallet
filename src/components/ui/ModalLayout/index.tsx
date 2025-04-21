@@ -49,7 +49,7 @@ const ModalLayout = (props: ModalLayoutProps) => {
               onClick={props.onClose}
             />
           </Box>
-          <Divider sx={{ my: "0.75rem" }} />
+          {props.title && <Divider sx={{ my: "0.75rem" }} />}
         </>
       )}
       {props.overrideHeader}

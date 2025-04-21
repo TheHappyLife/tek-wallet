@@ -12,6 +12,7 @@ interface ConfirmByPasscodeProps extends GeneralProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onConfirmSuccess?: (value: string) => any;
   action: ActionConfirm;
+  onClose?: () => void;
 }
 
 const passcodeLength = 6;
@@ -54,7 +55,7 @@ const ConfirmByPasscode = forwardRef<
   };
 
   return (
-    <ModalLayout title={`Confirm`}>
+    <ModalLayout title={`Confirm`} onClose={props.onClose}>
       <Box
         sx={{
           ...theme.mixins.column,
