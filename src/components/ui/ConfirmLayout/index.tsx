@@ -35,12 +35,25 @@ const ConfirmLayout = forwardRef<DrawerComponentRef, ConfirmLayoutProps>(
               gap: theme.mixins.gaps.g16,
             }}
           >
-            <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g12 }}>
+            <Box
+              sx={{
+                ...theme.mixins.column,
+                alignItems: "center",
+                gap: theme.mixins.gaps.g12,
+              }}
+            >
               <Icon width={64} sx={{}} src={getIcon("wallet_logo")} />
               <Text
                 sx={{ ...theme.mixins.sessionDescription }}
               >{`Confirm action`}</Text>
-              <Text sx={{ ...theme.mixins.sessionTitle }}>{props.action}</Text>
+              <Text
+                sx={{
+                  ...theme.mixins.sessionTitle,
+                  textTransform: "capitalize",
+                }}
+              >
+                {props.action}
+              </Text>
             </Box>
             {props.children}
           </Box>

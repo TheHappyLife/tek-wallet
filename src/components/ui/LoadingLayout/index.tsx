@@ -39,19 +39,16 @@ const LoadingLayout = forwardRef<LoadingLayoutRef, LoadingLayoutProps>(
       >
         {children}
         {loading && (
-          <Text
+          <Box
             sx={{
               position: "absolute",
               inset: 0,
-              display: "flex",
-              margin: "auto",
-              color: "text.white",
               ...theme.mixins.whiteLoadingOverlay,
               zIndex: 1000,
             }}
           >
-            {loadingMessage}
-          </Text>
+            <Text sx={{ ...theme.mixins.center }}>{loadingMessage}</Text>
+          </Box>
         )}
       </Box>
     );

@@ -2,7 +2,7 @@
 import { GeneralProps } from "../../../types/ui";
 import { Box, useTheme } from "@mui/material";
 import Button from "../../ui/Button";
-import DrawerComponent from "../DrawerComponent";
+import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
 import ConfirmLayout, { ConfirmLayoutProps } from "../ConfirmLayout";
 import { ActionConfirm } from "../ConfirmLayout/type";
 import { LockData } from "./type";
@@ -18,6 +18,7 @@ interface LockTokenProps
 
 const LockToken = (props: LockTokenProps) => {
   const theme = useTheme();
+  const confirmByPasscodeDrawerRef = useRef<DrawerComponentRef>(null);
   const confirmByPasscodeRef = useRef<ConfirmByPasscodeRef>(null);
 
   const handleClearConfirmData = () => {
@@ -25,6 +26,7 @@ const LockToken = (props: LockTokenProps) => {
   };
 
   const handleLockToken = () => {
+    confirmByPasscodeDrawerRef.current?.close();
     console.warn("🚀 ~ handleLockToken ~ lockData:", props.lockData);
   };
 
