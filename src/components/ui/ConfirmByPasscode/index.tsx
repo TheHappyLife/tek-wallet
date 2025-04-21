@@ -55,7 +55,7 @@ const ConfirmByPasscode = forwardRef<
   };
 
   return (
-    <ModalLayout title={`Confirm`} onClose={props.onClose}>
+    <ModalLayout title={"Authentication"} onClose={props.onClose}>
       <Box
         sx={{
           ...theme.mixins.column,

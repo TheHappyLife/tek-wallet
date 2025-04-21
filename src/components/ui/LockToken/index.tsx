@@ -49,6 +49,7 @@ const LockToken = (props: LockTokenProps) => {
             }
           />
           <DrawerComponent
+            ref={confirmByPasscodeDrawerRef}
             trigger={
               <Button.Primary sx={{ width: "100%" }}>Confirm</Button.Primary>
             }
