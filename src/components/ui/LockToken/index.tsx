@@ -8,7 +8,8 @@ import { ActionConfirm } from "../ConfirmLayout/type";
 import { LockData } from "./type";
 import LineValue from "../LineValue";
 import Formatter from "../Formatter";
-import ConfirmByPasscode from "../ConfirmByPasscode";
+import ConfirmByPasscode, { ConfirmByPasscodeRef } from "../ConfirmByPasscode";
+import { useRef } from "react";
 interface LockTokenProps
   extends GeneralProps,
     Omit<ConfirmLayoutProps, "action"> {
@@ -17,6 +18,11 @@ interface LockTokenProps
 
 const LockToken = (props: LockTokenProps) => {
   const theme = useTheme();
+  const confirmByPasscodeRef = useRef<ConfirmByPasscodeRef>(null);
+
+  const handleClearConfirmData = () => {
+    confirmByPasscodeRef.current?.clearData();
+  };
 
   const handleLockToken = () => {
     console.warn("🚀 ~ handleLockToken ~ lockData:", props.lockData);
@@ -35,8 +41,12 @@ const LockToken = (props: LockTokenProps) => {
               />
             }
           />
-          <DrawerComponent trigger={<Button.Primary>Confirm</Button.Primary>}>
+          <DrawerComponent
+            trigger={<Button.Primary>Confirm</Button.Primary>}
+            onOpen={handleClearConfirmData}
+          >
             <ConfirmByPasscode
+              ref={confirmByPasscodeRef}
               action={ActionConfirm.LOCK}
               onConfirmSuccess={handleLockToken}
             />

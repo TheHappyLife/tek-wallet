@@ -29,7 +29,14 @@ const LoadingLayout = forwardRef<LoadingLayoutRef, LoadingLayoutProps>(
     }));
 
     return (
-      <Box sx={{ position: "relative", ...sx }}>
+      <Box
+        sx={{
+          position: "relative",
+          width: "100%",
+          height: "fit-content",
+          ...sx,
+        }}
+      >
         {children}
         {loading && (
           <Text
