@@ -1,3 +1,5 @@
+import { LockTokensProviderDataType } from "../providers/LockTokenProvider/type";
+
 // 1. Enums
 export enum LoginMessage {
   SUCCESS = "Login is successfully",
@@ -96,7 +98,8 @@ export interface DepositProviderDataType {
 }
 
 export type Wallet = Omit<WalletProviderDataType, "session"> &
-  DepositProviderDataType;
+  DepositProviderDataType &
+  LockTokensProviderDataType;
 export interface LoginInfo {
   accessToken: string;
   refreshToken: string;
