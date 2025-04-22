@@ -11,6 +11,7 @@ import ConfirmByPasscode from "../ConfirmByPasscode";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useLockTokenData from "../../../hooks/useLockTokenData";
 import Text from "../Text";
+import { LockCurrency } from "../../../services/axios/get-lock-tokens-list/type";
 interface LockTokenProps extends Omit<ConfirmLayoutProps, "action"> {
   lockData: LockData;
 }
@@ -26,6 +27,7 @@ const LockToken = (props: LockTokenProps) => {
   const theme = useTheme();
   const { lockTokens } = useLockTokenData();
   const confirmByPasscodeDrawerRef = useRef<DrawerComponentRef>(null);
+  const [token, setToken] = useState<LockCurrency | undefined>(undefined);
   const [error, setError] = useState<LockTokenError | undefined>(undefined);
   const [errorAmount, setErrorAmount] = useState<string | number | undefined>(
     undefined
@@ -39,6 +41,7 @@ const LockToken = (props: LockTokenProps) => {
       const token = lockTokens?.find(
         (token) => token.slug === lockData.tokenSlug
       );
+      setToken(token);
       if (!token) {
         setError(LockTokenError.TOKEN_NOT_FOUND);
 
@@ -100,19 +103,13 @@ const LockToken = (props: LockTokenProps) => {
               <LineValue
                 field="Amount"
                 value={
-                  <Formatter
-                    value={props.lockData.amount}
-                    unit={props.lockData.tokenSlug}
-                  />
+                  <Formatter value={props.lockData.amount} unit={token?.name} />
                 }
               />
               <Text sx={{ ...theme.mixins.validationError }}>
                 {error}{" "}
                 {!!errorAmount && (
-                  <Formatter
-                    value={errorAmount}
-                    unit={props.lockData.tokenSlug}
-                  />
+                  <Formatter value={errorAmount} unit={token?.name} />
                 )}
               </Text>
             </Box>
