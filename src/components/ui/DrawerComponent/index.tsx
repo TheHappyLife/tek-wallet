@@ -4,7 +4,6 @@ import {
   forwardRef,
   ReactEventHandler,
   useImperativeHandle,
-  useRef,
   useState,
 } from "react";
 
@@ -43,12 +42,12 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
       ...rest
     } = props;
     const [isShowDrawerComponent, setIsShowDrawerComponent] = useState(false);
-    const isOpen = useRef<boolean | undefined>(undefined);
+    const [isOpen, setIsOpen] = useState<boolean | undefined>(undefined);
     const lockStatus = () => {
-      isOpen.current = isShowDrawerComponent;
+      setIsOpen(isShowDrawerComponent);
     };
     const unlockStatus = () => {
-      isOpen.current = undefined;
+      setIsOpen(undefined);
     };
     const handleOpen = () => {
       unlockStatus();
@@ -76,17 +75,11 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
     }));
 
     const onDrawerClose: ReactEventHandler = (e) => {
-      if (isOpen.current !== undefined) {
-        setIsShowDrawerComponent(isOpen.current);
-      }
       setIsShowDrawerComponent(false);
       onClose?.(e);
     };
 
     const onDrawerOpen: ReactEventHandler = (e) => {
-      if (isOpen.current !== undefined) {
-        setIsShowDrawerComponent(isOpen.current);
-      }
       setIsShowDrawerComponent(true);
       onOpen?.(e);
     };
@@ -106,11 +99,11 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
             },
           }}
           anchor={direction || "bottom"}
-          open={isOpen.current ?? isShowDrawerComponent}
+          open={isOpen ?? isShowDrawerComponent}
           onOpen={onDrawerOpen}
           onClose={onDrawerClose}
-          disableSwipeToOpen={isOpen.current !== undefined}
-          disableDiscovery={isOpen.current !== undefined}
+          disableSwipeToOpen={isOpen !== undefined}
+          disableDiscovery={isOpen !== undefined}
         >
           {children}
         </SwipeableDrawer>
