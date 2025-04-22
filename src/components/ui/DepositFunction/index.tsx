@@ -2,6 +2,7 @@
 import {
   forwardRef,
   ReactEventHandler,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -25,6 +26,7 @@ import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
 import { Balance } from "../../../types/expose-type";
 import CloseModal from "../CloseModal";
+import useDepositData from "../../../hooks/useDepositData";
 interface DepositFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -57,7 +59,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     );
     const [selectedToken, setSelectedToken] = useState<Balance | undefined>();
     const [selectedNetwork, setSelectedNetwork] = useState<any>();
-    const { tokens } = useWalletData();
+    const { tokens, isAuthenticated } = useWalletData();
+    const { depositTokens, updateDepositToken } = useDepositData();
     const open = () => {
       drawerRef.current?.open();
     };
@@ -91,6 +94,12 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       nextStep();
     };
 
+    useEffect(() => {
+      if (isAuthenticated && !depositTokens) {
+        updateDepositToken();
+      }
+    }, [isAuthenticated, depositTokens]);
+
     return (
       <DrawerComponent
         ref={drawerRef}
@@ -106,7 +115,6 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 paddingBottom: theme.mixins.customPadding.p16,
                 display: "flex",
                 alignItems: "center",
-                my: theme.mixins.customPadding.p24,
               }}
               overrideBack={handleBack}
               hideBack={currentStep === DepositStep.SELECT_TOKEN}
@@ -155,13 +163,13 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   gap: theme.mixins.gaps.g12,
                 }}
               >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => {
+                {depositTokens?.map((item) => {
                   return (
                     <NetworkSelection
-                      key={item}
+                      key={item.id}
                       onClick={handleSelectNetwork}
                       networkData={JSON.stringify({
-                        name: `network ${item}`,
+                        name: `network ${item.id}`,
                         icon: "https://via.placeholder.com/150",
                       })}
                     />
