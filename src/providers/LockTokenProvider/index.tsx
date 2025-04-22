@@ -27,7 +27,7 @@ function LockTokensProvider({ children }: { children: React.ReactNode }) {
       setIsLoadingLockToken(true);
       const response = await getLockTokenList();
       console.warn("🚀 ~ getBalance ~ response:", response);
-      setLockTokens(response?.data);
+      setLockTokens(response?.supported_tokens);
       setIsLoadingLockToken(false);
     } catch (error) {
       console.error("🚀 ~ getBalance ~ error:", error);

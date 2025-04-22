@@ -17,7 +17,7 @@ export interface LockCurrency {
   network_data: Networkdata;
 }
 export interface LockTokenList {
-  data: LockCurrency[];
+  supported_tokens: LockCurrency[];
   paginated: Paginated;
 }
 export interface LockTokenListResponse {

@@ -17,6 +17,7 @@ const getLockTokenList = async (
     transactionType: "withdrawn",
   };
   const response = await getConfigTokenList<LockTokenListResponse>(params);
+  console.warn("🚀 ~ response getConfigTokenList:", response);
 
   return response?.data;
 };
