@@ -35,7 +35,7 @@ const LockToken = (props: LockTokenProps) => {
   );
   const validateAmount = useCallback(
     (lockData: LockData) => {
-      console.warn("🚀 ~ validateAmount ~ lockData:", lockData);
+      console.warn("🚀 ~ validateAmount ~ lockData:", lockData, lockTokens);
       const token = lockTokens?.find(
         (token) => token.slug === lockData.tokenSlug
       );
