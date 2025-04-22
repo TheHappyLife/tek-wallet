@@ -83,7 +83,11 @@ const ConfirmByPasscode = forwardRef<
       onOpen={props.onOpen}
       onClose={props.onClose}
     >
-      <LoadingLayout initLoading={false} ref={loadingRef}>
+      <LoadingLayout
+        initLoading={false}
+        ref={loadingRef}
+        sx={{ width: "100%" }}
+      >
         <ModalLayout title={"Authentication"} onClose={props.onClose}>
           <Box
             sx={{
@@ -104,13 +108,14 @@ const ConfirmByPasscode = forwardRef<
                 {action}
               </Text>
             </Text>
-
-            <OTP
-              value={otp}
-              onChange={handleOtpChange}
-              numInputs={passcodeLength}
-              otpInputType={OtpInputType.PASSWORD}
-            />
+            <form autoComplete="off">
+              <OTP
+                value={otp}
+                onChange={handleOtpChange}
+                numInputs={passcodeLength}
+                otpInputType={OtpInputType.PASSWORD}
+              />
+            </form>
           </Box>
         </ModalLayout>
       </LoadingLayout>
