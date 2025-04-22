@@ -9,7 +9,7 @@ import DrawerComponent, {
   DrawerComponentRef,
 } from "../DrawerComponent";
 import { ActionConfirm } from "./type";
-import { forwardRef } from "react";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 
 export interface ConfirmLayoutProps extends DrawerComponentProps {
   action: ActionConfirm;
@@ -17,16 +17,33 @@ export interface ConfirmLayoutProps extends DrawerComponentProps {
 
 const ConfirmLayout = forwardRef<DrawerComponentRef, ConfirmLayoutProps>(
   (props, ref) => {
+    const { children, ...rest } = props;
     const theme = useTheme();
 
+    const confirmByPasscodeDrawerRef = useRef<DrawerComponentRef>(null);
+
+    const handleOnClose = () => {
+      confirmByPasscodeDrawerRef.current?.close();
+    };
+
+    useImperativeHandle(ref, () => ({
+      open: () => {
+        confirmByPasscodeDrawerRef.current?.open();
+      },
+      close: () => {
+        confirmByPasscodeDrawerRef.current?.close();
+      },
+      lockStatus: () => {
+        confirmByPasscodeDrawerRef.current?.lockStatus();
+      },
+      unlockStatus: () => {
+        confirmByPasscodeDrawerRef.current?.unlockStatus();
+      },
+    }));
+
     return (
-      <DrawerComponent
-        ref={ref}
-        trigger={props.trigger}
-        onOpen={props.onOpen}
-        onClose={props.onClose}
-      >
-        <ModalLayout>
+      <DrawerComponent ref={confirmByPasscodeDrawerRef} {...rest}>
+        <ModalLayout onClose={handleOnClose}>
           <Box
             sx={{
               ...theme.mixins.column,
@@ -54,7 +71,7 @@ const ConfirmLayout = forwardRef<DrawerComponentRef, ConfirmLayoutProps>(
                 {props.action}
               </Text>
             </Box>
-            {props.children}
+            {children}
           </Box>
         </ModalLayout>
       </DrawerComponent>

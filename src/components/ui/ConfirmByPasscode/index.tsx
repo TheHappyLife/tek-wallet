@@ -37,11 +37,11 @@ const ConfirmByPasscode = forwardRef<
   const loadingRef = useRef<LoadingLayoutRef>(null);
 
   const drawerRef = useRef<DrawerComponentRef>(null);
-
+  const handleCleardata = () => {
+    setOtp("");
+  };
   useImperativeHandle(ref, () => ({
-    clearData: () => {
-      setOtp("");
-    },
+    clearData: handleCleardata,
     open: () => {
       drawerRef.current?.open();
     },
@@ -55,6 +55,15 @@ const ConfirmByPasscode = forwardRef<
       drawerRef.current?.unlockStatus();
     },
   }));
+
+  const handleOnClose = () => {
+    props.onClose?.();
+    handleCleardata();
+  };
+
+  const handleOnOpen = () => {
+    props.onOpen?.();
+  };
 
   const handleOtpChange = async (value: string) => {
     /**
@@ -80,8 +89,8 @@ const ConfirmByPasscode = forwardRef<
     <DrawerComponent
       ref={drawerRef}
       trigger={props.children}
-      onOpen={props.onOpen}
-      onClose={props.onClose}
+      onOpen={handleOnOpen}
+      onClose={handleOnClose}
     >
       <LoadingLayout
         initLoading={false}
@@ -108,14 +117,12 @@ const ConfirmByPasscode = forwardRef<
                 {action}
               </Text>
             </Text>
-            <form autoComplete="off">
-              <OTP
-                value={otp}
-                onChange={handleOtpChange}
-                numInputs={passcodeLength}
-                otpInputType={OtpInputType.PASSWORD}
-              />
-            </form>
+            <OTP
+              value={otp}
+              onChange={handleOtpChange}
+              numInputs={passcodeLength}
+              otpInputType={OtpInputType.PASSWORD}
+            />
           </Box>
         </ModalLayout>
       </LoadingLayout>

@@ -24,7 +24,11 @@ const LockToken = (props: LockTokenProps) => {
 
   return (
     <>
-      <ConfirmLayout action={ActionConfirm.LOCK} trigger={props.trigger}>
+      <ConfirmLayout
+        ref={confirmByPasscodeDrawerRef}
+        action={ActionConfirm.LOCK}
+        trigger={props.trigger}
+      >
         <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g16 }}>
           <LineValue
             field="Amount"
