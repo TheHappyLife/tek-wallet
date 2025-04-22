@@ -8,7 +8,7 @@ import { LockData } from "./type";
 import LineValue from "../LineValue";
 import Formatter from "../Formatter";
 import ConfirmByPasscode from "../ConfirmByPasscode";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useLockTokenData from "../../../hooks/useLockTokenData";
 import Text from "../Text";
 interface LockTokenProps extends Omit<ConfirmLayoutProps, "action"> {
@@ -33,38 +33,42 @@ const LockToken = (props: LockTokenProps) => {
   const [buttonStatus, setButtonStatus] = useState<BUTTON_STATUS>(
     BUTTON_STATUS.ENABLED
   );
-  const validateAmount = (lockData: LockData) => {
-    const token = lockTokens?.find(
-      (token) => token.slug === lockData.tokenSlug
-    );
-    if (!token) {
-      setError(LockTokenError.TOKEN_NOT_FOUND);
+  const validateAmount = useCallback(
+    (lockData: LockData) => {
+      console.warn("🚀 ~ validateAmount ~ lockData:", lockData);
+      const token = lockTokens?.find(
+        (token) => token.slug === lockData.tokenSlug
+      );
+      if (!token) {
+        setError(LockTokenError.TOKEN_NOT_FOUND);
 
-      return;
-    }
-    if (lockData.amount > token.max_value) {
-      setError(LockTokenError.MAX_AMOUNT);
-      setErrorAmount(token.max_value);
+        return;
+      }
+      if (lockData.amount > token.max_value) {
+        setError(LockTokenError.MAX_AMOUNT);
+        setErrorAmount(token.max_value);
 
-      return;
-    }
-    if (lockData.amount < token.min_value) {
-      setError(LockTokenError.MIN_AMOUNT);
-      setErrorAmount(token.min_value);
+        return;
+      }
+      if (lockData.amount < token.min_value) {
+        setError(LockTokenError.MIN_AMOUNT);
+        setErrorAmount(token.min_value);
 
-      return;
-    }
+        return;
+      }
 
-    if (lockData.amount > +token.balance) {
-      setError(LockTokenError.NOT_ENOUGH_BALANCE);
-      setErrorAmount(token.balance);
+      if (lockData.amount > +token.balance) {
+        setError(LockTokenError.NOT_ENOUGH_BALANCE);
+        setErrorAmount(token.balance);
 
-      return;
-    }
+        return;
+      }
 
-    setError(undefined);
-    setErrorAmount(undefined);
-  };
+      setError(undefined);
+      setErrorAmount(undefined);
+    },
+    [lockTokens, props.lockData?.amount, props.lockData?.tokenSlug]
+  );
 
   const handleLockToken = (passcode: string) => {
     console.warn("🚀 ~ handleLockToken ~ lockData:", props.lockData, passcode);
@@ -77,7 +81,7 @@ const LockToken = (props: LockTokenProps) => {
 
   useEffect(() => {
     validateAmount(props.lockData);
-  }, [props.lockData?.amount, props.lockData?.tokenSlug]);
+  }, [validateAmount]);
 
   return (
     <>
