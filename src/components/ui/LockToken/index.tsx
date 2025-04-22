@@ -11,7 +11,7 @@ import Formatter from "../Formatter";
 import ConfirmByPasscode from "../ConfirmByPasscode";
 import { useRef } from "react";
 interface LockTokenProps
-  extends GeneralProps,
+  extends Omit<GeneralProps, "onClick" | "sx">,
     Omit<ConfirmLayoutProps, "action"> {
   lockData: LockData;
 }
