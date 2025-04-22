@@ -1,5 +1,10 @@
 import { GeneralProps, UnknownFunction } from "../../../types/ui";
-import { Box, SwipeableDrawer, SwipeableDrawerProps } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  SwipeableDrawer,
+  SwipeableDrawerProps,
+} from "@mui/material";
 import {
   forwardRef,
   ReactEventHandler,
@@ -84,12 +89,14 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
       onOpen?.(e);
     };
 
+    const DrawerComponent = isOpen !== undefined ? Drawer : SwipeableDrawer;
+
     return (
       <>
         <Box sx={sx} onClick={toggle}>
           {trigger}
         </Box>
-        <SwipeableDrawer
+        <DrawerComponent
           {...rest}
           sx={{
             "& .MuiDrawer-paper": {
@@ -102,11 +109,9 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
           open={isOpen ?? isShowDrawerComponent}
           onOpen={onDrawerOpen}
           onClose={onDrawerClose}
-          disableSwipeToOpen={isOpen !== undefined}
-          disableDiscovery={isOpen !== undefined}
         >
           {children}
-        </SwipeableDrawer>
+        </DrawerComponent>
       </>
     );
   }
