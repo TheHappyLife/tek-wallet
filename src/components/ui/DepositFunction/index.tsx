@@ -154,9 +154,9 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
             <BackHeader
               sx={{
                 width: "100%",
-                paddingBottom: theme.mixins.customPadding.p16,
                 display: "flex",
                 alignItems: "center",
+                minHeight: "2rem",
               }}
               overrideBack={handleBack}
               hideBack={currentStep === DepositStep.SELECT_TOKEN}
@@ -169,7 +169,11 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
         >
           <SwiperControlled
             ref={swiperRef}
-            swiperProps={{ autoHeight: true, spaceBetween: 32 }}
+            swiperProps={{
+              autoHeight: true,
+              spaceBetween: 32,
+              allowTouchMove: false,
+            }}
             key={depositTokens?.length}
           >
             <SwiperSlide key={DepositStep.SELECT_TOKEN}>
@@ -268,12 +272,15 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       alignSelf: "center",
                       borderRadius: theme.mixins.theBorderRadius.r12,
                       overflow: "hidden",
+                      backgroundColor: theme.palette.background.black24,
+                      backdropFilter: "blur(10px)",
                     }}
                   >
                     <QRCode
                       value={qrCodeValue}
                       title={`Deposit ${selectedToken?.name}`}
                       logo={getIcon("ton")}
+                      bgColor={"transparent"}
                     />
                   </Box>
                   <Box
@@ -351,11 +358,14 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       }}
                     >
                       Deposit{" "}
-                      <strong>
+                      <strong style={{ color: theme.palette.text.white }}>
                         min {selectedToken?.min_value} {selectedToken?.name}
                       </strong>{" "}
-                      and <strong>select the correct network</strong>, or you
-                      will lose your assets.
+                      and{" "}
+                      <strong style={{ color: theme.palette.text.white }}>
+                        select the correct network
+                      </strong>
+                      , or you will lose your assets.
                     </Text>
                   </Box>
                 </Box>

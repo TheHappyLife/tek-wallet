@@ -11,18 +11,18 @@ interface QRCodeProps extends GeneralProps {
 }
 
 function QRCode(props: QRCodeProps) {
-  const { value, size = 156, logo, title } = props;
+  const { value, size = 156, logo, title, bgColor = "#ffffff" } = props;
 
   return (
     <QRCodeCanvas
       value={value}
       title={title}
       size={size}
-      bgColor={"#ffffff"}
+      bgColor={bgColor}
       fgColor={"#000000"}
       level={"H"}
       minVersion={8}
-      marginSize={6}
+      marginSize={4}
       imageSettings={{
         src: logo || "",
         x: undefined,
