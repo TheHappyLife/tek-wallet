@@ -70,11 +70,13 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
     }));
 
     const onDrawerClose: ReactEventHandler = (e) => {
+      console.warn("🚀 ~ onDrawerClose ~ e:", e);
       setIsShowDrawerComponent(false);
       onClose?.(e);
     };
 
     const onDrawerOpen: ReactEventHandler = (e) => {
+      console.warn("🚀 ~ onDrawerOpen ~ e:", e);
       setIsShowDrawerComponent(true);
       onOpen?.(e);
     };
@@ -93,9 +95,9 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
               boxShadow: "none",
             },
           }}
-          onOpen={onDrawerOpen}
           anchor={direction || "bottom"}
           open={isOpen.current ?? isShowDrawerComponent}
+          onOpen={onDrawerOpen}
           onClose={onDrawerClose}
         >
           {children}

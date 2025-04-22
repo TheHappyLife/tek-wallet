@@ -106,17 +106,19 @@ const LockToken = (props: LockTokenProps) => {
                   <Formatter value={props.lockData.amount} unit={token?.name} />
                 }
               />
-              <Text
-                sx={{
-                  ...theme.mixins.validationError,
-                  mt: theme.mixins.gaps.g6,
-                }}
-              >
-                {error}{" "}
-                {!!errorAmount && (
-                  <Formatter value={errorAmount} unit={token?.name} />
-                )}
-              </Text>
+              {!!error && (
+                <Text
+                  sx={{
+                    ...theme.mixins.validationError,
+                    mt: theme.mixins.gaps.g6,
+                  }}
+                >
+                  {error}{" "}
+                  {!!errorAmount && (
+                    <Formatter value={errorAmount} unit={token?.name} />
+                  )}
+                </Text>
+              )}
             </Box>
           </Box>
           <ConfirmByPasscode
