@@ -23,35 +23,44 @@ const LineValue = (props: LineValueProps) => {
         ...props.sx,
       }}
     >
-      <Text
-        sx={{
-          ...theme.mixins.valueDescription,
-        }}
-      >
-        {field}
-      </Text>
-      <Box
-        sx={{
-          ...theme.mixins.column,
-          alignItems: "end",
-          gap: theme.mixins.gaps.g2,
-        }}
-      >
-        <Text
-          sx={{
-            ...theme.mixins.value,
-          }}
-        >
-          {value}
-        </Text>
+      {!!field && (
         <Text
           sx={{
             ...theme.mixins.valueDescription,
           }}
         >
-          {valueDescription}
+          {field}
         </Text>
-      </Box>
+      )}
+      {!!value ||
+        (!!valueDescription && (
+          <Box
+            sx={{
+              ...theme.mixins.column,
+              alignItems: "end",
+              gap: theme.mixins.gaps.g2,
+            }}
+          >
+            {!!value && (
+              <Text
+                sx={{
+                  ...theme.mixins.value,
+                }}
+              >
+                {value}
+              </Text>
+            )}
+            {!!valueDescription && (
+              <Text
+                sx={{
+                  ...theme.mixins.valueDescription,
+                }}
+              >
+                {valueDescription}
+              </Text>
+            )}
+          </Box>
+        ))}
     </Box>
   );
 };
