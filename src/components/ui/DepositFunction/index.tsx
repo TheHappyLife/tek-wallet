@@ -180,6 +180,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
               >
                 {depositTokens?.map((item) => {
                   const stringifiedTokenData = JSON.stringify(item);
+                  if (!item) return null;
 
                   return (
                     <TokenSelection
@@ -200,6 +201,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 }}
               >
                 {networks?.map((item) => {
+                  if (!item) return null;
+
                   return (
                     <NetworkSelection
                       key={item.id}
