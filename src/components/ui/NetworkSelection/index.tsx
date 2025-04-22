@@ -4,16 +4,12 @@ import Text from "../Text";
 import { GeneralProps } from "../../../types/ui";
 import parsePropsData from "../../../utils/parsePropsData";
 import { Box, useTheme } from "@mui/material";
+import { NetworkData } from "../../../services/axios/type";
 
 interface NetworkSelectionProps extends GeneralProps {
   active?: boolean;
   networkData?: string;
   onClick?: (networkData?: NetworkData) => void;
-}
-
-export interface NetworkData {
-  name: string;
-  icon: string;
 }
 
 const NetworkSelection = (props: NetworkSelectionProps) => {

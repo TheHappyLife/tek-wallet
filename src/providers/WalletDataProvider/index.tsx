@@ -10,6 +10,7 @@ import {
   ImportWalletServiceBody,
   GetSeedPhraseServiceBody,
   GetSeedPhraseServiceResponse,
+  BlockchainWalletType,
 } from "../../types/expose-type";
 import loginInternalService from "../../services/axios/login-internal/loginIntenalService";
 import { setAuthToken } from "../../services/axios/clients/userClientRequest";
@@ -25,8 +26,10 @@ export const initialWalletData: WalletProviderDataType = {
   isAuthLoading: true,
   tokens: undefined,
   isTokensLoading: true,
+  masterWallet: undefined,
+  blockchainWallets: undefined,
   updateLogin: () => {},
-  updateBalance: () => {},
+  updateWalletDetail: () => {},
   disconnect: () => {},
   createWallet: () => Promise.resolve({} as CreateWalletServiceResponse),
   importWallet: () => Promise.resolve({} as ImportWalletServiceResponse),
@@ -43,6 +46,12 @@ function WalletDataProvider({ children }: { children: React.ReactNode }) {
   const [isAuthLoading, setIsAuthLoading] = React.useState<boolean>(false);
   const [isTokensLoading, setIsTokensLoading] = React.useState<boolean>(false);
   const [tokens, setTokens] = React.useState<Balance[] | undefined>(undefined);
+  const [masterWallet, setMasterWallet] = React.useState<string | undefined>(
+    undefined
+  );
+  const [blockchainWallets, setBlockchainWallets] = React.useState<
+    BlockchainWalletType[] | undefined
+  >(undefined);
 
   const timeout = React.useRef<NodeJS.Timeout | undefined>(undefined);
 
@@ -67,12 +76,19 @@ function WalletDataProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const updateBalance = useCallback(async () => {
+  const updateWalletDetail = useCallback(async () => {
     try {
       setIsTokensLoading(true);
       const response = await getBalanceService();
       console.warn("🚀 ~ getBalance ~ response:", response);
       setTokens(response?.balances);
+      setMasterWallet(response?.address);
+      setBlockchainWallets(
+        response?.blockchain_wallets.map((item) => ({
+          blockchainAddress: item.blockchain_address,
+          networkSlug: item.network_slug,
+        }))
+      );
       setIsTokensLoading(false);
     } catch (error) {
       console.error("🚀 ~ getBalance ~ error:", error);
@@ -177,7 +193,7 @@ function WalletDataProvider({ children }: { children: React.ReactNode }) {
 
   React.useEffect(() => {
     if (isAuthenticated) {
-      updateBalance();
+      updateWalletDetail();
     } else {
       setTokens(undefined);
     }
@@ -209,8 +225,10 @@ function WalletDataProvider({ children }: { children: React.ReactNode }) {
         isAuthLoading,
         tokens,
         isTokensLoading,
+        masterWallet,
+        blockchainWallets,
         updateLogin,
-        updateBalance,
+        updateWalletDetail: updateWalletDetail,
         disconnect,
         createWallet,
         importWallet,

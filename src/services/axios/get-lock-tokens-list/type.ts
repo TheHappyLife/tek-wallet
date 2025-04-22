@@ -1,4 +1,4 @@
-import { Paginated, Networkdata } from "../type";
+import { Paginated, NetworkData } from "../type";
 export interface LockCurrency {
   id: number;
   status: string;
@@ -14,7 +14,7 @@ export interface LockCurrency {
   icon: string;
   usd_rate: string;
   icon_svg: string;
-  network_data: Networkdata;
+  network_data: NetworkData;
   balance: string;
   min_value: number;
   max_value: number;

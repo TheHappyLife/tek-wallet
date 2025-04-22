@@ -68,8 +68,10 @@ export interface WalletProviderDataType {
   isAuthLoading: boolean | undefined;
   tokens: Balance[] | undefined;
   isTokensLoading: boolean | undefined;
+  masterWallet: string | undefined;
+  blockchainWallets: BlockchainWalletType[] | undefined;
   updateLogin: () => void;
-  updateBalance: () => void;
+  updateWalletDetail: () => void;
   disconnect: () => void;
   createWallet: (
     body: CreateWalletServiceBody,
@@ -137,6 +139,11 @@ export interface BlockchainWallet {
   master_address: string;
   blockchain_address: string;
   network_slug: string;
+}
+
+export interface BlockchainWalletType {
+  blockchainAddress: string;
+  networkSlug: string;
 }
 
 export interface Balance {
@@ -239,6 +246,16 @@ export interface DepositCurrency {
   icon_svg: string;
   network_data: Networkdata;
   balance: string;
+  min_value: number;
+  max_value: number;
+}
+
+interface Networkdata {
+  id: number;
+  status: string;
+  name: string;
+  slug: string;
+  network_type: string;
 }
 
 export interface Paginated {
@@ -253,12 +270,4 @@ export interface Paginated {
   pages: number;
   has_prev: boolean;
   has_next: boolean;
-}
-
-export interface Networkdata {
-  id: number;
-  status: string;
-  name: string;
-  slug: string;
-  network_type: string;
 }

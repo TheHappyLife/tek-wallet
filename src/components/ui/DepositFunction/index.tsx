@@ -4,6 +4,7 @@ import {
   ReactEventHandler,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -24,9 +25,11 @@ import getIcon from "../../../utils/getIcon";
 import Share from "../Share";
 import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
-import { Balance } from "../../../types/expose-type";
+import { DepositCurrency } from "../../../types/expose-type";
 import CloseModal from "../CloseModal";
 import useDepositData from "../../../hooks/useDepositData";
+import { NetworkData } from "../../../services/axios/type";
+import RequireConnect from "../RequireConnect";
 interface DepositFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -57,10 +60,47 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     const [currentStep, setCurrentStep] = useState<DepositStep>(
       DepositStep.SELECT_TOKEN
     );
-    const [selectedToken, setSelectedToken] = useState<Balance | undefined>();
-    const [selectedNetwork, setSelectedNetwork] = useState<any>();
-    const { tokens, isAuthenticated } = useWalletData();
+    const [selectedToken, setSelectedToken] = useState<
+      DepositCurrency | undefined
+    >();
+    const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
+    const { isAuthenticated, blockchainWallets } = useWalletData();
     const { depositTokens, updateDepositToken } = useDepositData();
+
+    const networks = useMemo(() => {
+      if (!selectedToken) {
+        return [];
+      }
+      const newNetWorks = [selectedToken.network_data];
+      const sameNetwork = newNetWorks.find(
+        (item) => item?.id === selectedToken?.id
+      );
+
+      if (!sameNetwork) {
+        setSelectedNetwork(undefined);
+      }
+
+      return newNetWorks;
+    }, [selectedToken]);
+
+    const addressByNetwork: string | undefined = useMemo(() => {
+      if (!blockchainWallets || !selectedNetwork) {
+        return undefined;
+      }
+
+      return blockchainWallets.find(
+        (item) => item.networkSlug === selectedNetwork?.slug
+      )?.blockchainAddress;
+    }, [blockchainWallets, selectedNetwork]);
+
+    const qrCodeValue: string = useMemo(() => {
+      if (!addressByNetwork || !selectedToken) {
+        return "";
+      }
+
+      return `ton://transfer/${addressByNetwork}?&jetton=${selectedToken.address}`;
+    }, [addressByNetwork, selectedToken]);
+
     const open = () => {
       drawerRef.current?.open();
     };
@@ -81,14 +121,14 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       setCurrentStep((prev) => prev + 1);
     };
 
-    const handleSelectToken = (token: Balance) => {
+    const handleSelectToken = (token: DepositCurrency) => {
       setSelectedToken(token);
       if (!!token) {
         nextStep();
       }
     };
 
-    const handleSelectNetwork = (network: any) => {
+    const handleSelectNetwork = (network?: NetworkData) => {
       console.warn("network", selectedNetwork);
       setSelectedNetwork(network);
       nextStep();
@@ -103,7 +143,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     return (
       <DrawerComponent
         ref={drawerRef}
-        trigger={props.children}
+        trigger={<RequireConnect>{props.children}</RequireConnect>}
         onOpen={props.onOpen}
         onClose={props.onClose}
       >
@@ -128,7 +168,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
           <SwiperControlled
             ref={swiperRef}
             swiperProps={{ autoHeight: true, spaceBetween: 32 }}
-            key={tokens?.length}
+            key={depositTokens?.length}
           >
             <SwiperSlide key={DepositStep.SELECT_TOKEN}>
               <Box
@@ -138,19 +178,15 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   height: "fit-content",
                 }}
               >
-                {tokens?.map((item) => {
-                  const stringifiedTokenData = JSON.stringify({
-                    ...item,
-                    name: "Fake",
-                    fullname: "Fake fullname",
-                  });
+                {depositTokens?.map((item) => {
+                  const stringifiedTokenData = JSON.stringify(item);
 
                   return (
                     <TokenSelection
                       onClick={handleSelectToken}
-                      key={(item as any).id}
+                      key={item.id}
                       tokenData={stringifiedTokenData}
-                      active={selectedToken?.id != "kf"}
+                      active={selectedToken?.id === item.id}
                     />
                   );
                 })}
@@ -163,15 +199,13 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   gap: theme.mixins.gaps.g12,
                 }}
               >
-                {depositTokens?.map((item) => {
+                {networks?.map((item) => {
                   return (
                     <NetworkSelection
                       key={item.id}
                       onClick={handleSelectNetwork}
-                      networkData={JSON.stringify({
-                        name: `network ${item.id}`,
-                        icon: "https://via.placeholder.com/150",
-                      })}
+                      networkData={JSON.stringify(item)}
+                      active={selectedNetwork?.id === item.id}
                     />
                   );
                 })}
@@ -198,7 +232,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   }}
                   id="share-deposit-info"
                 >
-                  <Box
+                  {/* <Box
                     sx={{
                       ...theme.mixins.column,
                       gap: theme.mixins.gaps.g4,
@@ -220,7 +254,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                     >
                       @user1234we
                     </Text>
-                  </Box>
+                  </Box> */}
 
                   <Box
                     sx={{
@@ -231,7 +265,11 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       overflow: "hidden",
                     }}
                   >
-                    <QRCode />
+                    <QRCode
+                      value={qrCodeValue}
+                      title={`Deposit ${selectedToken?.name}`}
+                      logo={getIcon("ton")}
+                    />
                   </Box>
                   <Box
                     sx={{
@@ -247,13 +285,28 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                     >
                       Network
                     </Text>
-                    <Text
+                    <Box
+                      component="button"
                       sx={{
-                        ...theme.mixins.value,
+                        ...theme.mixins.row,
+                        gap: theme.mixins.gaps.g2,
+                        cursor: "pointer",
+                        transition: "transform 0.3s ease-in-out",
+                        "&:active": {
+                          transform: "translateX(0.5rem)",
+                        },
                       }}
+                      onClick={handleBack}
                     >
-                      Ethereum (ERC20)
-                    </Text>
+                      <Text
+                        sx={{
+                          ...theme.mixins.value,
+                        }}
+                      >
+                        {selectedNetwork?.name}
+                      </Text>
+                      <Icon src={getIcon("right_arrow")} width={10} />
+                    </Box>
                   </Box>
                   <Box
                     sx={{
@@ -275,7 +328,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         wordBreak: "break-all",
                       }}
                     >
-                      tebfwe78w237dbyuc78wb4b3y8cbwebd8732w9bcubf638uegyg7dt63ged87dxi8w3gdyhf73
+                      {addressByNetwork}
                     </Text>
                   </Box>
                   <Box
@@ -292,8 +345,12 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         ...theme.mixins.valueDescription,
                       }}
                     >
-                      Deposit min <strong>0.001</strong> ETH and select the
-                      correct network, {`or you'll lose your assets.`}
+                      Deposit{" "}
+                      <strong>
+                        min {selectedToken?.min_value} {selectedToken?.name}
+                      </strong>{" "}
+                      and <strong>select the correct network</strong>, or you
+                      will lose your assets.
                     </Text>
                   </Box>
                 </Box>
@@ -304,7 +361,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                     justifyContent: "center",
                   }}
                 >
-                  <CopyTextComponent value="https://reactjs.org/">
+                  <CopyTextComponent value={qrCodeValue}>
                     <Button.Secondary className="gap-1.5 flex items-center">
                       <Text
                         sx={{

@@ -11,10 +11,11 @@ export interface Paginated {
   has_prev: boolean;
   has_next: boolean;
 }
-export interface Networkdata {
+export interface NetworkData {
   id: number;
   status: string;
   name: string;
   slug: string;
   network_type: string;
+  icon: string;
 }
