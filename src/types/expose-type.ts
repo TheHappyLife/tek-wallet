@@ -218,8 +218,27 @@ export interface DepositTokenListResponse {
 }
 
 export interface DepositTokenList {
-  data: DepositCurrency[];
+  supported_tokens: DepositCurrency[];
   paginated: Paginated;
+}
+
+export interface DepositCurrency {
+  id: number;
+  status: string;
+  name: string;
+  slug: string;
+  is_crypto_token: boolean;
+  address: string;
+  network: number;
+  wallet_integrations_currencies: number;
+  wallet_integrations_input_withdrawn: number;
+  wallet_integrations_output_withdrawn: number;
+  full_name: string;
+  icon: string;
+  usd_rate: string;
+  icon_svg: string;
+  network_data: Networkdata;
+  balance: string;
 }
 
 export interface Paginated {
@@ -242,22 +261,4 @@ export interface Networkdata {
   name: string;
   slug: string;
   network_type: string;
-}
-
-export interface DepositCurrency {
-  id: number;
-  status: string;
-  name: string;
-  slug: string;
-  is_crypto_token: boolean;
-  address: string;
-  network: number;
-  wallet_integrations_currencies: number;
-  wallet_integrations_input_withdrawn: number;
-  wallet_integrations_output_withdrawn: number;
-  full_name: string;
-  icon: string;
-  usd_rate: string;
-  icon_svg: string;
-  network_data: Networkdata;
 }

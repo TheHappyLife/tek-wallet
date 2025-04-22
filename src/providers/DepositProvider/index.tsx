@@ -30,7 +30,7 @@ function DepositProvider({ children }: { children: React.ReactNode }) {
       setIsLoadingDepositToken(true);
       const response = await getDepositTokenList();
       console.warn("🚀 ~ getBalance ~ response:", response);
-      setDepositTokens(response?.data);
+      setDepositTokens(response?.supported_tokens);
       setIsLoadingDepositToken(false);
     } catch (error) {
       console.error("🚀 ~ getBalance ~ error:", error);
