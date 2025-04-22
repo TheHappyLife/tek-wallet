@@ -12,7 +12,9 @@ import DrawerComponent, {
 import { ActionConfirm } from "./type";
 import { forwardRef } from "react";
 
-export interface ConfirmLayoutProps extends GeneralProps, DrawerComponentProps {
+export interface ConfirmLayoutProps
+  extends Omit<GeneralProps, "onClick" | "sx">,
+    DrawerComponentProps {
   action: ActionConfirm;
 }
 
