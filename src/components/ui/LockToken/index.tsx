@@ -2,13 +2,13 @@
 import { GeneralProps } from "../../../types/ui";
 import { Box, useTheme } from "@mui/material";
 import Button from "../../ui/Button";
-import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
+import { DrawerComponentRef } from "../DrawerComponent";
 import ConfirmLayout, { ConfirmLayoutProps } from "../ConfirmLayout";
 import { ActionConfirm } from "../ConfirmLayout/type";
 import { LockData } from "./type";
 import LineValue from "../LineValue";
 import Formatter from "../Formatter";
-import ConfirmByPasscode, { ConfirmByPasscodeRef } from "../ConfirmByPasscode";
+import ConfirmByPasscode from "../ConfirmByPasscode";
 import { useRef } from "react";
 interface LockTokenProps
   extends GeneralProps,
@@ -19,20 +19,10 @@ interface LockTokenProps
 const LockToken = (props: LockTokenProps) => {
   const theme = useTheme();
   const confirmByPasscodeDrawerRef = useRef<DrawerComponentRef>(null);
-  const confirmByPasscodeRef = useRef<ConfirmByPasscodeRef>(null);
 
-  const handleClearConfirmData = () => {
-    confirmByPasscodeRef.current?.clearData();
-  };
-
-  const closeAuthModal = () => {
+  const handleLockToken = (passcode: string) => {
     confirmByPasscodeDrawerRef.current?.close();
-    confirmByPasscodeRef.current?.clearData();
-  };
-
-  const handleLockToken = () => {
-    confirmByPasscodeDrawerRef.current?.close();
-    console.warn("🚀 ~ handleLockToken ~ lockData:", props.lockData);
+    console.warn("🚀 ~ handleLockToken ~ lockData:", props.lockData, passcode);
   };
 
   return (
@@ -48,21 +38,12 @@ const LockToken = (props: LockTokenProps) => {
               />
             }
           />
-          <DrawerComponent
-            ref={confirmByPasscodeDrawerRef}
-            trigger={
-              <Button.Primary sx={{ width: "100%" }}>Confirm</Button.Primary>
-            }
-            onOpen={handleClearConfirmData}
-            onClose={handleClearConfirmData}
+          <ConfirmByPasscode
+            action={ActionConfirm.LOCK}
+            onConfirmSuccess={handleLockToken}
           >
-            <ConfirmByPasscode
-              ref={confirmByPasscodeRef}
-              action={ActionConfirm.LOCK}
-              onConfirmSuccess={handleLockToken}
-              onClose={closeAuthModal}
-            />
-          </DrawerComponent>
+            <Button.Primary sx={{ width: "100%" }}>Confirm</Button.Primary>
+          </ConfirmByPasscode>
         </Box>
       </ConfirmLayout>
     </>

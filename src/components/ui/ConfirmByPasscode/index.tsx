@@ -7,17 +7,23 @@ import { ActionConfirm } from "../ConfirmLayout/type";
 import ModalLayout from "../ModalLayout";
 import { Box, useTheme } from "@mui/material";
 import LoadingLayout, { LoadingLayoutRef } from "../LoadingLayout";
+import DrawerComponent, {
+  DrawerComponentProps,
+  DrawerComponentRef,
+} from "../DrawerComponent";
 
-interface ConfirmByPasscodeProps extends GeneralProps {
+interface ConfirmByPasscodeProps
+  extends Omit<GeneralProps, "onclick" | "sx" | "onClick">,
+    DrawerComponentProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onConfirmSuccess?: (value: string) => any;
   action: ActionConfirm;
-  onClose?: () => void;
 }
 
 const passcodeLength = 6;
 
-export interface ConfirmByPasscodeRef {
+export interface ConfirmByPasscodeRef
+  extends Omit<DrawerComponentRef, "trigger"> {
   clearData: () => void;
 }
 
@@ -30,9 +36,23 @@ const ConfirmByPasscode = forwardRef<
   const [otp, setOtp] = useState("");
   const loadingRef = useRef<LoadingLayoutRef>(null);
 
+  const drawerRef = useRef<DrawerComponentRef>(null);
+
   useImperativeHandle(ref, () => ({
     clearData: () => {
       setOtp("");
+    },
+    open: () => {
+      drawerRef.current?.open();
+    },
+    close: () => {
+      drawerRef.current?.close();
+    },
+    lockStatus: () => {
+      drawerRef.current?.lockStatus();
+    },
+    unlockStatus: () => {
+      drawerRef.current?.unlockStatus();
     },
   }));
 
@@ -44,10 +64,12 @@ const ConfirmByPasscode = forwardRef<
       setOtp(value);
       if (value.length === passcodeLength) {
         loadingRef.current?.startLoading();
+        drawerRef.current?.lockStatus();
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        onConfirmSuccess?.(value);
+        drawerRef.current?.unlockStatus();
         loadingRef.current?.endLoading();
-        ref;
+        drawerRef.current?.close();
+        onConfirmSuccess?.(value);
       }
     } catch (err) {
       console.error(err);
@@ -55,37 +77,44 @@ const ConfirmByPasscode = forwardRef<
   };
 
   return (
-    <ModalLayout title={"Authentication"} onClose={props.onClose}>
-      <Box
-        sx={{
-          ...theme.mixins.column,
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "1rem",
-          width: "100%",
-        }}
-      >
-        <Text
-          sx={{
-            ...theme.mixins.sessionTitle,
-          }}
-        >
-          Enter your passcode to confirm{" "}
-          <Text sx={{ fontWeight: theme.typography.fontWeight600 }}>
-            {action}
-          </Text>
-        </Text>
+    <DrawerComponent
+      ref={drawerRef}
+      trigger={props.children}
+      onOpen={props.onOpen}
+      onClose={props.onClose}
+    >
+      <LoadingLayout initLoading={false} ref={loadingRef}>
+        <ModalLayout title={"Authentication"} onClose={props.onClose}>
+          <Box
+            sx={{
+              ...theme.mixins.column,
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "1rem",
+              width: "100%",
+            }}
+          >
+            <Text
+              sx={{
+                ...theme.mixins.sessionTitle,
+              }}
+            >
+              Enter your passcode to confirm{" "}
+              <Text sx={{ fontWeight: theme.typography.fontWeight600 }}>
+                {action}
+              </Text>
+            </Text>
 
-        <LoadingLayout initLoading={false} ref={loadingRef}>
-          <OTP
-            value={otp}
-            onChange={handleOtpChange}
-            numInputs={passcodeLength}
-            otpInputType={OtpInputType.PASSWORD}
-          />
-        </LoadingLayout>
-      </Box>
-    </ModalLayout>
+            <OTP
+              value={otp}
+              onChange={handleOtpChange}
+              numInputs={passcodeLength}
+              otpInputType={OtpInputType.PASSWORD}
+            />
+          </Box>
+        </ModalLayout>
+      </LoadingLayout>
+    </DrawerComponent>
   );
 });
 

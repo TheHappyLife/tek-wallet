@@ -1,9 +1,10 @@
 import { GeneralProps, UnknownFunction } from "../../../types/ui";
-import { Box, SwipeableDrawer } from "@mui/material";
+import { Box, SwipeableDrawer, SwipeableDrawerProps } from "@mui/material";
 import {
   forwardRef,
   ReactEventHandler,
   useImperativeHandle,
+  useRef,
   useState,
 } from "react";
 
@@ -12,7 +13,9 @@ export enum DRAWER_DIRECTION {
   RIGHT = "right",
 }
 
-export interface DrawerComponentProps extends GeneralProps {
+export interface DrawerComponentProps
+  extends Omit<GeneralProps, "onClick" | "sx">,
+    Omit<SwipeableDrawerProps, "onClose" | "onToggle" | "onOpen"> {
   onOpen?: UnknownFunction;
   onClose?: UnknownFunction;
   trigger?: React.ReactNode;
@@ -23,11 +26,24 @@ export interface DrawerComponentProps extends GeneralProps {
 export interface DrawerComponentRef {
   open: () => void;
   close: () => void;
+  lockStatus: () => void;
+  unlockStatus: () => void;
 }
 
 const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
   (props, ref) => {
+    const {
+      onOpen,
+      onClose,
+      onToggle,
+      sx,
+      trigger,
+      direction,
+      children,
+      ...rest
+    } = props;
     const [isShowDrawerComponent, setIsShowDrawerComponent] = useState(false);
+    const isOpen = useRef<boolean | undefined>(undefined);
 
     const handleOpen = () => {
       setIsShowDrawerComponent(true);
@@ -39,30 +55,37 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
 
     const toggle = () => {
       setIsShowDrawerComponent(!isShowDrawerComponent);
-      props.onToggle?.(!isShowDrawerComponent);
+      onToggle?.(!isShowDrawerComponent);
     };
 
     useImperativeHandle(ref, () => ({
       open: handleOpen,
       close: handleClose,
+      lockStatus: () => {
+        isOpen.current = isShowDrawerComponent;
+      },
+      unlockStatus: () => {
+        isOpen.current = undefined;
+      },
     }));
 
-    const onClose: ReactEventHandler = (e) => {
+    const onDrawerClose: ReactEventHandler = (e) => {
       setIsShowDrawerComponent(false);
-      props.onClose?.(e);
+      onClose?.(e);
     };
 
-    const onOpen: ReactEventHandler = (e) => {
+    const onDrawerOpen: ReactEventHandler = (e) => {
       setIsShowDrawerComponent(true);
-      props.onOpen?.(e);
+      onOpen?.(e);
     };
 
     return (
       <>
-        <Box sx={props.sx} onClick={toggle}>
-          {props.trigger}
+        <Box sx={sx} onClick={toggle}>
+          {trigger}
         </Box>
         <SwipeableDrawer
+          {...rest}
           sx={{
             "& .MuiDrawer-paper": {
               backgroundColor: "transparent",
@@ -70,12 +93,12 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
               boxShadow: "none",
             },
           }}
-          onOpen={onOpen}
-          anchor={props.direction || "bottom"}
-          open={isShowDrawerComponent}
-          onClose={onClose}
+          onOpen={onDrawerOpen}
+          anchor={direction || "bottom"}
+          open={isOpen.current ?? isShowDrawerComponent}
+          onClose={onDrawerClose}
         >
-          {props.children}
+          {children}
         </SwipeableDrawer>
       </>
     );
