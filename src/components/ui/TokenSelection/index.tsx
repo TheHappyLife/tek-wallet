@@ -54,7 +54,13 @@ const TokenSelection = (props: TokenSelectionProps) => {
           gap: theme.mixins.gaps.g12,
         }}
       >
-        <Icon width={20} src={tokenData?.icon} />
+        <Icon
+          width={20}
+          src={tokenData?.icon}
+          sx={{
+            borderRadius: theme.mixins.theBorderRadius.full,
+          }}
+        />
         <Box
           sx={{
             ...theme.mixins.column,

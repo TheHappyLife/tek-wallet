@@ -98,6 +98,19 @@ const customPadding = {
   p40: "2.5rem",
   p48: "3rem",
 };
+const customMargin = {
+  p4: "0.25rem",
+  p6: "0.375rem",
+  p8: "0.5rem",
+  p10: "0.625rem",
+  p12: "0.75rem",
+  p16: "1rem",
+  p20: "1.25rem",
+  p24: "1.5rem",
+  p32: "2rem",
+  p40: "2.5rem",
+  p48: "3rem",
+};
 
 const theBorderRadius = {
   full: "999px",
@@ -124,6 +137,7 @@ const theme: ThemeOptions = createTheme({
   mixins: {
     pagePadding,
     customPadding,
+    customMargin,
     theBorderRadius,
     gaps,
     row: {

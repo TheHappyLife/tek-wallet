@@ -157,23 +157,23 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                 display: "flex",
                 alignItems: "center",
                 minHeight: "2rem",
+                mb: theme.mixins.customMargin.p20,
               }}
               overrideBack={handleBack}
               hideBack={currentStep === DepositStep.SELECT_TOKEN}
               center={DEPOSIT_STEP_NAME[currentStep]}
             >
-              <CloseModal sx={{ marginLeft: "auto" }} onClick={props.onClose} />
+              <CloseModal sx={{ marginLeft: "auto" }} onClick={close} />
             </BackHeader>
           }
-          onClose={close}
         >
           <SwiperControlled
             ref={swiperRef}
             swiperProps={{
               autoHeight: true,
               spaceBetween: 32,
-              allowTouchMove: false,
             }}
+            disableSwipe
             key={depositTokens?.length}
           >
             <SwiperSlide key={DepositStep.SELECT_TOKEN}>
@@ -272,7 +272,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       alignSelf: "center",
                       borderRadius: theme.mixins.theBorderRadius.r12,
                       overflow: "hidden",
-                      backgroundColor: theme.palette.background.black24,
+                      backgroundColor: theme.palette.background.white64,
                       backdropFilter: "blur(10px)",
                     }}
                   >

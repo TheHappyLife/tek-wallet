@@ -24,7 +24,7 @@ function RequireConnect({ children, ...rest }: RequireConnectProps) {
         direction={DRAWER_DIRECTION.RIGHT}
         trigger={
           <Box {...rest} sx={{ position: "relative" }}>
-            {children}
+            <Box sx={{ pointerEvents: "none" }}>{children}</Box>
             <Box sx={{ position: "absolute", inset: 0, zIndex: 10 }}></Box>
           </Box>
         }
