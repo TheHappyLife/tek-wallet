@@ -77,8 +77,8 @@ const ConfirmByPasscode = forwardRef<
     try {
       setOtp(value);
       if (value.length === passcodeLength) {
-        loadingRef.current?.startLoading();
         drawerRef.current?.lockStatus();
+        loadingRef.current?.startLoading();
         await new Promise((resolve) => setTimeout(resolve, 5000));
         drawerRef.current?.unlockStatus();
         loadingRef.current?.endLoading();
