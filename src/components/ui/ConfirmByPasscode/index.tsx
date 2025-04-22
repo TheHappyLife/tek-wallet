@@ -65,7 +65,7 @@ const ConfirmByPasscode = forwardRef<
       if (value.length === passcodeLength) {
         loadingRef.current?.startLoading();
         drawerRef.current?.lockStatus();
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 5000));
         drawerRef.current?.unlockStatus();
         loadingRef.current?.endLoading();
         drawerRef.current?.close();
