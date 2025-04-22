@@ -1,9 +1,15 @@
 import { GeneralProps, UnknownFunction } from "../../../types/ui";
-import { Box, SwipeableDrawer, SwipeableDrawerProps } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  SwipeableDrawer,
+  SwipeableDrawerProps,
+} from "@mui/material";
 import {
   forwardRef,
   ReactEventHandler,
   useImperativeHandle,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -45,6 +51,14 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
     const [isShowDrawerComponent, setIsShowDrawerComponent] = useState(false);
     const isOpen = useRef<boolean | undefined>(undefined);
 
+    const DrawerElement = useMemo(() => {
+      if (isOpen.current === undefined) {
+        return SwipeableDrawer;
+      }
+
+      return Drawer;
+    }, [isOpen]);
+
     const handleOpen = () => {
       setIsShowDrawerComponent(true);
     };
@@ -70,13 +84,11 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
     }));
 
     const onDrawerClose: ReactEventHandler = (e) => {
-      console.warn("🚀 ~ onDrawerClose ~ e:", e);
       setIsShowDrawerComponent(false);
       onClose?.(e);
     };
 
     const onDrawerOpen: ReactEventHandler = (e) => {
-      console.warn("🚀 ~ onDrawerOpen ~ e:", e);
       setIsShowDrawerComponent(true);
       onOpen?.(e);
     };
@@ -86,7 +98,7 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
         <Box sx={sx} onClick={toggle}>
           {trigger}
         </Box>
-        <SwipeableDrawer
+        <DrawerElement
           {...rest}
           sx={{
             "& .MuiDrawer-paper": {
@@ -101,7 +113,7 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
           onClose={onDrawerClose}
         >
           {children}
-        </SwipeableDrawer>
+        </DrawerElement>
       </>
     );
   }
