@@ -48,14 +48,13 @@ const CopyTextComponent = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: theme.spacing(4),
+          gap: theme.mixins.gaps.g4,
           opacity: showSuccess ? 1 : 0,
           position: "absolute",
-          inset: 0,
-          backgroundColor: "rgb(0, 0, 0)",
+          inset: "-0.125rem",
+          backgroundColor: theme.palette.background.black64,
           backdropFilter: "blur(12px)",
           borderRadius: theme.mixins.theBorderRadius.r12,
-          WebkitBackdropFilter: "blur(12px)",
           transition: "opacity 0.3s ease-in-out",
         }}
       >

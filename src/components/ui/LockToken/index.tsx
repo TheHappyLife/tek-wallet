@@ -37,9 +37,14 @@ const LockToken = (props: LockTokenProps) => {
   );
   const validateAmount = useCallback(
     (lockData: LockData) => {
-      console.warn("🚀 ~ validateAmount ~ lockData:", lockData, lockTokens);
       const token = lockTokens?.find(
         (token) => token.slug === lockData.tokenSlug
+      );
+      console.warn(
+        "🚀 ~ validateAmount ~ lockData:",
+        lockData,
+        lockTokens,
+        token
       );
       setToken(token);
       if (!token) {
@@ -106,7 +111,7 @@ const LockToken = (props: LockTokenProps) => {
                   <Formatter value={props.lockData.amount} unit={token?.name} />
                 }
               />
-              {!!error && (
+              {!error && (
                 <Text
                   sx={{
                     ...theme.mixins.validationError,

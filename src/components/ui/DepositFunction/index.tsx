@@ -272,7 +272,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       alignSelf: "center",
                       borderRadius: theme.mixins.theBorderRadius.r12,
                       overflow: "hidden",
-                      backgroundColor: theme.palette.background.white80,
+                      backgroundColor: theme.palette.background.white,
                       backdropFilter: "blur(10px)",
                     }}
                   >
