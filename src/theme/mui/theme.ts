@@ -30,6 +30,7 @@ const typography = {
 
 const background = {
   white: "#ffffff",
+  white80: "rgba(255, 255, 255, 0.8)",
   white64: "rgba(255, 255, 255, 0.64)",
   white24: "rgba(255, 255, 255, 0.24)",
   white16: "rgba(255, 255, 255, 0.16)",

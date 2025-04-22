@@ -55,6 +55,7 @@ declare module "@mui/material/styles" {
 
   interface TypeBackground {
     white: string;
+    white80: string;
     white64: string;
     white24: string;
     white16: string;

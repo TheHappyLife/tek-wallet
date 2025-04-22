@@ -272,7 +272,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       alignSelf: "center",
                       borderRadius: theme.mixins.theBorderRadius.r12,
                       overflow: "hidden",
-                      backgroundColor: theme.palette.background.white64,
+                      backgroundColor: theme.palette.background.white80,
                       backdropFilter: "blur(10px)",
                     }}
                   >
@@ -340,7 +340,9 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         wordBreak: "break-all",
                       }}
                     >
-                      {addressByNetwork}
+                      <CopyTextComponent value={addressByNetwork || ""}>
+                        {addressByNetwork}
+                      </CopyTextComponent>
                     </Text>
                   </Box>
                   <Box
