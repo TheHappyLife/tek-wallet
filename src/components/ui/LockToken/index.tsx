@@ -72,7 +72,7 @@ const LockToken = (props: LockTokenProps) => {
     setTimeout(() => {
       setButtonStatus(BUTTON_STATUS.ENABLED);
       confirmByPasscodeDrawerRef.current?.close();
-    }, 1000);
+    }, 3000);
   };
 
   useEffect(() => {
