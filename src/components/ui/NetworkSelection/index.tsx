@@ -13,7 +13,7 @@ interface NetworkSelectionProps extends GeneralProps {
 }
 
 const NetworkSelection = (props: NetworkSelectionProps) => {
-  const { networkData: networkDataString, ...rest } = props;
+  const { networkData: networkDataString, onClick, ...rest } = props;
   const theme = useTheme();
   const networkData = useMemo<NetworkData | undefined>(
     () => parsePropsData<NetworkData>(networkDataString),
@@ -34,7 +34,7 @@ const NetworkSelection = (props: NetworkSelectionProps) => {
         borderColor: props.active ? "border.secondary" : "border.white24",
         gap: theme.mixins.gaps.g8,
       }}
-      onClick={() => props?.onClick?.(networkData)}
+      onClick={() => onClick?.(networkData)}
     >
       <Icon
         src={networkData?.icon}

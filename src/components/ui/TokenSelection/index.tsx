@@ -13,7 +13,7 @@ interface TokenSelectionProps extends GeneralProps {
 }
 
 const TokenSelection = (props: TokenSelectionProps) => {
-  const { tokenData: tokenDataString, sx, ...rest } = props;
+  const { tokenData: tokenDataString, sx, onClick, ...rest } = props;
   const theme = useTheme();
   const tokenData = useMemo<DepositCurrency | undefined>(
     () => parsePropsData<DepositCurrency>(tokenDataString),
@@ -32,7 +32,7 @@ const TokenSelection = (props: TokenSelectionProps) => {
 
   return (
     <Box
-      onClick={() => props?.onClick?.(tokenData)}
+      onClick={() => onClick?.(tokenData)}
       sx={{
         backgroundColor: props.active
           ? "background.secondary16"
