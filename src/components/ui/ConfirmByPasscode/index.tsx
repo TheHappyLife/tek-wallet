@@ -40,13 +40,16 @@ const ConfirmByPasscode = forwardRef<
   const handleCleardata = () => {
     setOtp("");
   };
+  const handleClose = () => {
+    drawerRef.current?.close();
+  };
   useImperativeHandle(ref, () => ({
     clearData: handleCleardata,
     open: () => {
       drawerRef.current?.open();
     },
     close: () => {
-      drawerRef.current?.close();
+      handleClose();
     },
     lockStatus: () => {
       drawerRef.current?.lockStatus();
@@ -57,8 +60,8 @@ const ConfirmByPasscode = forwardRef<
   }));
 
   const handleOnClose = () => {
-    props.onClose?.();
     handleCleardata();
+    props.onClose?.();
   };
 
   const handleOnOpen = () => {
@@ -77,7 +80,7 @@ const ConfirmByPasscode = forwardRef<
         await new Promise((resolve) => setTimeout(resolve, 5000));
         drawerRef.current?.unlockStatus();
         loadingRef.current?.endLoading();
-        drawerRef.current?.close();
+        handleClose();
         onConfirmSuccess?.(value);
       }
     } catch (err) {
@@ -97,7 +100,7 @@ const ConfirmByPasscode = forwardRef<
         ref={loadingRef}
         sx={{ width: "100%" }}
       >
-        <ModalLayout title={"Authentication"} onClose={props.onClose}>
+        <ModalLayout title={"Authentication"} onClose={handleClose}>
           <Box
             sx={{
               ...theme.mixins.column,

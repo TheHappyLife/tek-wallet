@@ -27,7 +27,6 @@ const ModalLayout = (props: ModalLayoutProps) => {
         display: "flex",
         flexDirection: "column",
         ...theme.mixins.pagePadding,
-        paddingTop: theme.mixins.customPadding.p24,
         ...props.sx,
       }}
     >

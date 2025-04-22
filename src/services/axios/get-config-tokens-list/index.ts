@@ -4,7 +4,7 @@ export type TransactionType = "deposit" | "withdrawn" | "transfer-internal";
 export interface GetConfigTokenListQuery {
   page?: number;
   take?: number;
-  transactionType: TransactionType;
+  transaction_type: TransactionType;
 }
 
 const getConfigTokenList = async <T>(
