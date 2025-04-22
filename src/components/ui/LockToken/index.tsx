@@ -99,14 +99,19 @@ const LockToken = (props: LockTokenProps) => {
               ...theme.mixins.paper,
             }}
           >
-            <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g6 }}>
+            <Box sx={{ ...theme.mixins.column }}>
               <LineValue
                 field="Amount"
                 value={
                   <Formatter value={props.lockData.amount} unit={token?.name} />
                 }
               />
-              <Text sx={{ ...theme.mixins.validationError }}>
+              <Text
+                sx={{
+                  ...theme.mixins.validationError,
+                  mt: theme.mixins.gaps.g6,
+                }}
+              >
                 {error}{" "}
                 {!!errorAmount && (
                   <Formatter value={errorAmount} unit={token?.name} />
