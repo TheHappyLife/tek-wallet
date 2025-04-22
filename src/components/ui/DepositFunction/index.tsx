@@ -68,6 +68,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     const { depositTokens, updateDepositToken } = useDepositData();
 
     const networks = useMemo(() => {
+      console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
         return [];
       }
@@ -122,6 +123,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     };
 
     const handleSelectToken = (token: DepositCurrency) => {
+      console.warn("🚀 ~ handleSelectToken ~ token:", token);
       setSelectedToken(token);
       if (!!token) {
         nextStep();
