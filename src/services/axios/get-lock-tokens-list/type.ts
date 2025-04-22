@@ -15,7 +15,11 @@ export interface LockCurrency {
   usd_rate: string;
   icon_svg: string;
   network_data: Networkdata;
+  balance: string;
+  min_value: number;
+  max_value: number;
 }
+
 export interface LockTokenList {
   supported_tokens: LockCurrency[];
   paginated: Paginated;

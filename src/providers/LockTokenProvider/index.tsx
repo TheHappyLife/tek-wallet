@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import getLockTokenList from "../../services/axios/get-lock-tokens-list";
 import useWalletData from "../../hooks/useWalletData";
 import { LockTokensProviderDataType } from "./type";
@@ -34,6 +34,10 @@ function LockTokensProvider({ children }: { children: React.ReactNode }) {
       setIsLoadingLockToken(false);
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    updateLockToken();
+  }, [updateLockToken]);
 
   return (
     <LockTokensContext.Provider

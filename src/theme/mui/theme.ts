@@ -102,6 +102,7 @@ const customPadding = {
 const theBorderRadius = {
   full: "999px",
   r12: "0.75rem",
+  r16: "1rem",
 };
 
 const theme: ThemeOptions = createTheme({
@@ -190,6 +191,15 @@ const theme: ThemeOptions = createTheme({
     whiteLoadingOverlay: {
       backgroundColor: "background.white16",
       backdropFilter: "blur(2px)",
+    },
+    paper: {
+      display: "flex",
+      flexDirection: "column",
+      width: "100%",
+      gap: gaps.g12,
+      padding: customPadding.p12,
+      backgroundColor: "background.white16",
+      borderRadius: theBorderRadius.r16,
     },
   },
 });
