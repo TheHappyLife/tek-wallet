@@ -45,6 +45,7 @@ const LoadingLayout = forwardRef<LoadingLayoutRef, LoadingLayoutProps>(
               inset: 0,
               ...theme.mixins.whiteLoadingOverlay,
               zIndex: 1000,
+              pointerEvents: "none",
             }}
           >
             <Text sx={{ ...theme.mixins.center }}>{loadingMessage}</Text>
