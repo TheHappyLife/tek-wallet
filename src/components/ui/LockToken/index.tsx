@@ -1,5 +1,4 @@
 "use client";
-import { GeneralProps } from "../../../types/ui";
 import { Box, useTheme } from "@mui/material";
 import Button from "../../ui/Button";
 import { DrawerComponentRef } from "../DrawerComponent";
@@ -10,9 +9,7 @@ import LineValue from "../LineValue";
 import Formatter from "../Formatter";
 import ConfirmByPasscode from "../ConfirmByPasscode";
 import { useRef } from "react";
-interface LockTokenProps
-  extends Omit<GeneralProps, "onClick" | "sx">,
-    Omit<ConfirmLayoutProps, "action"> {
+interface LockTokenProps extends Omit<ConfirmLayoutProps, "action"> {
   lockData: LockData;
 }
 

@@ -1,5 +1,4 @@
 "use client";
-import { GeneralProps } from "../../../types/ui";
 import Text from "../Text";
 import { Box, useTheme } from "@mui/material";
 import Icon from "../Icon";
@@ -12,9 +11,7 @@ import DrawerComponent, {
 import { ActionConfirm } from "./type";
 import { forwardRef } from "react";
 
-export interface ConfirmLayoutProps
-  extends Omit<GeneralProps, "onClick" | "sx">,
-    DrawerComponentProps {
+export interface ConfirmLayoutProps extends DrawerComponentProps {
   action: ActionConfirm;
 }
 
