@@ -42,6 +42,8 @@ const ConfirmByPasscode = forwardRef<
   };
   const handleClose = () => {
     drawerRef.current?.close();
+    handleCleardata();
+    props.onClose?.();
   };
   useImperativeHandle(ref, () => ({
     clearData: handleCleardata,
