@@ -111,7 +111,7 @@ const LockToken = (props: LockTokenProps) => {
                   <Formatter value={props.lockData.amount} unit={token?.name} />
                 }
               />
-              {!error && (
+              {!!error && (
                 <Text
                   sx={{
                     ...theme.mixins.validationError,

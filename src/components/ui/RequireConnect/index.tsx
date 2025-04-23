@@ -6,31 +6,35 @@ import DrawerComponent, {
 import AuthView from "../../../components/views/AuthView";
 import { GeneralProps } from "../../../types/ui";
 import useWalletData from "../../../hooks/useWalletData";
-import { useRef } from "react";
+import { ReactEventHandler, useRef } from "react";
 import { Box } from "@mui/material";
 export interface RequireConnectProps extends GeneralProps {
   children: React.ReactNode;
 }
-function RequireConnect({ children, ...rest }: RequireConnectProps) {
+function RequireConnect({ children }: RequireConnectProps) {
   const authViewRef = useRef<DrawerComponentRef>(null);
   const { isAuthenticated } = useWalletData();
   const backAuthView = () => {
     authViewRef.current?.close();
   };
+  const handleOpenAuthView: ReactEventHandler = (e) => {
+    e.stopPropagation();
+    authViewRef.current?.open();
+  };
   if (!isAuthenticated) {
     return (
-      <DrawerComponent
-        ref={authViewRef}
-        direction={DRAWER_DIRECTION.RIGHT}
-        trigger={
-          <Box {...rest} sx={{ position: "relative" }}>
-            <Box sx={{ pointerEvents: "none" }}>{children}</Box>
-            <Box sx={{ position: "absolute", inset: 0, zIndex: 10 }}></Box>
-          </Box>
-        }
-      >
-        <AuthView onBack={backAuthView} />
-      </DrawerComponent>
+      <>
+        <Box sx={{ position: "relative" }}>
+          {children}
+          <Box
+            sx={{ position: "absolute", inset: 0, zIndex: 10 }}
+            onClick={handleOpenAuthView}
+          ></Box>
+        </Box>
+        <DrawerComponent ref={authViewRef} direction={DRAWER_DIRECTION.RIGHT}>
+          <AuthView onBack={backAuthView} />
+        </DrawerComponent>
+      </>
     );
   }
 
