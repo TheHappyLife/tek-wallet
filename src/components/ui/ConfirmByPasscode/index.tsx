@@ -152,7 +152,14 @@ const ConfirmByPasscode = forwardRef<
               otpInputType={OtpInputType.PASSWORD}
             />
             {!!authError && (
-              <Text sx={{ ...theme.mixins.validationError }}>{authError}</Text>
+              <Text
+                sx={{
+                  ...theme.mixins.validationError,
+                  alignSelf: "flex-start",
+                }}
+              >
+                {authError}
+              </Text>
             )}
           </Box>
         </ModalLayout>

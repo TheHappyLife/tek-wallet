@@ -30,6 +30,8 @@ import CloseModal from "../CloseModal";
 import useDepositData from "../../../hooks/useDepositData";
 import { NetworkData } from "../../../services/axios/type";
 import RequireConnect from "../RequireConnect";
+import WaitingData from "../WaitingData";
+import EmptyData from "../EmptyData";
 interface DepositFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -187,6 +189,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                     height: "fit-content",
                   }}
                 >
+                  {!depositTokens && <WaitingData />}
+                  {depositTokens?.length === 0 && <EmptyData />}
                   {depositTokens?.map((item) => {
                     const stringifiedTokenData = JSON.stringify(item);
                     if (!item) return null;
