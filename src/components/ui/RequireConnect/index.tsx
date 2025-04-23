@@ -17,6 +17,9 @@ function RequireConnect({ children }: RequireConnectProps) {
   const backAuthView = () => {
     authViewRef.current?.close();
   };
+  const stopPropagation: ReactEventHandler = (e) => {
+    e.stopPropagation();
+  };
   const handleOpenAuthView: ReactEventHandler = (e) => {
     e.stopPropagation();
     authViewRef.current?.open();
@@ -31,7 +34,11 @@ function RequireConnect({ children }: RequireConnectProps) {
             onClick={handleOpenAuthView}
           ></Box>
         </Box>
-        <DrawerComponent ref={authViewRef} direction={DRAWER_DIRECTION.RIGHT}>
+        <DrawerComponent
+          ref={authViewRef}
+          direction={DRAWER_DIRECTION.RIGHT}
+          onClick={stopPropagation}
+        >
           <AuthView onBack={backAuthView} />
         </DrawerComponent>
       </>
