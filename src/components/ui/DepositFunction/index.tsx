@@ -32,6 +32,7 @@ import { NetworkData } from "../../../services/axios/type";
 import RequireConnect from "../RequireConnect";
 import WaitingData from "../WaitingData";
 import EmptyData from "../EmptyData";
+import Formatter from "../Formatter";
 // import SafeSvgRenderer from "../SafeSvgRenderer";
 interface DepositFunctionProps extends GeneralProps {
   onClose?: UnknownFunction;
@@ -311,7 +312,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                           textAlign: "center",
                         }}
                       >
-                        Deposit {selectedToken?.name}
+                        Deposit <Formatter value={amount} />{" "}
+                        {selectedToken?.name}
                       </Text>
                       {/* <Text
                       sx={{
@@ -411,34 +413,41 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         </CopyTextComponent>
                       </Text>
                     </Box>
-                    <Box
-                      sx={{
-                        ...theme.mixins.column,
-                        gap: theme.mixins.gaps.g4,
-                        backgroundColor: theme.palette.background.white16,
-                        borderRadius: theme.mixins.theBorderRadius.r12,
-                        padding: theme.mixins.customPadding.p8,
-                      }}
-                    >
-                      <Text
+                    {!amount && (
+                      <Box
                         sx={{
-                          ...theme.mixins.valueDescription,
+                          ...theme.mixins.column,
+                          gap: theme.mixins.gaps.g4,
+                          backgroundColor: theme.palette.background.white16,
+                          borderRadius: theme.mixins.theBorderRadius.r12,
+                          padding: theme.mixins.customPadding.p8,
                         }}
                       >
-                        Deposit{" "}
-                        <strong style={{ color: theme.palette.text.white }}>
-                          min {selectedToken?.min_value} {selectedToken?.name}
-                        </strong>{" "}
-                        and{" "}
-                        <strong style={{ color: theme.palette.text.white }}>
-                          select the correct network
-                        </strong>
-                        , or you will lose your assets.
-                      </Text>
-                    </Box>
+                        <Text
+                          sx={{
+                            ...theme.mixins.valueDescription,
+                          }}
+                        >
+                          Deposit{" "}
+                          <strong style={{ color: theme.palette.text.white }}>
+                            min {selectedToken?.min_value} {selectedToken?.name}
+                          </strong>{" "}
+                          and{" "}
+                          <strong style={{ color: theme.palette.text.white }}>
+                            select the correct network
+                          </strong>
+                          , or you will lose your assets.
+                        </Text>
+                      </Box>
+                    )}
                   </Box>
                   <DrawerComponent
                     ref={amountDrawerRef}
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
                     trigger={
                       <Button.Text
                         sx={{
@@ -458,9 +467,14 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         }}
                       >
                         <Text sx={{ ...theme.mixins.fieldTitle }}>
-                          Set amount
+                          Set {selectedToken?.name} amount
                         </Text>
                         <Input
+                          placeholder={`${selectedToken?.min_value} - ${selectedToken?.max_value}`}
+                          sx={{
+                            ...theme.mixins.value,
+                            fontSize: theme.typography.fontSize16,
+                          }}
                           value={inputAmount}
                           onChange={handleChangeAmount}
                         />
