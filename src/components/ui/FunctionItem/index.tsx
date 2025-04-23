@@ -1,8 +1,8 @@
 import { Box, useTheme } from "@mui/material";
 import Icon from "../Icon";
 import Text from "../Text";
-
-interface FunctionItemProps {
+import { GeneralProps } from "../../../types/ui";
+interface FunctionItemProps extends GeneralProps {
   className?: string;
   icon?: string;
   label?: string;
@@ -17,6 +17,7 @@ const FunctionItem = (props: FunctionItemProps) => {
         ...theme.mixins.column,
         alignItems: "center",
         gap: theme.mixins.gaps.g6,
+        ...props.sx,
       }}
     >
       <Icon

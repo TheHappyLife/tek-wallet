@@ -113,7 +113,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
                   width: "100%",
                   height: "fit-content",
                   duration: "500ms",
-                  transform: !expandAreaChart ? "-translate-y-[100%]" : "none",
+                  transform: !expandAreaChart ? "translateY(100%)" : "none",
                   my: theme.mixins.customMargin.m3,
                 }}
               />

@@ -1,5 +1,5 @@
 "use client";
-import { ListItem } from "@mui/material";
+import { Box, ListItem } from "@mui/material";
 import DefaultPageLayout from "../../layouts/DefaultPageLayout";
 import DepositFunction from "../../ui/DepositFunction";
 import FunctionItem from "../../ui/FunctionItem";
@@ -25,13 +25,19 @@ const AssetView = () => {
         <DefaultPageLayout>
           <AmountGroupAndChart />
 
-          <div className="grid grid-cols-4">
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: theme.mixins.gaps.g12,
+            }}
+          >
             <DepositFunction>
               <ListItem>
                 <FunctionItem
                   icon={getIcon("deposit")}
                   label="Deposit"
-                  className="w-full"
+                  sx={{ width: "100%" }}
                 />
               </ListItem>
             </DepositFunction>
@@ -40,7 +46,7 @@ const AssetView = () => {
                 <FunctionItem
                   icon={getIcon("withdraw")}
                   label="Withdraw"
-                  className="w-full"
+                  sx={{ width: "100%" }}
                 />
               </ListItem>
             </WithdrawFunction>
@@ -48,17 +54,17 @@ const AssetView = () => {
               <FunctionItem
                 icon={getIcon("fortune", "gif")}
                 label="Fortune"
-                className="w-full"
+                sx={{ width: "100%" }}
               />
             </ListItem>
             <ListItem>
               <FunctionItem
                 icon={getIcon("p2p", "gif")}
                 label="P2P"
-                className="w-full"
+                sx={{ width: "100%" }}
               />
             </ListItem>
-          </div>
+          </Box>
           <TokensBoard />
         </DefaultPageLayout>
       )}

@@ -32,7 +32,7 @@ import { NetworkData } from "../../../services/axios/type";
 import RequireConnect from "../RequireConnect";
 import WaitingData from "../WaitingData";
 import EmptyData from "../EmptyData";
-import SafeSvgRenderer from "../SafeSvgRenderer";
+// import SafeSvgRenderer from "../SafeSvgRenderer";
 interface DepositFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -260,6 +260,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       <Text
                         sx={{
                           ...theme.mixins.value,
+                          textAlign: "center",
                         }}
                       >
                         Deposit {selectedToken?.name}
@@ -291,14 +292,14 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         logo={getIcon("ton")}
                         bgColor={"transparent"}
                       />
-                      <SafeSvgRenderer
+                      {/* <SafeSvgRenderer
                         svgString={selectedToken?.icon_svg || ""}
                         width={100}
                         height={100}
                         sx={{
                           ...theme.mixins.center,
                         }}
-                      />
+                      /> */}
                     </Box>
                     <Box
                       sx={{
