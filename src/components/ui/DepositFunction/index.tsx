@@ -422,52 +422,47 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         </CopyTextComponent>
                       </Text>
                     </Box>
-                    {!amount && (
-                      <Box
-                        sx={{
-                          ...theme.mixins.column,
-                          gap: theme.mixins.gaps.g4,
-                          backgroundColor: theme.palette.background.white16,
-                          borderRadius: theme.mixins.theBorderRadius.r12,
-                          padding: theme.mixins.customPadding.p8,
-                        }}
-                      >
-                        <>
-                          {!amount && (
-                            <Text
-                              sx={{
-                                ...theme.mixins.valueDescription,
-                              }}
-                            >
-                              Deposit{" "}
-                              <strong
-                                style={{ color: theme.palette.text.white }}
-                              >
-                                min {selectedToken?.min_value}{" "}
-                                {selectedToken?.name}
-                              </strong>{" "}
-                              and{" "}
-                              <strong
-                                style={{ color: theme.palette.text.white }}
-                              >
-                                select the correct network
-                              </strong>
-                              , or you will lose your assets.
-                            </Text>
-                          )}
-                          {!!amount && (
-                            <Text
-                              sx={{
-                                ...theme.mixins.valueDescription,
-                              }}
-                            >
-                              <strong>Please select the correct network</strong>
-                              , unless you will lose your assets.
-                            </Text>
-                          )}
-                        </>
-                      </Box>
-                    )}
+
+                    <Box
+                      sx={{
+                        ...theme.mixins.column,
+                        gap: theme.mixins.gaps.g4,
+                        backgroundColor: theme.palette.background.white16,
+                        borderRadius: theme.mixins.theBorderRadius.r12,
+                        padding: theme.mixins.customPadding.p8,
+                      }}
+                    >
+                      <>
+                        {!amount && (
+                          <Text
+                            sx={{
+                              ...theme.mixins.valueDescription,
+                            }}
+                          >
+                            Deposit{" "}
+                            <strong style={{ color: theme.palette.text.white }}>
+                              min {selectedToken?.min_value}{" "}
+                              {selectedToken?.name}
+                            </strong>{" "}
+                            and{" "}
+                            <strong style={{ color: theme.palette.text.white }}>
+                              select the correct network
+                            </strong>
+                            , or you will lose your assets.
+                          </Text>
+                        )}
+                        {!!amount && (
+                          <Text
+                            sx={{
+                              ...theme.mixins.valueDescription,
+                            }}
+                          >
+                            <strong>Please select the correct network</strong>,
+                            unless you will lose your assets.
+                          </Text>
+                        )}
+                      </>
+                    </Box>
                   </Box>
                   <DrawerComponent
                     ref={amountDrawerRef}
