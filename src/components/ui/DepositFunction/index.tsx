@@ -318,8 +318,11 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                           textAlign: "center",
                         }}
                       >
-                        Deposit {!!amount && <Formatter value={amount} />}{" "}
-                        {selectedToken?.name}
+                        Deposit{" "}
+                        <strong>
+                          {!!amount && <Formatter value={amount} />}{" "}
+                          {selectedToken?.name}
+                        </strong>
                       </Text>
                       {/* <Text
                       sx={{
@@ -429,21 +432,40 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                           padding: theme.mixins.customPadding.p8,
                         }}
                       >
-                        <Text
-                          sx={{
-                            ...theme.mixins.valueDescription,
-                          }}
-                        >
-                          Deposit{" "}
-                          <strong style={{ color: theme.palette.text.white }}>
-                            min {selectedToken?.min_value} {selectedToken?.name}
-                          </strong>{" "}
-                          and{" "}
-                          <strong style={{ color: theme.palette.text.white }}>
-                            select the correct network
-                          </strong>
-                          , or you will lose your assets.
-                        </Text>
+                        <>
+                          {!amount && (
+                            <Text
+                              sx={{
+                                ...theme.mixins.valueDescription,
+                              }}
+                            >
+                              Deposit{" "}
+                              <strong
+                                style={{ color: theme.palette.text.white }}
+                              >
+                                min {selectedToken?.min_value}{" "}
+                                {selectedToken?.name}
+                              </strong>{" "}
+                              and{" "}
+                              <strong
+                                style={{ color: theme.palette.text.white }}
+                              >
+                                select the correct network
+                              </strong>
+                              , or you will lose your assets.
+                            </Text>
+                          )}
+                          {!!amount && (
+                            <Text
+                              sx={{
+                                ...theme.mixins.valueDescription,
+                              }}
+                            >
+                              <strong>Please select the correct network</strong>
+                              , unless you will lose your assets.
+                            </Text>
+                          )}
+                        </>
                       </Box>
                     )}
                   </Box>
