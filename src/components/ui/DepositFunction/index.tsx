@@ -318,7 +318,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                           textAlign: "center",
                         }}
                       >
-                        Deposit <Formatter value={amount} />{" "}
+                        Deposit {!!amount && <Formatter value={amount} />}{" "}
                         {selectedToken?.name}
                       </Text>
                       {/* <Text
@@ -493,12 +493,18 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         <Box
                           sx={{
                             ...theme.mixins.row,
+                            width: "100%",
+                            mt: theme.mixins.customMargin.m8,
                             gap: theme.mixins.gaps.g12,
                           }}
                         >
-                          <Button.Text onClick={handleUnset}>Unset</Button.Text>
+                          {!!amount && (
+                            <Button.Text onClick={handleUnset}>
+                              Unset
+                            </Button.Text>
+                          )}
                           <Button.Primary
-                            sx={{ mt: theme.mixins.customMargin.m8 }}
+                            sx={{ flex: 1 }}
                             onClick={handleContinue}
                             status={
                               !!amountError
