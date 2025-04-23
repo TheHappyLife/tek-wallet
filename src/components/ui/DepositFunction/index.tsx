@@ -186,6 +186,12 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       amountDrawerRef.current?.close();
     };
 
+    const handleUnset = () => {
+      setAmount(0);
+      setInputAmount(0);
+      amountDrawerRef.current?.close();
+    };
+
     const handleOnClose = () => {
       resetValues();
       props.onClose?.();
@@ -455,7 +461,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                           textTransform: "none",
                         }}
                       >
-                        + Set amount
+                        {amount ? "Edit" : "+ Set"} amount
                       </Button.Text>
                     }
                   >
@@ -467,7 +473,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         }}
                       >
                         <Text sx={{ ...theme.mixins.fieldTitle }}>
-                          Set {selectedToken?.name} amount
+                          {amount ? "Edit" : "+ Set"} {selectedToken?.name}{" "}
+                          amount
                         </Text>
                         <Input
                           placeholder={`${selectedToken?.min_value} - ${selectedToken?.max_value}`}
@@ -483,17 +490,25 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                             {amountError}
                           </Text>
                         )}
-                        <Button.Primary
-                          sx={{ mt: theme.mixins.customMargin.m8 }}
-                          onClick={handleContinue}
-                          status={
-                            !!amountError
-                              ? BUTTON_STATUS.DISABLED
-                              : BUTTON_STATUS.ENABLED
-                          }
+                        <Box
+                          sx={{
+                            ...theme.mixins.row,
+                            gap: theme.mixins.gaps.g12,
+                          }}
                         >
-                          Continue
-                        </Button.Primary>
+                          <Button.Text onClick={handleUnset}>Unset</Button.Text>
+                          <Button.Primary
+                            sx={{ mt: theme.mixins.customMargin.m8 }}
+                            onClick={handleContinue}
+                            status={
+                              !!amountError
+                                ? BUTTON_STATUS.DISABLED
+                                : BUTTON_STATUS.ENABLED
+                            }
+                          >
+                            Continue
+                          </Button.Primary>
+                        </Box>
                       </Box>
                     </ModalLayout>
                   </DrawerComponent>
