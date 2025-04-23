@@ -4,7 +4,6 @@ import { GeneralProps } from "../../../types/ui";
 import getStandardNumber from "../../../utils/getStandardNumber";
 import lengthFromDotToFirstNonZero from "../../../utils/lengthFromDotToFirstNonZero";
 import CustomTooltip from "../CustomTooltip";
-import cn from "../../../utils/cn";
 import { Box } from "@mui/material";
 import formatter from "../../../utils/formatter";
 interface FormatterProps extends GeneralProps {
@@ -37,11 +36,7 @@ const Formatter: React.FC<FormatterProps> = ({
   allowShowZero = false,
   useCompact = true,
   disableTooltip,
-  isUnitStyle,
-  unitCustomStyle,
-  disableAdjustUnitColor,
   isLessThan,
-  overrideLessThanClass,
   unitStyle,
   useCompactOnThousand = false,
   startStyle,
@@ -89,14 +84,16 @@ const Formatter: React.FC<FormatterProps> = ({
           ) : (
             <>
               {lessThan && (
-                <span
-                  className={cn(
-                    "relative -top-0.5 font-primary mr-0.5",
-                    overrideLessThanClass
-                  )}
+                <Box
+                  component="span"
+                  sx={{
+                    position: "relative",
+                    top: "-0.125rem",
+                    mr: "0.125rem",
+                  }}
                 >
                   {"< "}
-                </span>
+                </Box>
               )}
               {!(numberDisplay === 0) && !hideStart && (
                 <span className="font-primary" style={startStyle}>
@@ -130,16 +127,9 @@ const Formatter: React.FC<FormatterProps> = ({
                 !!unitDisplay &&
                 !noUnitSpacing &&
                 !(numberDisplay === 0) && (
-                  <span
-                    className={cn("font-primary", unitCustomStyle, {
-                      "text-secondary": isUnitStyle,
-                      not_apply_adjust_color_tbk: disableAdjustUnitColor,
-                    })}
-                    style={unitStyle}
-                    onClick={onClickUnit}
-                  >
+                  <Box component="span" style={unitStyle} onClick={onClickUnit}>
                     {unitDisplay}
-                  </span>
+                  </Box>
                 )}
             </>
           )}
