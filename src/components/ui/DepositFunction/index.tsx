@@ -143,105 +143,106 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     }, [isAuthenticated, depositTokens]);
 
     return (
-      <DrawerComponent
-        ref={drawerRef}
-        trigger={<RequireConnect>{props.children}</RequireConnect>}
-        onOpen={props.onOpen}
-        onClose={props.onClose}
-      >
-        <ModalLayout
-          overrideHeader={
-            <BackHeader
-              sx={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                minHeight: "2rem",
-                mb: theme.mixins.customMargin.p20,
-              }}
-              overrideBack={handleBack}
-              hideBack={currentStep === DepositStep.SELECT_TOKEN}
-              center={DEPOSIT_STEP_NAME[currentStep]}
-            >
-              <CloseModal sx={{ marginLeft: "auto" }} onClick={close} />
-            </BackHeader>
-          }
+      <RequireConnect>
+        <DrawerComponent
+          ref={drawerRef}
+          trigger={props.children}
+          onOpen={props.onOpen}
+          onClose={props.onClose}
         >
-          <SwiperControlled
-            ref={swiperRef}
-            swiperProps={{
-              autoHeight: true,
-              spaceBetween: 32,
-            }}
-            disableSwipe
-            key={depositTokens?.length}
-          >
-            <SwiperSlide key={DepositStep.SELECT_TOKEN}>
-              <Box
+          <ModalLayout
+            overrideHeader={
+              <BackHeader
                 sx={{
-                  ...theme.mixins.column,
-                  gap: theme.mixins.gaps.g12,
-                  height: "fit-content",
-                }}
-              >
-                {depositTokens?.map((item) => {
-                  const stringifiedTokenData = JSON.stringify(item);
-                  if (!item) return null;
-
-                  return (
-                    <TokenSelection
-                      onClick={handleSelectToken}
-                      key={item.id}
-                      tokenData={stringifiedTokenData}
-                      active={selectedToken?.id === item.id}
-                    />
-                  );
-                })}
-              </Box>
-            </SwiperSlide>
-            <SwiperSlide key={DepositStep.SELECT_NETWORK}>
-              <Box
-                sx={{
-                  ...theme.mixins.column,
-                  gap: theme.mixins.gaps.g12,
-                }}
-              >
-                {networks?.map((item) => {
-                  if (!item) return null;
-
-                  return (
-                    <NetworkSelection
-                      key={item.id}
-                      onClick={handleSelectNetwork}
-                      networkData={JSON.stringify(item)}
-                      active={selectedNetwork?.id === item.id}
-                    />
-                  );
-                })}
-              </Box>
-            </SwiperSlide>
-            <SwiperSlide key={DepositStep.SHOW_QR_CODE}>
-              <Box
-                sx={{
+                  width: "100%",
                   display: "flex",
-                  flexDirection: "column",
-                  gap: theme.mixins.gaps.g16,
+                  alignItems: "center",
+                  minHeight: "2rem",
+                  mb: theme.mixins.customMargin.p20,
                 }}
+                overrideBack={handleBack}
+                hideBack={currentStep === DepositStep.SELECT_TOKEN}
+                center={DEPOSIT_STEP_NAME[currentStep]}
               >
+                <CloseModal sx={{ marginLeft: "auto" }} onClick={close} />
+              </BackHeader>
+            }
+          >
+            <SwiperControlled
+              ref={swiperRef}
+              swiperProps={{
+                autoHeight: true,
+                spaceBetween: 32,
+              }}
+              disableSwipe
+              key={depositTokens?.length}
+            >
+              <SwiperSlide key={DepositStep.SELECT_TOKEN}>
                 <Box
                   sx={{
-                    width: "100%",
                     ...theme.mixins.column,
                     gap: theme.mixins.gaps.g12,
-                    backgroundColor: theme.palette.background.black24,
-                    borderRadius: theme.mixins.theBorderRadius.r16,
-                    padding: theme.mixins.customPadding.p16,
-                    alignItems: "flex-start",
-                    backdropFilter: "blur(10px)",
+                    height: "fit-content",
                   }}
-                  id="share-deposit-info"
                 >
-                  {/* <Box
+                  {depositTokens?.map((item) => {
+                    const stringifiedTokenData = JSON.stringify(item);
+                    if (!item) return null;
+
+                    return (
+                      <TokenSelection
+                        onClick={handleSelectToken}
+                        key={item.id}
+                        tokenData={stringifiedTokenData}
+                        active={selectedToken?.id === item.id}
+                      />
+                    );
+                  })}
+                </Box>
+              </SwiperSlide>
+              <SwiperSlide key={DepositStep.SELECT_NETWORK}>
+                <Box
+                  sx={{
+                    ...theme.mixins.column,
+                    gap: theme.mixins.gaps.g12,
+                  }}
+                >
+                  {networks?.map((item) => {
+                    if (!item) return null;
+
+                    return (
+                      <NetworkSelection
+                        key={item.id}
+                        onClick={handleSelectNetwork}
+                        networkData={JSON.stringify(item)}
+                        active={selectedNetwork?.id === item.id}
+                      />
+                    );
+                  })}
+                </Box>
+              </SwiperSlide>
+              <SwiperSlide key={DepositStep.SHOW_QR_CODE}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: theme.mixins.gaps.g16,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      ...theme.mixins.column,
+                      gap: theme.mixins.gaps.g12,
+                      backgroundColor: theme.palette.background.black24,
+                      borderRadius: theme.mixins.theBorderRadius.r16,
+                      padding: theme.mixins.customPadding.p16,
+                      alignItems: "flex-start",
+                      backdropFilter: "blur(10px)",
+                    }}
+                    id="share-deposit-info"
+                  >
+                    {/* <Box
                     sx={{
                       ...theme.mixins.column,
                       gap: theme.mixins.gaps.g4,
@@ -265,160 +266,161 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                     </Text>
                   </Box> */}
 
-                  <Box
-                    sx={{
-                      width: "fit-content",
-                      height: "fit-content",
-                      alignSelf: "center",
-                      borderRadius: theme.mixins.theBorderRadius.r12,
-                      overflow: "hidden",
-                      backgroundColor: theme.palette.background.white,
-                      backdropFilter: "blur(10px)",
-                    }}
-                  >
-                    <QRCode
-                      value={qrCodeValue}
-                      title={`Deposit ${selectedToken?.name}`}
-                      logo={getIcon("ton")}
-                      bgColor={"transparent"}
-                    />
-                  </Box>
-                  <Box
-                    sx={{
-                      ...theme.mixins.column,
-                      gap: theme.mixins.gaps.g4,
-                      color: "text.white",
-                    }}
-                  >
-                    <Text
+                    <Box
                       sx={{
-                        ...theme.mixins.valueDescription,
+                        width: "fit-content",
+                        height: "fit-content",
+                        alignSelf: "center",
+                        borderRadius: theme.mixins.theBorderRadius.r12,
+                        overflow: "hidden",
+                        backgroundColor: theme.palette.background.white,
+                        backdropFilter: "blur(10px)",
                       }}
                     >
-                      Network
-                    </Text>
+                      <QRCode
+                        value={qrCodeValue}
+                        title={`Deposit ${selectedToken?.name}`}
+                        logo={getIcon("ton")}
+                        bgColor={"transparent"}
+                      />
+                    </Box>
                     <Box
-                      component="button"
                       sx={{
-                        ...theme.mixins.row,
-                        gap: theme.mixins.gaps.g2,
-                        cursor: "pointer",
-                        transition: "transform 0.3s ease-in-out",
-                        "&:active": {
-                          transform: "translateX(0.5rem)",
-                        },
+                        ...theme.mixins.column,
+                        gap: theme.mixins.gaps.g4,
+                        color: "text.white",
                       }}
-                      onClick={handleBack}
                     >
                       <Text
                         sx={{
-                          ...theme.mixins.value,
+                          ...theme.mixins.valueDescription,
                         }}
                       >
-                        {selectedNetwork?.name}
+                        Network
                       </Text>
-                      <Icon src={getIcon("right_arrow")} width={10} />
+                      <Box
+                        component="button"
+                        sx={{
+                          ...theme.mixins.row,
+                          gap: theme.mixins.gaps.g2,
+                          cursor: "pointer",
+                          transition: "transform 0.3s ease-in-out",
+                          "&:active": {
+                            transform: "translateX(0.5rem)",
+                          },
+                        }}
+                        onClick={handleBack}
+                      >
+                        <Text
+                          sx={{
+                            ...theme.mixins.value,
+                          }}
+                        >
+                          {selectedNetwork?.name}
+                        </Text>
+                        <Icon src={getIcon("right_arrow")} width={10} />
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        ...theme.mixins.column,
+                        gap: theme.mixins.gaps.g4,
+                        color: "text.white",
+                      }}
+                    >
+                      <Text
+                        sx={{
+                          ...theme.mixins.valueDescription,
+                        }}
+                      >
+                        Address
+                      </Text>
+                      <Text
+                        sx={{
+                          ...theme.mixins.value,
+                          wordBreak: "break-all",
+                        }}
+                      >
+                        <CopyTextComponent value={addressByNetwork || ""}>
+                          {addressByNetwork}
+                        </CopyTextComponent>
+                      </Text>
+                    </Box>
+                    <Box
+                      sx={{
+                        ...theme.mixins.column,
+                        gap: theme.mixins.gaps.g4,
+                        backgroundColor: theme.palette.background.white16,
+                        borderRadius: theme.mixins.theBorderRadius.r12,
+                        padding: theme.mixins.customPadding.p8,
+                      }}
+                    >
+                      <Text
+                        sx={{
+                          ...theme.mixins.valueDescription,
+                        }}
+                      >
+                        Deposit{" "}
+                        <strong style={{ color: theme.palette.text.white }}>
+                          min {selectedToken?.min_value} {selectedToken?.name}
+                        </strong>{" "}
+                        and{" "}
+                        <strong style={{ color: theme.palette.text.white }}>
+                          select the correct network
+                        </strong>
+                        , or you will lose your assets.
+                      </Text>
                     </Box>
                   </Box>
                   <Box
                     sx={{
-                      ...theme.mixins.column,
-                      gap: theme.mixins.gaps.g4,
-                      color: "text.white",
+                      ...theme.mixins.row,
+                      gap: theme.mixins.gaps.g12,
+                      justifyContent: "center",
                     }}
                   >
-                    <Text
-                      sx={{
-                        ...theme.mixins.valueDescription,
-                      }}
-                    >
-                      Address
-                    </Text>
-                    <Text
-                      sx={{
-                        ...theme.mixins.value,
-                        wordBreak: "break-all",
-                      }}
-                    >
-                      <CopyTextComponent value={addressByNetwork || ""}>
-                        {addressByNetwork}
-                      </CopyTextComponent>
-                    </Text>
-                  </Box>
-                  <Box
-                    sx={{
-                      ...theme.mixins.column,
-                      gap: theme.mixins.gaps.g4,
-                      backgroundColor: theme.palette.background.white16,
-                      borderRadius: theme.mixins.theBorderRadius.r12,
-                      padding: theme.mixins.customPadding.p8,
-                    }}
-                  >
-                    <Text
-                      sx={{
-                        ...theme.mixins.valueDescription,
-                      }}
-                    >
-                      Deposit{" "}
-                      <strong style={{ color: theme.palette.text.white }}>
-                        min {selectedToken?.min_value} {selectedToken?.name}
-                      </strong>{" "}
-                      and{" "}
-                      <strong style={{ color: theme.palette.text.white }}>
-                        select the correct network
-                      </strong>
-                      , or you will lose your assets.
-                    </Text>
-                  </Box>
-                </Box>
-                <Box
-                  sx={{
-                    ...theme.mixins.row,
-                    gap: theme.mixins.gaps.g12,
-                    justifyContent: "center",
-                  }}
-                >
-                  <CopyTextComponent value={qrCodeValue}>
-                    <Button.Secondary className="gap-1.5 flex items-center">
-                      <Text
+                    <CopyTextComponent value={qrCodeValue}>
+                      <Button.Secondary className="gap-1.5 flex items-center">
+                        <Text
+                          sx={{
+                            fontSize: theme.typography.fontSize12,
+                            fontWeight: theme.typography.fontWeight400,
+                            leading: "typography.leading150",
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          Copy
+                        </Text>
+                        <Icon src={getIcon("copy")} width={20} />
+                      </Button.Secondary>
+                    </CopyTextComponent>
+                    <Share elementId="share-deposit-info">
+                      <Button.Secondary
                         sx={{
-                          fontSize: theme.typography.fontSize12,
-                          fontWeight: theme.typography.fontWeight400,
-                          leading: "typography.leading150",
-                          textTransform: "capitalize",
+                          gap: theme.mixins.gaps.g4,
+                          ...theme.mixins.row,
                         }}
                       >
-                        Copy
-                      </Text>
-                      <Icon src={getIcon("copy")} width={20} />
-                    </Button.Secondary>
-                  </CopyTextComponent>
-                  <Share elementId="share-deposit-info">
-                    <Button.Secondary
-                      sx={{
-                        gap: theme.mixins.gaps.g4,
-                        ...theme.mixins.row,
-                      }}
-                    >
-                      <Text
-                        sx={{
-                          fontSize: theme.typography.fontSize12,
-                          fontWeight: theme.typography.fontWeight400,
-                          leading: "typography.leading150",
-                          textTransform: "capitalize",
-                        }}
-                      >
-                        Share
-                      </Text>
-                      <Icon src={getIcon("share")} width={20} />
-                    </Button.Secondary>
-                  </Share>
+                        <Text
+                          sx={{
+                            fontSize: theme.typography.fontSize12,
+                            fontWeight: theme.typography.fontWeight400,
+                            leading: "typography.leading150",
+                            textTransform: "capitalize",
+                          }}
+                        >
+                          Share
+                        </Text>
+                        <Icon src={getIcon("share")} width={20} />
+                      </Button.Secondary>
+                    </Share>
+                  </Box>
                 </Box>
-              </Box>
-            </SwiperSlide>
-          </SwiperControlled>
-        </ModalLayout>
-      </DrawerComponent>
+              </SwiperSlide>
+            </SwiperControlled>
+          </ModalLayout>
+        </DrawerComponent>
+      </RequireConnect>
     );
   }
 );

@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import useLockTokenData from "../../../hooks/useLockTokenData";
 import Text from "../Text";
 import { LockCurrency } from "../../../services/axios/get-lock-tokens-list/type";
+import RequireConnect from "../RequireConnect";
 interface LockTokenProps extends Omit<ConfirmLayoutProps, "action"> {
   lockData: LockData;
 }
@@ -92,11 +93,11 @@ const LockToken = (props: LockTokenProps) => {
   }, [validateAmount]);
 
   return (
-    <>
+    <RequireConnect>
       <ConfirmLayout
         ref={confirmByPasscodeDrawerRef}
         action={ActionConfirm.LOCK}
-        trigger={props.trigger}
+        trigger={props.children}
       >
         <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g16 }}>
           <Box
@@ -139,7 +140,7 @@ const LockToken = (props: LockTokenProps) => {
           </ConfirmByPasscode>
         </Box>
       </ConfirmLayout>
-    </>
+    </RequireConnect>
   );
 };
 export default LockToken;
