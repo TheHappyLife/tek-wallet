@@ -158,7 +158,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   display: "flex",
                   alignItems: "center",
                   minHeight: "2rem",
-                  mb: theme.mixins.customMargin.p20,
+                  mb: theme.mixins.customMargin.m20,
                 }}
                 overrideBack={handleBack}
                 hideBack={currentStep === DepositStep.SELECT_TOKEN}

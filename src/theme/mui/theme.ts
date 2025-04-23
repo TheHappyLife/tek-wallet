@@ -63,6 +63,8 @@ const text = {
   successStatus: "#01FF00",
   errorStatus: "#FE6565",
   loadingStatus: "#01FFFF",
+  increase: "#01FF00",
+  decrease: "#FE6565",
 };
 
 const gaps = {
@@ -100,17 +102,17 @@ const customPadding = {
   p48: "3rem",
 };
 const customMargin = {
-  p4: "0.25rem",
-  p6: "0.375rem",
-  p8: "0.5rem",
-  p10: "0.625rem",
-  p12: "0.75rem",
-  p16: "1rem",
-  p20: "1.25rem",
-  p24: "1.5rem",
-  p32: "2rem",
-  p40: "2.5rem",
-  p48: "3rem",
+  m4: "0.25rem",
+  m6: "0.375rem",
+  m8: "0.5rem",
+  m10: "0.625rem",
+  m12: "0.75rem",
+  m16: "1rem",
+  m20: "1.25rem",
+  m24: "1.5rem",
+  m32: "2rem",
+  m40: "2.5rem",
+  m48: "3rem",
 };
 
 const theBorderRadius = {
