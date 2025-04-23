@@ -32,6 +32,7 @@ import { NetworkData } from "../../../services/axios/type";
 import RequireConnect from "../RequireConnect";
 import WaitingData from "../WaitingData";
 import EmptyData from "../EmptyData";
+import SafeSvgRenderer from "../SafeSvgRenderer";
 interface DepositFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -248,32 +249,33 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                     }}
                     id="share-deposit-info"
                   >
-                    {/* <Box
-                    sx={{
-                      ...theme.mixins.column,
-                      gap: theme.mixins.gaps.g4,
-                      color: "text.white",
-                      alignSelf: "center",
-                    }}
-                  >
-                    <Text
+                    <Box
                       sx={{
-                        ...theme.mixins.value,
+                        ...theme.mixins.column,
+                        gap: theme.mixins.gaps.g4,
+                        color: "text.white",
+                        alignSelf: "center",
                       }}
                     >
-                      Harry Andrew
-                    </Text>
-                    <Text
+                      <Text
+                        sx={{
+                          ...theme.mixins.value,
+                        }}
+                      >
+                        Deposit {selectedToken?.name}
+                      </Text>
+                      {/* <Text
                       sx={{
                         ...theme.mixins.valueDescription,
                       }}
                     >
                       @user1234we
-                    </Text>
-                  </Box> */}
+                    </Text> */}
+                    </Box>
 
                     <Box
                       sx={{
+                        position: "relative",
                         width: "fit-content",
                         height: "fit-content",
                         alignSelf: "center",
@@ -288,6 +290,14 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         title={`Deposit ${selectedToken?.name}`}
                         logo={getIcon("ton")}
                         bgColor={"transparent"}
+                      />
+                      <SafeSvgRenderer
+                        svgString={getIcon("ton")}
+                        width={100}
+                        height={100}
+                        sx={{
+                          ...theme.mixins.center,
+                        }}
                       />
                     </Box>
                     <Box
@@ -378,6 +388,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       </Text>
                     </Box>
                   </Box>
+                  <Button>Set amount</Button>
                   <Box
                     sx={{
                       ...theme.mixins.row,
