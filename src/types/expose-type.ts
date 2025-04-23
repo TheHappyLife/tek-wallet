@@ -248,6 +248,7 @@ export interface DepositCurrency {
   balance: string;
   min_value: number;
   max_value: number;
+  decimal: number;
 }
 
 interface Networkdata {

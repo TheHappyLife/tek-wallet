@@ -17,6 +17,7 @@ export interface ButtonProps extends MuiButtonProps {
 const Button: React.FC<ButtonProps> & {
   Primary: React.FC<ButtonProps>;
   Secondary: React.FC<ButtonProps>;
+  Text: React.FC<ButtonProps>;
 } = (props: ButtonProps) => {
   const { status = BUTTON_STATUS.ENABLED, sx, ...rest } = props;
 
@@ -73,5 +74,27 @@ Button.Secondary = (props: ButtonProps) => {
 };
 
 Button.Secondary.displayName = "Button.Secondary";
+
+Button.Text = (props: ButtonProps) => {
+  const { sx, ...rest } = props;
+  const theme = useTheme();
+
+  return (
+    <Button
+      {...rest}
+      variant="text"
+      color="secondary"
+      sx={{
+        width: "fit-content",
+        height: "fit-content",
+        px: theme.mixins.customPadding.p16,
+        py: theme.mixins.customPadding.p8,
+        ...sx,
+      }}
+    />
+  );
+};
+
+Button.Text.displayName = "Button.Text";
 
 export default Button;

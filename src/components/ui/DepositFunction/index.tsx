@@ -1,14 +1,14 @@
 "use client";
 import {
+  ChangeEventHandler,
   forwardRef,
-  ReactEventHandler,
   useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from "react";
-import { GeneralProps } from "../../../types/ui";
+import { GeneralProps, UnknownFunction } from "../../../types/ui";
 import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
 import SwiperControlled, { SwiperControlledRef } from "../SwiperControlled";
 import useWalletData from "../../../hooks/useWalletData";
@@ -17,9 +17,9 @@ import { SwiperSlide } from "swiper/react";
 import BackHeader from "../BackHeader";
 import QRCode from "../QRCode";
 import Text from "../Text";
-import { useTheme, Box } from "@mui/material";
+import { useTheme, Box, Input } from "@mui/material";
 import CopyTextComponent from "../CopyTextComponent";
-import Button from "../Button";
+import Button, { BUTTON_STATUS } from "../Button";
 import Icon from "../Icon";
 import getIcon from "../../../utils/getIcon";
 import Share from "../Share";
@@ -34,8 +34,8 @@ import WaitingData from "../WaitingData";
 import EmptyData from "../EmptyData";
 // import SafeSvgRenderer from "../SafeSvgRenderer";
 interface DepositFunctionProps extends GeneralProps {
-  onClose?: ReactEventHandler;
-  onOpen?: ReactEventHandler;
+  onClose?: UnknownFunction;
+  onOpen?: UnknownFunction;
 }
 
 type DepositFunctionRef = {
@@ -58,6 +58,7 @@ const DEPOSIT_STEP_NAME = {
 const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
   (props, ref) => {
     const drawerRef = useRef<DrawerComponentRef>(null);
+    const amountDrawerRef = useRef<DrawerComponentRef>(null);
     const swiperRef = useRef<SwiperControlledRef>(null);
     const theme = useTheme();
     const [currentStep, setCurrentStep] = useState<DepositStep>(
@@ -68,8 +69,10 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     >();
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
     const { isAuthenticated, blockchainWallets } = useWalletData();
+    const [inputAmount, setInputAmount] = useState<number>(0);
+    const [amount, setAmount] = useState<number>(0);
+    const [amountError, setAmountError] = useState<string>("");
     const { depositTokens, updateDepositToken } = useDepositData();
-
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
@@ -102,9 +105,13 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
         return "";
       }
 
-      return `ton://transfer/${addressByNetwork}?&jetton=${selectedToken.address}`;
-    }, [addressByNetwork, selectedToken]);
-
+      return `ton://transfer/${addressByNetwork}?&jetton=${selectedToken.address}&amount=${amount * 10 ** (selectedToken?.decimal ?? 0)}`;
+    }, [addressByNetwork, selectedToken, amount]);
+    const resetValues = () => {
+      setInputAmount(0);
+      setAmount(0);
+      setAmountError("");
+    };
     const open = () => {
       if (!isAuthenticated) throw new Error("Please connect your wallet");
       drawerRef.current?.open();
@@ -112,6 +119,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     const close = () => {
       if (!isAuthenticated) throw new Error("Please connect your wallet");
       drawerRef.current?.close();
+      resetValues();
     };
     useImperativeHandle(ref, () => ({
       open,
@@ -141,6 +149,46 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       nextStep();
     };
 
+    const validateAmount = (amount: number) => {
+      if (amount < (selectedToken?.min_value ?? 0)) {
+        setAmountError(
+          `Min ${selectedToken?.min_value} ${selectedToken?.name}`
+        );
+
+        return false;
+      }
+      if (amount > (selectedToken?.max_value ?? 0)) {
+        setAmountError(
+          `Max ${selectedToken?.max_value} ${selectedToken?.name}`
+        );
+
+        return false;
+      }
+
+      setAmountError("");
+
+      return true;
+    };
+
+    const handleChangeAmount: ChangeEventHandler<HTMLInputElement> = (e) => {
+      const amountNumber = Number(e.target.value);
+      if (isNaN(amountNumber)) {
+        return;
+      }
+
+      setInputAmount(amountNumber);
+      validateAmount(amountNumber);
+    };
+
+    const handleContinue = () => {
+      setAmount(inputAmount);
+      amountDrawerRef.current?.close();
+    };
+
+    const handleOnClose = () => {
+      resetValues();
+      props.onClose?.();
+    };
     useEffect(() => {
       if (isAuthenticated && !depositTokens) {
         updateDepositToken();
@@ -153,7 +201,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
           ref={drawerRef}
           trigger={props.children}
           onOpen={props.onOpen}
-          onClose={props.onClose}
+          onClose={handleOnClose}
         >
           <ModalLayout
             overrideHeader={
@@ -389,7 +437,53 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                       </Text>
                     </Box>
                   </Box>
-                  <Button>Set amount</Button>
+                  <DrawerComponent
+                    ref={amountDrawerRef}
+                    trigger={
+                      <Button.Text
+                        sx={{
+                          fontSize: "typography.fontSize12",
+                          textTransform: "none",
+                        }}
+                      >
+                        + Set amount
+                      </Button.Text>
+                    }
+                  >
+                    <ModalLayout>
+                      <Box
+                        sx={{
+                          ...theme.mixins.column,
+                          gap: theme.mixins.gaps.g12,
+                        }}
+                      >
+                        <Text sx={{ ...theme.mixins.fieldTitle }}>
+                          Set amount
+                        </Text>
+                        <Input
+                          value={inputAmount}
+                          onChange={handleChangeAmount}
+                        />
+                        {amountError && (
+                          <Text sx={{ ...theme.mixins.validationError }}>
+                            {amountError}
+                          </Text>
+                        )}
+                        <Button.Primary
+                          sx={{ mt: theme.mixins.customMargin.m8 }}
+                          onClick={handleContinue}
+                          status={
+                            !!amountError
+                              ? BUTTON_STATUS.DISABLED
+                              : BUTTON_STATUS.ENABLED
+                          }
+                        >
+                          Continue
+                        </Button.Primary>
+                      </Box>
+                    </ModalLayout>
+                  </DrawerComponent>
+
                   <Box
                     sx={{
                       ...theme.mixins.row,
