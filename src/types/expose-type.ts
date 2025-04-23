@@ -14,7 +14,7 @@ export enum REFRESH_TOKEN_STATUS {
   SUCCESS = "Refresh token is successfully",
 }
 
-// 2. Interfaces for Response and Service
+//  2. Interfaces for Response and Service
 export interface ResponseError<T = string> {
   status: number;
   message: T;
