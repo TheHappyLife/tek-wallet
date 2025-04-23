@@ -4,7 +4,7 @@ import RequireConnect from "./components/ui/RequireConnect";
 import GetWalletSeedPhrase from "./components/ui/GetWalletSeedPhrase";
 import DepositFunction from "./components/ui/DepositFunction";
 import LockToken from "./components/ui/LockToken";
-
+import AssetView from "./components/views/AssetView";
 import useWallet from "./hooks/useWallet";
 
 export * from "./types/expose-type";
@@ -16,4 +16,5 @@ export {
   DepositFunction,
   useWallet,
   LockToken,
+  AssetView,
 };
