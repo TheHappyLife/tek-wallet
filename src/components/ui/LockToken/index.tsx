@@ -22,8 +22,10 @@ import { LockCurrency } from "../../../services/axios/get-lock-tokens-list-servi
 import RequireConnect from "../RequireConnect";
 import useWalletData from "../../../hooks/useWalletData";
 import lockTokenService from "../../../services/axios/lock-token-service";
+import { LockTokenResponse } from "../../../services/axios/lock-token-service/type";
 interface LockTokenProps extends Omit<ConfirmLayoutProps, "action"> {
   lockData: LockData;
+  onLockSuccess?: (data: LockTokenResponse) => any;
 }
 
 export interface LockTokenRef {
@@ -112,6 +114,7 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
     console.warn("🚀 ~ handleLockToken ~ response:", response);
     if (response.success) {
       confirmByPasscodeDrawerRef.current?.close();
+      props.onLockSuccess?.(response);
     } else {
       setError(LockTokenError.FAILED);
     }
