@@ -157,7 +157,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
 
         return false;
       }
-      if (amount > (selectedToken?.max_value ?? 0)) {
+      if (amount > (selectedToken?.max_value ?? Infinity)) {
         setAmountError(
           `Max ${selectedToken?.max_value} ${selectedToken?.name}`
         );
