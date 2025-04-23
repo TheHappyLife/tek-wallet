@@ -1,6 +1,6 @@
 import getConfigTokenList, {
   GetConfigTokenListQuery,
-} from "../get-config-tokens-list";
+} from "../get-config-tokens-list-service";
 import { LockTokenList } from "./type";
 import { LockTokenListResponse } from "./type";
 

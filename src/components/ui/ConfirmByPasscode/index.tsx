@@ -11,6 +11,21 @@ import DrawerComponent, {
   DrawerComponentProps,
   DrawerComponentRef,
 } from "../DrawerComponent";
+import authenticationByPasscode from "../../../services/axios/authentication-by-passcode-service";
+import { AuthenticationByPasscodeBody } from "../../../services/axios/authentication-by-passcode-service/type";
+import useWalletData from "../../../hooks/useWalletData";
+const handleVerifyPasscode = async (data: AuthenticationByPasscodeBody) => {
+  try {
+    const response = await authenticationByPasscode(data);
+    console.warn("🚀 ~ response:", response);
+
+    return response?.success;
+  } catch (err) {
+    console.error("handleVerifyPasscode", err);
+
+    return false;
+  }
+};
 
 interface ConfirmByPasscodeProps
   extends Omit<GeneralProps, "onclick" | "sx" | "onClick">,
@@ -34,7 +49,9 @@ const ConfirmByPasscode = forwardRef<
   const { action, onConfirmSuccess } = props;
   const theme = useTheme();
   const [otp, setOtp] = useState("");
+  const { masterWallet } = useWalletData();
   const loadingRef = useRef<LoadingLayoutRef>(null);
+  const [authError, setAuthError] = useState<string>("");
 
   const drawerRef = useRef<DrawerComponentRef>(null);
   const handleCleardata = () => {
@@ -77,13 +94,19 @@ const ConfirmByPasscode = forwardRef<
     try {
       setOtp(value);
       if (value.length === passcodeLength) {
-        // drawerRef.current?.lockStatus();
         loadingRef.current?.startLoading();
-        await new Promise((resolve) => setTimeout(resolve, 5000));
-        // drawerRef.current?.unlockStatus();
+        const isAuth = await handleVerifyPasscode({
+          passcode: value,
+          wallet_address: masterWallet || "",
+        });
+        console.warn("🚀 ~ handleOtpChange ~ isAuth:", isAuth);
+        if (isAuth) {
+          handleClose();
+          onConfirmSuccess?.(value);
+        } else {
+          setAuthError("Invalid passcode");
+        }
         loadingRef.current?.endLoading();
-        handleClose();
-        onConfirmSuccess?.(value);
       }
     } catch (err) {
       console.error(err);
@@ -128,6 +151,9 @@ const ConfirmByPasscode = forwardRef<
               numInputs={passcodeLength}
               otpInputType={OtpInputType.PASSWORD}
             />
+            {!!authError && (
+              <Text sx={{ ...theme.mixins.validationError }}>{authError}</Text>
+            )}
           </Box>
         </ModalLayout>
       </LoadingLayout>

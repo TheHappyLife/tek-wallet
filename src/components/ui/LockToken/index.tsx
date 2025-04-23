@@ -8,13 +8,26 @@ import { LockData } from "./type";
 import LineValue from "../LineValue";
 import Formatter from "../Formatter";
 import ConfirmByPasscode from "../ConfirmByPasscode";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import useLockTokenData from "../../../hooks/useLockTokenData";
 import Text from "../Text";
-import { LockCurrency } from "../../../services/axios/get-lock-tokens-list/type";
+import { LockCurrency } from "../../../services/axios/get-lock-tokens-list-service/type";
 import RequireConnect from "../RequireConnect";
+import useWalletData from "../../../hooks/useWalletData";
 interface LockTokenProps extends Omit<ConfirmLayoutProps, "action"> {
   lockData: LockData;
+}
+
+export interface LockTokenRef {
+  open: () => void;
+  close: () => void;
 }
 
 export enum LockTokenError {
@@ -24,9 +37,10 @@ export enum LockTokenError {
   MIN_AMOUNT = "Min amount",
 }
 
-const LockToken = (props: LockTokenProps) => {
+const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
   const theme = useTheme();
   const { lockTokens } = useLockTokenData();
+  const { isAuthenticated } = useWalletData();
   const confirmByPasscodeDrawerRef = useRef<DrawerComponentRef>(null);
   const [token, setToken] = useState<LockCurrency | undefined>(undefined);
   const [error, setError] = useState<LockTokenError | undefined>(undefined);
@@ -36,6 +50,7 @@ const LockToken = (props: LockTokenProps) => {
   const [buttonStatus, setButtonStatus] = useState<BUTTON_STATUS>(
     BUTTON_STATUS.ENABLED
   );
+
   const validateAmount = useCallback(
     (lockData: LockData) => {
       const token = lockTokens?.find(
@@ -87,6 +102,21 @@ const LockToken = (props: LockTokenProps) => {
       confirmByPasscodeDrawerRef.current?.close();
     }, 3000);
   };
+
+  const handleOpen = () => {
+    if (!isAuthenticated) throw new Error("Please connect your wallet");
+    confirmByPasscodeDrawerRef.current?.open();
+  };
+
+  const handleClose = () => {
+    if (!isAuthenticated) throw new Error("Please connect your wallet");
+    confirmByPasscodeDrawerRef.current?.close();
+  };
+
+  useImperativeHandle(ref, () => ({
+    open: handleOpen,
+    close: handleClose,
+  }));
 
   useEffect(() => {
     validateAmount(props.lockData);
@@ -142,5 +172,6 @@ const LockToken = (props: LockTokenProps) => {
       </ConfirmLayout>
     </RequireConnect>
   );
-};
+});
+LockToken.displayName = "LockToken";
 export default LockToken;

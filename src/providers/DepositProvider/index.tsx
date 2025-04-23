@@ -4,7 +4,7 @@ import {
   DepositCurrency,
   DepositProviderDataType,
 } from "../../types/expose-type";
-import getDepositTokenList from "../../services/axios/get-deposit-tokens-list";
+import getDepositTokenList from "../../services/axios/get-deposit-tokens-list-service";
 import useWalletData from "../../hooks/useWalletData";
 export const initialDeposit: DepositProviderDataType = {
   isLoadingDepositToken: true,

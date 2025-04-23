@@ -4,7 +4,7 @@ import {
 } from "./../../../types/expose-type";
 import getConfigTokenList, {
   GetConfigTokenListQuery,
-} from "../get-config-tokens-list";
+} from "../get-config-tokens-list-service";
 
 export type GetDepositTokenListQuery = Omit<
   GetConfigTokenListQuery,

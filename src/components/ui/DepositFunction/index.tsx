@@ -103,9 +103,11 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     }, [addressByNetwork, selectedToken]);
 
     const open = () => {
+      if (!isAuthenticated) throw new Error("Please connect your wallet");
       drawerRef.current?.open();
     };
     const close = () => {
+      if (!isAuthenticated) throw new Error("Please connect your wallet");
       drawerRef.current?.close();
     };
     useImperativeHandle(ref, () => ({
