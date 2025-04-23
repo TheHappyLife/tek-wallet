@@ -21,6 +21,7 @@ import Text from "../Text";
 import { LockCurrency } from "../../../services/axios/get-lock-tokens-list-service/type";
 import RequireConnect from "../RequireConnect";
 import useWalletData from "../../../hooks/useWalletData";
+import lockTokenService from "../../../services/axios/lock-token-service";
 interface LockTokenProps extends Omit<ConfirmLayoutProps, "action"> {
   lockData: LockData;
 }
@@ -35,6 +36,7 @@ export enum LockTokenError {
   NOT_ENOUGH_BALANCE = "Not enough balance",
   MAX_AMOUNT = "Max amount",
   MIN_AMOUNT = "Min amount",
+  FAILED = "Failed",
 }
 
 const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
@@ -94,13 +96,26 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
     [lockTokens, props.lockData?.amount, props.lockData?.tokenSlug]
   );
 
-  const handleLockToken = (passcode: string) => {
+  const handleLockToken = async (passcode: string) => {
     console.warn("🚀 ~ handleLockToken ~ lockData:", props.lockData, passcode);
+
     setButtonStatus(BUTTON_STATUS.LOADING);
-    setTimeout(() => {
-      setButtonStatus(BUTTON_STATUS.ENABLED);
+    const response = await lockTokenService({
+      passcode,
+      locked_balances: [
+        {
+          locked_currency_slug: token?.slug || "",
+          locked_amount: props.lockData.amount.toString() || "",
+        },
+      ],
+    });
+    console.warn("🚀 ~ handleLockToken ~ response:", response);
+    if (response.success) {
       confirmByPasscodeDrawerRef.current?.close();
-    }, 3000);
+    } else {
+      setError(LockTokenError.FAILED);
+    }
+    setButtonStatus(BUTTON_STATUS.ENABLED);
   };
 
   const handleOpen = () => {
@@ -129,34 +144,32 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
         action={ActionConfirm.LOCK}
         trigger={props.children}
       >
-        <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g16 }}>
+        <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g12 }}>
           <Box
             sx={{
               ...theme.mixins.paper,
             }}
           >
-            <Box sx={{ ...theme.mixins.column }}>
-              <LineValue
-                field="Amount"
-                value={
-                  <Formatter value={props.lockData.amount} unit={token?.name} />
-                }
-              />
-              {!!error && (
-                <Text
-                  sx={{
-                    ...theme.mixins.validationError,
-                    mt: theme.mixins.gaps.g6,
-                  }}
-                >
-                  {error}{" "}
-                  {!!errorAmount && (
-                    <Formatter value={errorAmount} unit={token?.name} />
-                  )}
-                </Text>
-              )}
-            </Box>
+            <LineValue
+              field="Amount"
+              value={
+                <Formatter value={props.lockData.amount} unit={token?.name} />
+              }
+            />
           </Box>
+          {!!error && (
+            <Text
+              sx={{
+                ...theme.mixins.validationError,
+                mt: theme.mixins.gaps.g6,
+              }}
+            >
+              {error}{" "}
+              {!!errorAmount && (
+                <Formatter value={errorAmount} unit={` ${token?.name}`} />
+              )}
+            </Text>
+          )}
           <ConfirmByPasscode
             action={ActionConfirm.LOCK}
             onConfirmSuccess={handleLockToken}
