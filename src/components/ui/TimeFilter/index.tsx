@@ -126,7 +126,13 @@ const TimeFilter = ({
   }, []);
 
   return (
-    <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g6 }}>
+    <Box
+      sx={{
+        ...theme.mixins.column,
+        gap: theme.mixins.gaps.g6,
+        alignItems: "flex-start",
+      }}
+    >
       <Text
         sx={{
           ...theme.mixins.sessionDescription,

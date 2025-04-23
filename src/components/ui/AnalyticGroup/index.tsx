@@ -15,10 +15,7 @@ const AnalyticGroup = (props: AnalyticGroupProps) => {
   return (
     <Box sx={{ ...sx }}>
       <Text sx={{ ...theme.mixins.fieldTitle }}>Total Amount</Text>
-      <Text
-        className="flex items-baseline gap-1 text-24 font-semibold text-ui-text-white"
-        sx={{ ...theme.mixins.row, ...theme.mixins.value }}
-      >
+      <Text sx={{ ...theme.mixins.row, ...theme.mixins.value }}>
         <Formatter value={1000000} />
         <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
           <Text

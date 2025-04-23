@@ -7,7 +7,7 @@ import userClientRequest from "../clients/userClientRequest";
 export default async function authenticationByPasscode(
   body: AuthenticationByPasscodeBody
 ): Promise<AuthenticationByPasscodeResponse> {
-  const response = await userClientRequest.post("/api/auth/passcode", body, {
+  const response = await userClientRequest.post("/auth/passcode", body, {
     headers: {
       "c-payload-signature": "text",
     },
