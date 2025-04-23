@@ -292,7 +292,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                         bgColor={"transparent"}
                       />
                       <SafeSvgRenderer
-                        svgString={getIcon("ton")}
+                        svgString={selectedToken?.icon_svg || ""}
                         width={100}
                         height={100}
                         sx={{
