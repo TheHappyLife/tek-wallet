@@ -1,4 +1,5 @@
 import { LockTokensProviderDataType } from "../providers/LockTokenProvider/type";
+import { WithdrawCurrency } from "../services/axios/get-withdraw-tokens-list-service/type";
 
 // 1. Enums
 export enum LoginMessage {
@@ -97,6 +98,11 @@ export interface DepositProviderDataType {
   isLoadingDepositToken: boolean;
   depositTokens: DepositCurrency[] | undefined;
   updateDepositToken: () => void;
+}
+export interface WithdrawProviderDataType {
+  isLoadingWithdrawToken: boolean;
+  withdrawTokens: WithdrawCurrency[] | undefined;
+  updateWithdrawToken: () => void;
 }
 
 export type Wallet = Omit<WalletProviderDataType, "session"> &

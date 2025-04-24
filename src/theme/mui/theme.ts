@@ -208,6 +208,9 @@ const theme: ThemeOptions = createTheme({
     whiteLoadingOverlay: {
       backgroundColor: "background.white16",
       backdropFilter: "blur(2px)",
+      zIndex: 1000,
+      position: "absolute",
+      inset: 0,
     },
     paper: {
       display: "flex",
@@ -217,6 +220,16 @@ const theme: ThemeOptions = createTheme({
       padding: customPadding.p12,
       backgroundColor: "background.white16",
       borderRadius: theBorderRadius.r16,
+    },
+    listTitle: {
+      color: "text.white",
+      fontWeight: typography.fontWeight500,
+      fontSize: typography.fontSize14,
+    },
+    listDescription: {
+      color: "text.white64",
+      fontWeight: typography.fontWeight400,
+      fontSize: typography.fontSize12,
     },
   },
 });

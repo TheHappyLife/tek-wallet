@@ -105,6 +105,7 @@ const ConfirmByPasscode = forwardRef<
           onConfirmSuccess?.(value);
         } else {
           setAuthError("Invalid passcode");
+          setOtp("");
         }
         loadingRef.current?.endLoading();
       }
@@ -123,7 +124,9 @@ const ConfirmByPasscode = forwardRef<
       <LoadingLayout
         initLoading={false}
         ref={loadingRef}
-        sx={{ width: "100%" }}
+        sx={{
+          backgroundColor: "transparent",
+        }}
       >
         <ModalLayout title={"Authentication"} onClose={handleClose}>
           <Box

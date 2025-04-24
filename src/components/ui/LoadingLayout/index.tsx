@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, CircularProgress, useTheme } from "@mui/material";
 import { GeneralProps } from "../../../types/ui";
 import Text from "../Text";
 import { forwardRef, useImperativeHandle, useState } from "react";
@@ -41,13 +41,21 @@ const LoadingLayout = forwardRef<LoadingLayoutRef, LoadingLayoutProps>(
         {loading && (
           <Box
             sx={{
-              position: "absolute",
-              inset: 0,
               ...theme.mixins.whiteLoadingOverlay,
-              zIndex: 1000,
+              ...theme.mixins.row,
+              gap: theme.mixins.gaps.g8,
             }}
           >
-            <Text sx={{ ...theme.mixins.center }}>{loadingMessage}</Text>
+            <CircularProgress color="secondary" size={20} />
+            <Text
+              sx={{
+                ...theme.mixins.center,
+                fontSize: "typography.fontSize12",
+                color: "text.secondary",
+              }}
+            >
+              {loadingMessage}
+            </Text>
           </Box>
         )}
       </Box>

@@ -140,29 +140,3 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
 DrawerComponent.displayName = "DrawerComponent";
 
 export default DrawerComponent;
-
-//  export interface Version {
-//   name: string;
-//   index: number;
-//   expired: string;
-//   nextVersion: Omit<Version, "nextVersion" | "expired">;
-// }
-
-// # Khi vào app sẽ làm 2 việc:
-// 1. Load thông tin version app từ server, đặt là version.
-// 2. Load thông tin version từ cookie, đặt là versionInCookie.
-
-// # Các trường hợp xảy ra:
-//   1. version.index > versionInCookie.index:
-//     - Hiển thị popup thông báo cập nhật app (không cho tắt, nếu user không cập nhật sẽ không vào được app)
-//     - Tải xuống version mới.
-//     - Cập nhật versionInCookie = version.
-//   2. version.index = versionInCookie.index:
-//     2.1 Nếu nextVersion không tồn tại thì không làm gì hết.
-//     2.2 Nếu nextVersion tồn tại thì:
-//       - Hiển thị popup thông báo cập nhật app (cho tắt, hiển thị luôn thời gian hết hạn của version hiện tại)
-//       2.2.1 Nếu user chọn cập nhật:
-//         - Tải xuống version mới.
-//         - Cập nhật versionInCookie = version.
-//       2.2.2 Nếu user không chọn cập nhật:
-//         - Không làm gì hết.

@@ -25,11 +25,12 @@ import getIcon from "../../../utils/getIcon";
 import Share from "../Share";
 import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
-import { DepositCurrency } from "../../../types/expose-type";
 import CloseModal from "../CloseModal";
-import useDepositData from "../../../hooks/useDepositData";
 import { NetworkData } from "../../../services/axios/type";
 import RequireConnect from "../RequireConnect";
+import useWithdrawData from "../../../hooks/useWithdrawData";
+import { WithdrawCurrency } from "../../../services/axios/get-withdraw-tokens-list-service/type";
+import ListItemCustom from "../ListItemCustom";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -40,16 +41,24 @@ type WithdrawFunctionRef = {
   close: () => void;
 };
 
-enum DepositStep {
-  SELECT_TOKEN = 1,
-  SELECT_NETWORK = 2,
-  SHOW_QR_CODE = 3,
+export enum SendMethods {
+  SCAN_QR_CODE = "scan qr code",
+  TRANSFER_INTERNAL = "transfer internal",
+  TRANSFER_EXTERNAL = "transfer external",
 }
 
-const DEPOSIT_STEP_NAME = {
-  [DepositStep.SELECT_TOKEN]: "Select token",
-  [DepositStep.SELECT_NETWORK]: "Select network",
-  [DepositStep.SHOW_QR_CODE]: "Scan QR code",
+export enum WithdrawStep {
+  SELECT_METHOD = 1,
+  SELECT_TOKEN = 2,
+  SELECT_NETWORK = 3,
+  SHOW_QR_CODE = 4,
+}
+
+const WITHDRAW_STEP_NAME = {
+  [WithdrawStep.SELECT_METHOD]: "Select method",
+  [WithdrawStep.SELECT_TOKEN]: "Select token",
+  [WithdrawStep.SELECT_NETWORK]: "Select network",
+  [WithdrawStep.SHOW_QR_CODE]: "Scan QR code",
 };
 
 const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
@@ -57,15 +66,15 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const drawerRef = useRef<DrawerComponentRef>(null);
     const swiperRef = useRef<SwiperControlledRef>(null);
     const theme = useTheme();
-    const [currentStep, setCurrentStep] = useState<DepositStep>(
-      DepositStep.SELECT_TOKEN
+    const [currentStep, setCurrentStep] = useState<WithdrawStep>(
+      WithdrawStep.SELECT_METHOD
     );
     const [selectedToken, setSelectedToken] = useState<
-      DepositCurrency | undefined
+      WithdrawCurrency | undefined
     >();
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
-    const { isAuthenticated, blockchainWallets } = useWalletData();
-    const { depositTokens, updateDepositToken } = useDepositData();
+    const { isAuthenticated } = useWalletData();
+    const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
 
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
@@ -84,24 +93,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       return newNetWorks;
     }, [selectedToken]);
 
-    const addressByNetwork: string | undefined = useMemo(() => {
-      if (!blockchainWallets || !selectedNetwork) {
-        return undefined;
-      }
-
-      return blockchainWallets.find(
-        (item) => item.networkSlug === selectedNetwork?.slug
-      )?.blockchainAddress;
-    }, [blockchainWallets, selectedNetwork]);
-
-    const qrCodeValue: string = useMemo(() => {
-      if (!addressByNetwork || !selectedToken) {
-        return "";
-      }
-
-      return `ton://transfer/${addressByNetwork}?&jetton=${selectedToken.address}`;
-    }, [addressByNetwork, selectedToken]);
-
     const open = () => {
       drawerRef.current?.open();
     };
@@ -112,9 +103,25 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       open,
       close,
     }));
+
+    const handleSelectMethod = (method: SendMethods) => {
+      console.warn("🚀 ~ handleSelectMethod ~ method:", method);
+      switch (method) {
+        case SendMethods.SCAN_QR_CODE:
+          break;
+        case SendMethods.TRANSFER_INTERNAL:
+          break;
+        case SendMethods.TRANSFER_EXTERNAL:
+          nextStep();
+          break;
+        default:
+          break;
+      }
+    };
+
     const handleBack = () => {
       swiperRef.current?.prev();
-      setCurrentStep(currentStep - 1);
+      setCurrentStep((prev) => prev - 1);
     };
 
     const nextStep = () => {
@@ -122,7 +129,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setCurrentStep((prev) => prev + 1);
     };
 
-    const handleSelectToken = (token: DepositCurrency) => {
+    const handleSelectToken = (token: WithdrawCurrency) => {
       console.warn("🚀 ~ handleSelectToken ~ token:", token);
       setSelectedToken(token);
       if (!!token) {
@@ -137,10 +144,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     useEffect(() => {
-      if (isAuthenticated && !depositTokens) {
-        updateDepositToken();
+      if (isAuthenticated && !withdrawTokens) {
+        updateWithdrawToken();
       }
-    }, [isAuthenticated, depositTokens]);
+    }, [isAuthenticated, withdrawTokens]);
 
     return (
       <RequireConnect>
@@ -161,8 +168,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   mb: theme.mixins.customMargin.m20,
                 }}
                 overrideBack={handleBack}
-                hideBack={currentStep === DepositStep.SELECT_TOKEN}
-                center={DEPOSIT_STEP_NAME[currentStep]}
+                hideBack={currentStep === WithdrawStep.SELECT_METHOD}
+                center={WITHDRAW_STEP_NAME[currentStep]}
               >
                 <CloseModal sx={{ marginLeft: "auto" }} onClick={close} />
               </BackHeader>
@@ -175,9 +182,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 spaceBetween: 32,
               }}
               disableSwipe
-              key={depositTokens?.length}
+              key={withdrawTokens?.length}
             >
-              <SwiperSlide key={DepositStep.SELECT_TOKEN}>
+              <SwiperSlide key={WithdrawStep.SELECT_METHOD}>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -185,7 +192,28 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     height: "fit-content",
                   }}
                 >
-                  {depositTokens?.map((item) => {
+                  {Object.values(typeof SendMethods).map((item) => {
+                    return (
+                      <ListItemCustom
+                        key={item}
+                        title={item}
+                        description={item}
+                        icon={getIcon(item + "_icon")}
+                        onClick={() => handleSelectMethod(item as SendMethods)}
+                      />
+                    );
+                  })}
+                </Box>
+              </SwiperSlide>
+              <SwiperSlide key={WithdrawStep.SELECT_TOKEN}>
+                <Box
+                  sx={{
+                    ...theme.mixins.column,
+                    gap: theme.mixins.gaps.g12,
+                    height: "fit-content",
+                  }}
+                >
+                  {withdrawTokens?.map((item) => {
                     const stringifiedTokenData = JSON.stringify(item);
                     if (!item) return null;
 
@@ -200,7 +228,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={DepositStep.SELECT_NETWORK}>
+              <SwiperSlide key={WithdrawStep.SELECT_NETWORK}>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -221,7 +249,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={DepositStep.SHOW_QR_CODE}>
+              <SwiperSlide key={WithdrawStep.SHOW_QR_CODE}>
                 <Box
                   sx={{
                     display: "flex",
@@ -278,7 +306,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       }}
                     >
                       <QRCode
-                        value={qrCodeValue}
+                        value={"qrCodeValue"}
                         title={`Deposit ${selectedToken?.name}`}
                         logo={getIcon("ton")}
                         bgColor={"transparent"}
@@ -341,9 +369,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                           wordBreak: "break-all",
                         }}
                       >
-                        <CopyTextComponent value={addressByNetwork || ""}>
+                        {/* <CopyTextComponent value={addressByNetwork || ""}>
                           {addressByNetwork}
-                        </CopyTextComponent>
+                        </CopyTextComponent> */}
                       </Text>
                     </Box>
                     <Box
@@ -379,7 +407,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       justifyContent: "center",
                     }}
                   >
-                    <CopyTextComponent value={qrCodeValue}>
+                    <CopyTextComponent value={"qrCodeValue"}>
                       <Button.Secondary className="gap-1.5 flex items-center">
                         <Text
                           sx={{

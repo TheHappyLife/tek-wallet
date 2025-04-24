@@ -53,6 +53,8 @@ declare module "@mui/material/styles" {
     validationError: React.CSSProperties;
     whiteLoadingOverlay: React.CSSProperties;
     paper: React.CSSProperties;
+    listTitle: React.CSSProperties;
+    listDescription: React.CSSProperties;
   }
 
   interface TypeBackground {
