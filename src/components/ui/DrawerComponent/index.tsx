@@ -73,7 +73,7 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
 
     const toggle: ReactEventHandler = (e) => {
       const button = e.currentTarget?.querySelector(
-        "button"
+        ">button"
       ) as HTMLButtonElement;
       if (button.disabled) {
         e.stopPropagation();
