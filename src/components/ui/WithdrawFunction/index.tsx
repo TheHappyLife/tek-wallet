@@ -124,6 +124,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       swiperRef.current?.slideTo(step);
     };
 
+    const handleReSelectNetwork = () => {
+      gotoStep(WithdrawStep.SELECT_NETWORK);
+    };
+
     const clearValues = () => {
       setSelectedToken(undefined);
       setSelectedNetwork(undefined);
@@ -301,6 +305,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       Recipient address
                     </Text>
                     <Input
+                      sx={{
+                        paddingRight: theme.mixins.customPadding.p12,
+                      }}
                       inputRest={{
                         placeholder: "Enter recipient address",
                         value: recipientAddress,
@@ -318,19 +325,35 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                           >
                             Paste
                           </Button.Secondary>
-                          <Divider orientation="vertical" />
+                          <Divider
+                            orientation="vertical"
+                            sx={{ height: "90%" }}
+                          />
                           <Icon src={getIcon("qr_can")} width={20} />
                         </Box>
                       }
                     />
                   </Box>
                   <Box sx={{ ...theme.mixins.row }}>
-                    <Text sx={{ ...theme.mixins.fieldTitle }}>
-                      Select network
-                    </Text>
-                    <Text sx={{ ...theme.mixins.value, ml: "auto" }}>
-                      {selectedNetwork?.name}
-                    </Text>
+                    <Text sx={{ ...theme.mixins.fieldTitle }}>Network</Text>
+
+                    <Box
+                      sx={{
+                        ...theme.mixins.row,
+                        gap: theme.mixins.gaps.g8,
+                        ml: "auto",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Icon width={24} src={selectedNetwork?.icon} />
+                      <Text
+                        sx={{ ...theme.mixins.value }}
+                        onClick={handleReSelectNetwork}
+                      >
+                        {selectedNetwork?.name}
+                      </Text>
+                      <Icon width={10} src={getIcon("right_arrow")} />
+                    </Box>
                   </Box>
                   <Box
                     sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}
@@ -339,6 +362,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       Enter amount
                     </Text>
                     <Input
+                      sx={{
+                        paddingRight: theme.mixins.customPadding.p12,
+                      }}
                       inputRest={{
                         placeholder: `${selectedToken?.min_value} - ${selectedToken?.max_value} ${selectedToken?.name}`,
                         value: amount,
