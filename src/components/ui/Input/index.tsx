@@ -40,15 +40,53 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
         {...inputRest}
         variant="outlined"
         sx={{
+          // backgroundColor: "transparent",
+          // border: "none",
+          // outline: "none",
+          // flex: 1,
+          // height: "fit-content",
+          // minHeight: "unset",
+          // "& .MuiInputBase-input": {
+          //   border: "none",
+          //   outline: "none",
+          //   color: theme.palette.text.white,
+          //   fontSize: theme.typography.fontSize16,
+          //   lineHeight: theme.typography.leading140,
+          //   fontWeight: theme.typography.fontWeight400,
+          //   padding: `${theme.mixins.customPadding.p8} ${theme.mixins.customPadding.p12}`,
+          //   height: "fit-content",
+          //   minHeight: "unset",
+          // },
+          // "& .Mui-focused": {
+          //   border: "none !important",
+          //   outline: "none !important",
+          // },
+          // "& .MuiInputBase-input::placeholder": {
+          //   color: theme.palette.text.white64,
+          //   fontSize: theme.typography.fontSize14,
+          // },
+          // ...inputSx,
           backgroundColor: "transparent",
-          border: "none",
-          outline: "none",
           flex: 1,
           height: "fit-content",
           minHeight: "unset",
+          "& .MuiOutlinedInput-root": {
+            // Chỉnh sửa root của input (outlined)
+            border: "none", // Xóa border
+            outline: "none", // Xóa outline
+            "&:hover": {
+              // Xóa border khi hover
+              border: "none !important",
+            },
+            "&.Mui-focused": {
+              // Xóa border và outline khi focused
+              border: "none !important",
+              outline: "none !important",
+            },
+          },
           "& .MuiInputBase-input": {
-            border: "none",
-            outline: "none",
+            border: "none", // Xóa border của input
+            outline: "none", // Xóa outline của input
             color: theme.palette.text.white,
             fontSize: theme.typography.fontSize16,
             lineHeight: theme.typography.leading140,
@@ -56,10 +94,6 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
             padding: `${theme.mixins.customPadding.p8} ${theme.mixins.customPadding.p12}`,
             height: "fit-content",
             minHeight: "unset",
-          },
-          "& .Mui-focused": {
-            border: "none !important",
-            outline: "none !important",
           },
           "& .MuiInputBase-input::placeholder": {
             color: theme.palette.text.white64,
