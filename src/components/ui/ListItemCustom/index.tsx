@@ -26,12 +26,21 @@ function ListItemCustom({
   const theme = useTheme();
 
   return (
-    <ListItem {...rest} sx={{ ...theme.mixins.row, ...sx }}>
+    <ListItem
+      {...rest}
+      sx={{
+        ...theme.mixins.row,
+        gap: theme.mixins.gaps.g12,
+        backgroundColor: "background.white16",
+        borderRadius: theme.mixins.theBorderRadius.r12,
+        ...sx,
+      }}
+    >
       <Icon width={32} src={icon} />
       <Box
         sx={{
           ...theme.mixins.column,
-          gap: theme.mixins.gaps.g4,
+          gap: theme.mixins.gaps.g2,
           alignItems: "start",
           flex: 1,
         }}

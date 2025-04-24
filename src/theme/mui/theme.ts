@@ -225,11 +225,14 @@ const theme: ThemeOptions = createTheme({
       color: "text.white",
       fontWeight: typography.fontWeight500,
       fontSize: typography.fontSize14,
+      lineHeight: typography.leading140,
+      textTransform: "capitalize",
     },
     listDescription: {
       color: "text.white64",
       fontWeight: typography.fontWeight400,
       fontSize: typography.fontSize12,
+      lineHeight: typography.leading140,
     },
     smallButton: {
       fontSize: typography.fontSize11,

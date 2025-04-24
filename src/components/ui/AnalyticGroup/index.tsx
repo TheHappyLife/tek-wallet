@@ -15,7 +15,13 @@ const AnalyticGroup = (props: AnalyticGroupProps) => {
   return (
     <Box sx={{ ...sx }}>
       <Text sx={{ ...theme.mixins.fieldTitle }}>Total Amount</Text>
-      <Text sx={{ ...theme.mixins.row, ...theme.mixins.value }}>
+      <Text
+        sx={{
+          ...theme.mixins.row,
+          ...theme.mixins.value,
+          fontSize: "typography.fontSize18",
+        }}
+      >
         <Formatter value={1000000} />
         <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
           <Text
@@ -46,9 +52,9 @@ const AnalyticGroup = (props: AnalyticGroupProps) => {
         <Icon src={getIcon("arrow_increase")} width={12} />
         <Text
           sx={{
-            color: theme.palette.text.increase,
             ...theme.mixins.value,
-            borderBottom: `1px dashed ${theme.palette.text.increase}`,
+            color: theme.palette.text.increase,
+            borderBottom: `1px dashed currentColor`,
           }}
         >
           5.63 (+3,22%)
