@@ -87,11 +87,9 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
             width: "100%",
             position: "relative",
             transition: "all 500ms ease-in-out",
-            aspectRatio: "1.47317073171",
+            aspectRatio: expandAreaChart ? "1.47317073171" : "unset",
             zIndex: 10,
             maxHeight: expandAreaChart ? "28rem" : "0",
-            overflow: "hidden",
-            border: "1px red solid",
           }}
         >
           <Box
