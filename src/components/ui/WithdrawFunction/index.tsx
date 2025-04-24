@@ -15,14 +15,11 @@ import useWalletData from "../../../hooks/useWalletData";
 import ModalLayout from "../ModalLayout";
 import { SwiperSlide } from "swiper/react";
 import BackHeader from "../BackHeader";
-import QRCode from "../QRCode";
 import Text from "../Text";
-import { useTheme, Box } from "@mui/material";
-import CopyTextComponent from "../CopyTextComponent";
+import { useTheme, Box, Divider } from "@mui/material";
 import Button from "../Button";
 import Icon from "../Icon";
 import getIcon from "../../../utils/getIcon";
-import Share from "../Share";
 import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
 import CloseModal from "../CloseModal";
@@ -31,6 +28,7 @@ import RequireConnect from "../RequireConnect";
 import useWithdrawData from "../../../hooks/useWithdrawData";
 import { WithdrawCurrency } from "../../../services/axios/get-withdraw-tokens-list-service/type";
 import ListItemCustom from "../ListItemCustom";
+import Input from "../Input";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -51,14 +49,14 @@ export enum WithdrawStep {
   SELECT_METHOD = 1,
   SELECT_TOKEN = 2,
   SELECT_NETWORK = 3,
-  SHOW_QR_CODE = 4,
+  CONFIRM = 4,
 }
 
 const WITHDRAW_STEP_NAME = {
   [WithdrawStep.SELECT_METHOD]: "Select method",
   [WithdrawStep.SELECT_TOKEN]: "Select token",
   [WithdrawStep.SELECT_NETWORK]: "Select network",
-  [WithdrawStep.SHOW_QR_CODE]: "Scan QR code",
+  [WithdrawStep.CONFIRM]: "Confirm",
 };
 
 const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
@@ -253,200 +251,57 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={WithdrawStep.SHOW_QR_CODE}>
+              <SwiperSlide key={WithdrawStep.CONFIRM}>
                 <Box
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: theme.mixins.gaps.g16,
+                    ...theme.mixins.column,
+                    gap: theme.mixins.gaps.g12,
                   }}
                 >
-                  <Box
-                    sx={{
-                      width: "100%",
-                      ...theme.mixins.column,
-                      gap: theme.mixins.gaps.g12,
-                      backgroundColor: theme.palette.background.black24,
-                      borderRadius: theme.mixins.theBorderRadius.r16,
-                      padding: theme.mixins.customPadding.p16,
-                      alignItems: "flex-start",
-                      backdropFilter: "blur(10px)",
+                  <Text sx={{ ...theme.mixins.fieldTitle }}>
+                    Recipient address
+                  </Text>
+                  <Input
+                    inputRest={{
+                      placeholder: "Enter recipient address",
                     }}
-                    id="share-deposit-info"
-                  >
-                    {/* <Box
-                    sx={{
-                      ...theme.mixins.column,
-                      gap: theme.mixins.gaps.g4,
-                      color: "text.white",
-                      alignSelf: "center",
-                    }}
-                  >
-                    <Text
-                      sx={{
-                        ...theme.mixins.value,
-                      }}
-                    >
-                      Harry Andrew
-                    </Text>
-                    <Text
-                      sx={{
-                        ...theme.mixins.valueDescription,
-                      }}
-                    >
-                      @user1234we
-                    </Text>
-                  </Box> */}
-
-                    <Box
-                      sx={{
-                        width: "fit-content",
-                        height: "fit-content",
-                        alignSelf: "center",
-                        borderRadius: theme.mixins.theBorderRadius.r12,
-                        overflow: "hidden",
-                        backgroundColor: theme.palette.background.white,
-                        backdropFilter: "blur(10px)",
-                      }}
-                    >
-                      <QRCode
-                        value={"qrCodeValue"}
-                        title={`Deposit ${selectedToken?.name}`}
-                        logo={getIcon("ton")}
-                        bgColor={"transparent"}
-                      />
-                    </Box>
-                    <Box
-                      sx={{
-                        ...theme.mixins.column,
-                        gap: theme.mixins.gaps.g4,
-                        color: "text.white",
-                      }}
-                    >
-                      <Text
-                        sx={{
-                          ...theme.mixins.valueDescription,
-                        }}
-                      >
-                        Network
-                      </Text>
-                      <Box
-                        component="button"
-                        sx={{
-                          ...theme.mixins.row,
-                          gap: theme.mixins.gaps.g2,
-                          cursor: "pointer",
-                          transition: "transform 0.3s ease-in-out",
-                          "&:active": {
-                            transform: "translateX(0.5rem)",
-                          },
-                        }}
-                        onClick={handleBack}
-                      >
-                        <Text
-                          sx={{
-                            ...theme.mixins.value,
-                          }}
-                        >
-                          {selectedNetwork?.name}
-                        </Text>
-                        <Icon src={getIcon("right_arrow")} width={10} />
+                    rightPart={
+                      <Box sx={{ ...theme.mixins.row }}>
+                        <Button.Secondary>Paste</Button.Secondary>
+                        <Divider orientation="vertical" />
+                        <Icon src={getIcon("qr_can")} width={20} />
                       </Box>
-                    </Box>
-                    <Box
-                      sx={{
-                        ...theme.mixins.column,
-                        gap: theme.mixins.gaps.g4,
-                        color: "text.white",
-                      }}
-                    >
-                      <Text
-                        sx={{
-                          ...theme.mixins.valueDescription,
-                        }}
-                      >
-                        Address
-                      </Text>
-                      <Text
-                        sx={{
-                          ...theme.mixins.value,
-                          wordBreak: "break-all",
-                        }}
-                      >
-                        {/* <CopyTextComponent value={addressByNetwork || ""}>
-                          {addressByNetwork}
-                        </CopyTextComponent> */}
-                      </Text>
-                    </Box>
-                    <Box
-                      sx={{
-                        ...theme.mixins.column,
-                        gap: theme.mixins.gaps.g4,
-                        backgroundColor: theme.palette.background.white16,
-                        borderRadius: theme.mixins.theBorderRadius.r12,
-                        padding: theme.mixins.customPadding.p8,
-                      }}
-                    >
-                      <Text
-                        sx={{
-                          ...theme.mixins.valueDescription,
-                        }}
-                      >
-                        Deposit{" "}
-                        <strong style={{ color: theme.palette.text.white }}>
-                          min {selectedToken?.min_value} {selectedToken?.name}
-                        </strong>{" "}
-                        and{" "}
-                        <strong style={{ color: theme.palette.text.white }}>
-                          select the correct network
-                        </strong>
-                        , or you will lose your assets.
-                      </Text>
-                    </Box>
+                    }
+                  />
+                  <Box sx={{ ...theme.mixins.row }}>
+                    <Text sx={{ ...theme.mixins.fieldTitle }}>
+                      Select network
+                    </Text>
+                    <Text sx={{ ...theme.mixins.value, ml: "auto" }}>
+                      {selectedNetwork?.name}
+                    </Text>
                   </Box>
-                  <Box
-                    sx={{
-                      ...theme.mixins.row,
-                      gap: theme.mixins.gaps.g12,
-                      justifyContent: "center",
+
+                  <Text sx={{ ...theme.mixins.fieldTitle }}>Enter amount</Text>
+                  <Input
+                    inputRest={{
+                      placeholder: `${selectedToken?.min_value} - ${selectedToken?.max_value}`,
                     }}
-                  >
-                    <CopyTextComponent value={"qrCodeValue"}>
-                      <Button.Secondary className="gap-1.5 flex items-center">
-                        <Text
-                          sx={{
-                            fontSize: theme.typography.fontSize12,
-                            fontWeight: theme.typography.fontWeight400,
-                            leading: "typography.leading150",
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          Copy
-                        </Text>
-                        <Icon src={getIcon("copy")} width={20} />
-                      </Button.Secondary>
-                    </CopyTextComponent>
-                    <Share elementId="share-deposit-info">
-                      <Button.Secondary
-                        sx={{
-                          gap: theme.mixins.gaps.g4,
-                          ...theme.mixins.row,
-                        }}
-                      >
-                        <Text
-                          sx={{
-                            fontSize: theme.typography.fontSize12,
-                            fontWeight: theme.typography.fontWeight400,
-                            leading: "typography.leading150",
-                            textTransform: "capitalize",
-                          }}
-                        >
-                          Share
-                        </Text>
-                        <Icon src={getIcon("share")} width={20} />
-                      </Button.Secondary>
-                    </Share>
-                  </Box>
+                    rightPart={
+                      <Box sx={{ ...theme.mixins.row }}>
+                        <Button.Secondary>Max</Button.Secondary>
+                      </Box>
+                    }
+                  />
+                  <Text sx={{ ...theme.mixins.fieldTitle }}>Memo</Text>
+                  <Input
+                    inputRest={{
+                      placeholder: "Enter memo",
+                    }}
+                  />
+                  <Button.Primary sx={{ width: "100%" }}>
+                    Confirm
+                  </Button.Primary>
                 </Box>
               </SwiperSlide>
             </SwiperControlled>
