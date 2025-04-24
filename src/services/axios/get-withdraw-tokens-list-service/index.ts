@@ -15,7 +15,7 @@ const getWithdrawTokenList = async (
     transactionType: "withdrawn",
   };
   const response = await getConfigTokenList<WithdrawTokenListResponse>(params);
-  console.warn("🚀 ~ response getConfigTokenList:", response);
+  console.warn("🚀 ~ response getWithdrawTokenList:", response);
 
   return response?.data;
 };

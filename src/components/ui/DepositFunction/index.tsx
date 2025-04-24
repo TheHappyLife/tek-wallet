@@ -197,10 +197,10 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       props.onClose?.();
     };
     useEffect(() => {
-      if (isAuthenticated && !depositTokens) {
+      if (isAuthenticated) {
         updateDepositToken();
       }
-    }, [isAuthenticated, depositTokens]);
+    }, [isAuthenticated]);
 
     return (
       <RequireConnect>

@@ -144,10 +144,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     useEffect(() => {
-      if (isAuthenticated && !withdrawTokens) {
+      if (isAuthenticated) {
+        console.warn(
+          "🚀 ~ updateWithdrawToken ~ isAuthenticated:",
+          isAuthenticated
+        );
         updateWithdrawToken();
       }
-    }, [isAuthenticated, withdrawTokens]);
+    }, [isAuthenticated]);
 
     return (
       <RequireConnect>

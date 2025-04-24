@@ -27,7 +27,10 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
       }
       setIsLoadingWithdrawToken(true);
       const response = await getWithdrawTokenList();
-      console.warn("🚀 ~ getBalance ~ response:", response);
+      console.warn(
+        "🚀 ~ getBalance getWithdrawTokenList ~ response:",
+        response
+      );
       setWithdrawTokens(response?.supported_tokens);
       setIsLoadingWithdrawToken(false);
     } catch (error) {
