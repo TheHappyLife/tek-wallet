@@ -75,7 +75,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
     setTimeRangeData(data);
   };
   const toggleExpand = () => {
-    setExpandAreaChart(!expandAreaChart);
+    setExpandAreaChart((prev) => !prev);
   };
 
   return (
@@ -90,6 +90,8 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
             aspectRatio: "1.47317073171",
             zIndex: 10,
             maxHeight: expandAreaChart ? "28rem" : "0",
+            overflow: "hidden",
+            border: "1px red solid",
           }}
         >
           <Box
