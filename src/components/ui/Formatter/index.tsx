@@ -76,10 +76,12 @@ const Formatter: React.FC<FormatterProps> = ({
     <CustomTooltip
       disabled={disableTooltip}
       sx={{
-        backdropFilter: "blur(10px)",
-        backgroundColor: "background.black64",
-        borderRadius: "0.75rem",
-        padding: `${theme.mixins.customPadding.p8} ${theme.mixins.customPadding.p12}`,
+        "& MuiPaper-root": {
+          backdropFilter: "blur(10px)",
+          backgroundColor: "background.black64",
+          borderRadius: "0.75rem",
+          padding: `${theme.mixins.customPadding.p8} ${theme.mixins.customPadding.p12}`,
+        },
       }}
       trigger={
         <Box
