@@ -81,6 +81,10 @@ const Formatter: React.FC<FormatterProps> = ({
           backgroundColor: "background.black64",
           borderRadius: theme.mixins.theBorderRadius.r12,
           padding: `${theme.mixins.customPadding.p8} ${theme.mixins.customPadding.p12}`,
+          color: "text.white",
+          fontSize: "1.2em",
+          fontWeight: theme.typography.fontWeight400,
+          lineHeight: theme.typography.leading100,
         },
       }}
       trigger={
