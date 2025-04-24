@@ -1,8 +1,8 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, TextField, useTheme, TextFieldProps } from "@mui/material";
 import { forwardRef } from "react";
 interface InputProps {
   className?: string;
-  inputRest?: React.InputHTMLAttributes<HTMLInputElement>;
+  inputRest?: TextFieldProps;
   inputStyles?: React.CSSProperties;
   leftPart?: React.ReactNode;
   rightPart?: React.ReactNode;
@@ -27,15 +27,18 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
         ...theme.mixins.row,
         gap: theme.mixins.gaps.g12,
         borderRadius: theme.mixins.theBorderRadius.r12,
-        padding: theme.mixins.customPadding.p3,
+        px: theme.mixins.customPadding.p16,
         backgroundColor: "background.white16",
+        border: `1px solid ${theme.palette.border.white24}`,
+        backdropFilter: "blur(10px)",
       }}
       {...rest}
     >
       {leftPart}
-      <input
+      <TextField
         {...inputRest}
-        style={{
+        variant="outlined"
+        sx={{
           backgroundColor: "transparent",
           border: "none",
           outline: "none",
@@ -43,9 +46,16 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
           lineHeight: theme.typography.leading140,
           fontWeight: theme.typography.fontWeight400,
           color: theme.palette.text.white,
+          py: theme.mixins.customPadding.p12,
+          flex: 1,
+          "& ::placeholder": {
+            color: theme.palette.text.white64,
+            fontSize: theme.typography.fontSize14,
+          },
           ...inputClassName,
         }}
       />
+      <input style={{}} />
       {rightPart}
     </Box>
   );

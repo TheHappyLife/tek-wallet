@@ -231,6 +231,10 @@ const theme: ThemeOptions = createTheme({
       fontWeight: typography.fontWeight400,
       fontSize: typography.fontSize12,
     },
+    smallButton: {
+      fontSize: typography.fontSize11,
+      padding: `${customPadding.p8} ${customPadding.p4}`,
+    },
   },
 });
 

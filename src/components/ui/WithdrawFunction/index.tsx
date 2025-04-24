@@ -73,7 +73,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
     const { isAuthenticated } = useWalletData();
     const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
-
+    const [amount, setAmount] = useState<string>("");
+    const [memo, setMemo] = useState<string>("");
+    const [recipientAddress, setRecipientAddress] = useState<string>("");
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
@@ -96,11 +98,45 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
     const close = () => {
       drawerRef.current?.close();
+      clearValues();
     };
     useImperativeHandle(ref, () => ({
       open,
       close,
     }));
+
+    const handleChangeRecipientAddress = (
+      e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+      setRecipientAddress(e.target.value);
+    };
+
+    const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setAmount(e.target.value);
+    };
+
+    const handleChangeMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setMemo(e.target.value);
+    };
+
+    const gotoStep = (step: WithdrawStep) => {
+      setCurrentStep(step);
+      swiperRef.current?.slideTo(step);
+    };
+
+    const clearValues = () => {
+      setSelectedToken(undefined);
+      setSelectedNetwork(undefined);
+      gotoStep(WithdrawStep.SELECT_METHOD);
+      setAmount("");
+      setMemo("");
+      setRecipientAddress("");
+    };
+
+    const handleOnClose: ReactEventHandler = (e) => {
+      clearValues();
+      props.onClose?.(e);
+    };
 
     const handleSelectMethod = (method: SendMethods) => {
       console.warn("🚀 ~ handleSelectMethod ~ method:", method);
@@ -157,7 +193,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           ref={drawerRef}
           trigger={props.children}
           onOpen={props.onOpen}
-          onClose={props.onClose}
+          onClose={handleOnClose}
         >
           <ModalLayout
             overrideHeader={
@@ -255,24 +291,39 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 <Box
                   sx={{
                     ...theme.mixins.column,
-                    gap: theme.mixins.gaps.g12,
+                    gap: theme.mixins.gaps.g16,
                   }}
                 >
-                  <Text sx={{ ...theme.mixins.fieldTitle }}>
-                    Recipient address
-                  </Text>
-                  <Input
-                    inputRest={{
-                      placeholder: "Enter recipient address",
-                    }}
-                    rightPart={
-                      <Box sx={{ ...theme.mixins.row }}>
-                        <Button.Secondary>Paste</Button.Secondary>
-                        <Divider orientation="vertical" />
-                        <Icon src={getIcon("qr_can")} width={20} />
-                      </Box>
-                    }
-                  />
+                  <Box
+                    sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}
+                  >
+                    <Text sx={{ ...theme.mixins.fieldTitle }}>
+                      Recipient address
+                    </Text>
+                    <Input
+                      inputRest={{
+                        placeholder: "Enter recipient address",
+                        value: recipientAddress,
+                        onChange: handleChangeRecipientAddress,
+                      }}
+                      rightPart={
+                        <Box
+                          sx={{
+                            ...theme.mixins.row,
+                            gap: theme.mixins.gaps.g8,
+                          }}
+                        >
+                          <Button.Secondary
+                            sx={{ ...theme.mixins.smallButton }}
+                          >
+                            Paste
+                          </Button.Secondary>
+                          <Divider orientation="vertical" />
+                          <Icon src={getIcon("qr_can")} width={20} />
+                        </Box>
+                      }
+                    />
+                  </Box>
                   <Box sx={{ ...theme.mixins.row }}>
                     <Text sx={{ ...theme.mixins.fieldTitle }}>
                       Select network
@@ -281,24 +332,42 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       {selectedNetwork?.name}
                     </Text>
                   </Box>
+                  <Box
+                    sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}
+                  >
+                    <Text sx={{ ...theme.mixins.fieldTitle }}>
+                      Enter amount
+                    </Text>
+                    <Input
+                      inputRest={{
+                        placeholder: `${selectedToken?.min_value} - ${selectedToken?.max_value} ${selectedToken?.name}`,
+                        value: amount,
+                        onChange: handleChangeAmount,
+                      }}
+                      rightPart={
+                        <Box sx={{ ...theme.mixins.row }}>
+                          <Button.Secondary
+                            sx={{ ...theme.mixins.smallButton }}
+                          >
+                            Max
+                          </Button.Secondary>
+                        </Box>
+                      }
+                    />
+                  </Box>
+                  <Box
+                    sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}
+                  >
+                    <Text sx={{ ...theme.mixins.fieldTitle }}>Memo</Text>
+                    <Input
+                      inputRest={{
+                        placeholder: "Enter memo",
+                        value: memo,
+                        onChange: handleChangeMemo,
+                      }}
+                    />
+                  </Box>
 
-                  <Text sx={{ ...theme.mixins.fieldTitle }}>Enter amount</Text>
-                  <Input
-                    inputRest={{
-                      placeholder: `${selectedToken?.min_value} - ${selectedToken?.max_value}`,
-                    }}
-                    rightPart={
-                      <Box sx={{ ...theme.mixins.row }}>
-                        <Button.Secondary>Max</Button.Secondary>
-                      </Box>
-                    }
-                  />
-                  <Text sx={{ ...theme.mixins.fieldTitle }}>Memo</Text>
-                  <Input
-                    inputRest={{
-                      placeholder: "Enter memo",
-                    }}
-                  />
                   <Button.Primary sx={{ width: "100%" }}>
                     Confirm
                   </Button.Primary>

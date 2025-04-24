@@ -55,6 +55,7 @@ declare module "@mui/material/styles" {
     paper: React.CSSProperties;
     listTitle: React.CSSProperties;
     listDescription: React.CSSProperties;
+    smallButton: React.CSSProperties;
   }
 
   interface TypeBackground {
