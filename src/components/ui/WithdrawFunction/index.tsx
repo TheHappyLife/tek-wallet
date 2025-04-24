@@ -192,7 +192,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     height: "fit-content",
                   }}
                 >
-                  {Object.values(typeof SendMethods).map((item) => {
+                  {Object.values(SendMethods).map((item) => {
                     return (
                       <ListItemCustom
                         key={item}
