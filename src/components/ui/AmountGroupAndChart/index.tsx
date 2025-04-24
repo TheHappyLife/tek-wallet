@@ -96,6 +96,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
           <Box
             sx={{
               position: "absolute",
+              top: 0,
               right: 0,
               left: 0,
               bottom: 0,
@@ -113,8 +114,6 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
                 sx={{
                   width: "100%",
                   height: "fit-content",
-                  transition: "all 500ms ease-in-out",
-                  // transform: !expandAreaChart ? "translateY(-100%)" : "none",
                   my: theme.mixins.customMargin.m3,
                 }}
               />
