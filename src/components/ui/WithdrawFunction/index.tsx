@@ -131,10 +131,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const clearValues = () => {
       setSelectedToken(undefined);
       setSelectedNetwork(undefined);
-      gotoStep(WithdrawStep.SELECT_METHOD);
       setAmount("");
       setMemo("");
       setRecipientAddress("");
+      gotoStep(WithdrawStep.SELECT_METHOD);
     };
 
     const handleOnClose: ReactEventHandler = (e) => {
@@ -342,6 +342,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     <Text sx={{ ...theme.mixins.fieldTitle }}>Network</Text>
 
                     <Box
+                      onClick={handleReSelectNetwork}
                       sx={{
                         ...theme.mixins.row,
                         gap: theme.mixins.gaps.g6,
@@ -350,10 +351,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       }}
                     >
                       <Icon width={20} src={selectedNetwork?.icon} />
-                      <Text
-                        sx={{ ...theme.mixins.value }}
-                        onClick={handleReSelectNetwork}
-                      >
+                      <Text sx={{ ...theme.mixins.value }}>
                         {selectedNetwork?.name}
                       </Text>
                       <Icon width={10} src={getIcon("right_arrow")} />

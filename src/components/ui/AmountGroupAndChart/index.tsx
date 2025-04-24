@@ -86,7 +86,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
           sx={{
             width: "100%",
             position: "relative",
-            duration: "500ms",
+            transition: "all 500ms ease-in-out",
             aspectRatio: "1.47317073171",
             zIndex: 10,
             maxHeight: expandAreaChart ? "28rem" : "0",
@@ -98,7 +98,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
               right: 0,
               left: 0,
               bottom: 0,
-              duration: "500ms",
+              transition: "all 500ms ease-in-out",
               transform: !expandAreaChart
                 ? "translateY(0) translateX(25%) scale(0.5)"
                 : "none",
@@ -112,7 +112,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
                 sx={{
                   width: "100%",
                   height: "fit-content",
-                  duration: "500ms",
+                  transition: "all 500ms ease-in-out",
                   transform: !expandAreaChart ? "translateY(100%)" : "none",
                   my: theme.mixins.customMargin.m3,
                 }}
