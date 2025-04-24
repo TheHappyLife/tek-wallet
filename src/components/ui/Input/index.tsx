@@ -38,7 +38,7 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
       {leftPart}
       <TextField
         {...inputRest}
-        variant="outlined"
+        // variant="outlined"
         sx={{
           // backgroundColor: "transparent",
           // border: "none",
