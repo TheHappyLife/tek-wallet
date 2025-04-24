@@ -46,10 +46,10 @@ export enum SendMethods {
 }
 
 export enum WithdrawStep {
-  SELECT_METHOD = 1,
-  SELECT_TOKEN = 2,
-  SELECT_NETWORK = 3,
-  CONFIRM = 4,
+  SELECT_METHOD = 0,
+  SELECT_TOKEN = 1,
+  SELECT_NETWORK = 2,
+  CONFIRM = 3,
 }
 
 const WITHDRAW_STEP_NAME = {
@@ -211,7 +211,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 }}
                 overrideBack={handleBack}
                 hideBack={currentStep === WithdrawStep.SELECT_METHOD}
-                center={WITHDRAW_STEP_NAME[currentStep]}
+                center={
+                  currentStep == WithdrawStep.CONFIRM
+                    ? `Confirm withdrawn ${selectedToken?.name}`
+                    : WITHDRAW_STEP_NAME[currentStep]
+                }
               >
                 <CloseModal sx={{ marginLeft: "auto" }} onClick={close} />
               </BackHeader>
@@ -340,12 +344,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     <Box
                       sx={{
                         ...theme.mixins.row,
-                        gap: theme.mixins.gaps.g8,
+                        gap: theme.mixins.gaps.g6,
                         ml: "auto",
                         cursor: "pointer",
                       }}
                     >
-                      <Icon width={24} src={selectedNetwork?.icon} />
+                      <Icon width={20} src={selectedNetwork?.icon} />
                       <Text
                         sx={{ ...theme.mixins.value }}
                         onClick={handleReSelectNetwork}
