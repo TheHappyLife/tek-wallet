@@ -21,6 +21,10 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
   >(undefined);
 
   const updateWithdrawToken = useCallback(async () => {
+    console.warn(
+      "🚀 ~ updateWithdrawToken ~ updateWithdrawToken:",
+      isAuthenticated
+    );
     try {
       if (!isAuthenticated) {
         throw new Error("Authenticate to get withdraw tokens");
