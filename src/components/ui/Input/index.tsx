@@ -27,7 +27,7 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
         ...theme.mixins.row,
         gap: theme.mixins.gaps.g12,
         borderRadius: theme.mixins.theBorderRadius.r12,
-        px: theme.mixins.customPadding.p16,
+        padding: 0,
         backgroundColor: "background.white16",
         border: `1px solid ${theme.palette.border.white24}`,
         backdropFilter: "blur(10px)",
@@ -53,13 +53,13 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
             fontSize: theme.typography.fontSize16,
             lineHeight: theme.typography.leading140,
             fontWeight: theme.typography.fontWeight400,
+            padding: theme.mixins.customPadding.p12,
             height: "fit-content",
             minHeight: "unset",
           },
           "& .MuiInputBase-input::placeholder": {
             color: theme.palette.text.white64,
             fontSize: theme.typography.fontSize14,
-            p: theme.mixins.customPadding.p12,
           },
           ...inputSx,
         }}

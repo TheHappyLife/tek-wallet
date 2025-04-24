@@ -233,7 +233,7 @@ const theme: ThemeOptions = createTheme({
     },
     smallButton: {
       fontSize: typography.fontSize11,
-      padding: `${customPadding.p8} ${customPadding.p4}`,
+      padding: `${customPadding.p4} ${customPadding.p8}`,
       height: "fit-content",
       minHeight: "unset",
       minWidth: "unset",
