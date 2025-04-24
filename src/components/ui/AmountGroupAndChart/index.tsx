@@ -100,7 +100,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
               bottom: 0,
               transition: "all 500ms ease-in-out",
               transform: !expandAreaChart
-                ? "translateY(0) translateX(25%) scale(0.5)"
+                ? "translateY(-100%) translateX(25%) scale(0.5)"
                 : "none",
             }}
           >
@@ -113,7 +113,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
                   width: "100%",
                   height: "fit-content",
                   transition: "all 500ms ease-in-out",
-                  transform: !expandAreaChart ? "translateY(-100%)" : "none",
+                  // transform: !expandAreaChart ? "translateY(-100%)" : "none",
                   my: theme.mixins.customMargin.m3,
                 }}
               />
