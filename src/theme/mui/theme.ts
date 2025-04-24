@@ -234,6 +234,12 @@ const theme: ThemeOptions = createTheme({
     smallButton: {
       fontSize: typography.fontSize11,
       padding: `${customPadding.p8} ${customPadding.p4}`,
+      height: "fit-content",
+      minHeight: "unset",
+      minWidth: "unset",
+      width: "fit-content",
+      borderRadius: theBorderRadius.full,
+      lineHeight: typography.leading100,
     },
   },
 });

@@ -1,23 +1,23 @@
-import { Box, TextField, useTheme, TextFieldProps } from "@mui/material";
+import {
+  Box,
+  TextField,
+  useTheme,
+  TextFieldProps,
+  BoxProps,
+  SxProps,
+} from "@mui/material";
 import { forwardRef } from "react";
-interface InputProps {
-  className?: string;
+interface InputProps extends BoxProps {
   inputRest?: TextFieldProps;
-  inputStyles?: React.CSSProperties;
   leftPart?: React.ReactNode;
   rightPart?: React.ReactNode;
+  inputSx?: SxProps;
 }
 
 export type InputRef = HTMLInputElement;
 
 const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
-  const {
-    inputRest,
-    inputStyles: inputClassName,
-    leftPart,
-    rightPart,
-    ...rest
-  } = props;
+  const { inputRest, leftPart, rightPart, sx, inputSx, ...rest } = props;
   const theme = useTheme();
 
   return (
@@ -31,6 +31,7 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
         backgroundColor: "background.white16",
         border: `1px solid ${theme.palette.border.white24}`,
         backdropFilter: "blur(10px)",
+        ...sx,
       }}
       {...rest}
     >
@@ -48,14 +49,14 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
           color: theme.palette.text.white,
           py: theme.mixins.customPadding.p12,
           flex: 1,
-          "& ::placeholder": {
+          height: "fit-content",
+          "&::placeholder": {
             color: theme.palette.text.white64,
             fontSize: theme.typography.fontSize14,
           },
-          ...inputClassName,
+          ...inputSx,
         }}
       />
-      <input style={{}} />
       {rightPart}
     </Box>
   );
