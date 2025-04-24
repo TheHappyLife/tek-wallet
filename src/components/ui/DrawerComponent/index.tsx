@@ -71,19 +71,22 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
       onClose?.();
     };
 
-    const toggle: ReactEventHandler = (e) => {
-      const button = e.currentTarget?.querySelector(
-        ">button"
-      ) as HTMLButtonElement;
-      if (button.disabled) {
+    const toggle: React.MouseEventHandler<HTMLElement> = (e) => {
+      const children = Array.from(e.currentTarget.children);
+      const button = children.find((child) => child.tagName === "BUTTON") as
+        | HTMLButtonElement
+        | undefined;
+
+      if (button?.disabled) {
         e.stopPropagation();
 
         return;
       }
 
       unlockStatus();
-      setIsShowDrawerComponent(!isShowDrawerComponent);
-      onToggle?.(!isShowDrawerComponent);
+      const newState = !isShowDrawerComponent;
+      setIsShowDrawerComponent(newState);
+      onToggle?.(newState);
     };
 
     useImperativeHandle(ref, () => ({
