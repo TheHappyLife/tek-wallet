@@ -38,7 +38,8 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
       setWithdrawTokens(response?.supported_tokens);
       setIsLoadingWithdrawToken(false);
     } catch (error) {
-      console.error("🚀 ~ getBalance ~ error:", error);
+      console.error("🚀 ~ getBalance ~ error getWithdrawTokenList:", error);
+      setWithdrawTokens(undefined);
       setIsLoadingWithdrawToken(false);
     }
   }, [isAuthenticated]);
