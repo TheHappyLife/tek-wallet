@@ -4,7 +4,7 @@ import { GeneralProps } from "../../../types/ui";
 import getStandardNumber from "../../../utils/getStandardNumber";
 import lengthFromDotToFirstNonZero from "../../../utils/lengthFromDotToFirstNonZero";
 import CustomTooltip from "../CustomTooltip";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import formatter from "../../../utils/formatter";
 interface FormatterProps extends GeneralProps {
   value?: number | string;
@@ -47,6 +47,7 @@ const Formatter: React.FC<FormatterProps> = ({
 }) => {
   const { tokensRateState } = {} as any;
   const { userInfo } = {} as any;
+  const theme = useTheme();
   //   const { tokensRateState } = useRealtimeData();
   //   const { userInfo } = useGlobalData();
   if (value === undefined) return;
@@ -74,6 +75,12 @@ const Formatter: React.FC<FormatterProps> = ({
   return (
     <CustomTooltip
       disabled={disableTooltip}
+      sx={{
+        backdropFilter: "blur(10px)",
+        backgroundColor: "background.black64",
+        borderRadius: "0.75rem",
+        padding: `${theme.mixins.customPadding.p8} ${theme.mixins.customPadding.p12}`,
+      }}
       trigger={
         <Box
           sx={{
