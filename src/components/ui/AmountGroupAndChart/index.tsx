@@ -96,7 +96,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
           <Box
             sx={{
               position: "absolute",
-              top: 0,
+              top: expandAreaChart ? 0 : "unset",
               right: 0,
               left: 0,
               bottom: 0,
