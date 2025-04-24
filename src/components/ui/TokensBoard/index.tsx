@@ -22,7 +22,7 @@ const TokensBoard = () => {
           gap: theme.mixins.gaps.g12,
         }}
       >
-        <Text sx={{ ...theme.mixins.value }}>asset management</Text>
+        <Text sx={{ ...theme.mixins.value }}>Asset management</Text>
         <Box
           sx={{
             ...theme.mixins.row,
@@ -33,7 +33,10 @@ const TokensBoard = () => {
           <Text sx={{ ...theme.mixins.valueDescription }}>
             Hide small assets
           </Text>
-          <CheckBoxComponent className="!size-3" color="primary" />
+          <CheckBoxComponent
+            sx={{ width: "1.5rem", height: "1.5rem" }}
+            color="primary"
+          />
         </Box>
       </Box>
       <Divider />

@@ -90,7 +90,6 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
             aspectRatio: expandAreaChart ? "1.47317073171" : 999999,
             zIndex: 10,
             maxHeight: expandAreaChart ? "28rem" : "0",
-            border: "1px red solid",
           }}
         >
           <Box
