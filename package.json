@@ -1,6 +1,6 @@
 {
   "name": "tek-wallet",
-  "version": "0.0.253",
+  "version": "0.0.254",
   "description": "A custom React provider with TypeScript support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
