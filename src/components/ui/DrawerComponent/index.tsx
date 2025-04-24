@@ -71,7 +71,16 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
       onClose?.();
     };
 
-    const toggle = () => {
+    const toggle: ReactEventHandler = (e) => {
+      const button = e.currentTarget?.querySelector(
+        "button"
+      ) as HTMLButtonElement;
+      if (button.disabled) {
+        e.stopPropagation();
+
+        return;
+      }
+
       unlockStatus();
       setIsShowDrawerComponent(!isShowDrawerComponent);
       onToggle?.(!isShowDrawerComponent);
@@ -96,7 +105,12 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
 
     return (
       <>
-        <Box sx={sx} onClick={toggle}>
+        <Box
+          sx={{
+            ...sx,
+          }}
+          onClick={toggle}
+        >
           {trigger}
         </Box>
         <DrawerComponent
