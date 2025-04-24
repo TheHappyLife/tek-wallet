@@ -53,9 +53,9 @@ const TokensBoard = () => {
               display: "grid",
               gridTemplateColumns: "1.55fr 1fr 1fr",
               gap: theme.mixins.gaps.g12,
-              fontSize: "typography.fontSize11",
+              fontSize: theme.typography.fontSize11,
               color: "text.white",
-              lineHeight: "140%",
+              lineHeight: theme.typography.leading140,
             }}
           >
             <Text sx={{ textAlign: "left" }}>Name</Text>
@@ -75,9 +75,9 @@ const TokensBoard = () => {
       {!!tokens && (
         <Text
           sx={{
-            fontSize: "typography.fontSize12",
+            fontSize: theme.typography.fontSize12,
             color: "text.secondary",
-            lineHeight: "140%",
+            lineHeight: theme.typography.leading140,
             width: "fit-content",
             px: theme.mixins.customPadding.p5,
           }}

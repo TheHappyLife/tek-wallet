@@ -43,6 +43,7 @@ const Formatter: React.FC<FormatterProps> = ({
   hideStart,
   hideUnit,
   onClickUnit,
+  sx,
 }) => {
   const { tokensRateState } = {} as any;
   const { userInfo } = {} as any;
@@ -77,6 +78,7 @@ const Formatter: React.FC<FormatterProps> = ({
         <Box
           sx={{
             whiteSpace: "nowrap",
+            ...sx,
           }}
         >
           {numberDisplay === 0 && !allowShowZero ? (

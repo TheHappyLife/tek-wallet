@@ -30,8 +30,8 @@ const FunctionItem = (props: FunctionItemProps) => {
       <Text
         sx={{
           color: "text.white",
-          fontSize: "typography.fontSize13",
-          lineHeight: "typography.lineHeight140",
+          fontSize: theme.typography.fontSize13,
+          lineHeight: theme.typography.leading140,
         }}
       >
         {props.label}

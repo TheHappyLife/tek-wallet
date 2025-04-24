@@ -50,7 +50,7 @@ const LoadingLayout = forwardRef<LoadingLayoutRef, LoadingLayoutProps>(
             <Text
               sx={{
                 ...theme.mixins.center,
-                fontSize: "typography.fontSize12",
+                fontSize: theme.typography.fontSize12,
                 color: "text.secondary",
               }}
             >

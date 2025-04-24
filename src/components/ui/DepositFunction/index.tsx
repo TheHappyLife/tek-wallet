@@ -474,7 +474,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                     trigger={
                       <Button.Text
                         sx={{
-                          fontSize: "typography.fontSize12",
+                          fontSize: theme.typography.fontSize12,
                           textTransform: "none",
                         }}
                       >
@@ -549,7 +549,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                           sx={{
                             fontSize: theme.typography.fontSize12,
                             fontWeight: theme.typography.fontWeight400,
-                            leading: "typography.leading150",
+                            leading: theme.typography.leading160,
                             textTransform: "capitalize",
                           }}
                         >
@@ -569,7 +569,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                           sx={{
                             fontSize: theme.typography.fontSize12,
                             fontWeight: theme.typography.fontWeight400,
-                            leading: "typography.leading150",
+                            leading: theme.typography.leading160,
                             textTransform: "capitalize",
                           }}
                         >

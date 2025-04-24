@@ -163,7 +163,7 @@ const TimeFilter = ({
                 variant="outlined"
                 sx={{
                   textTransform: "capitalize",
-                  leading: "typography.lineHeight100",
+                  leading: theme.typography.leading100,
                   borderColor: "currentColor",
                   color: value?.type === type ? "text.white" : "text.white64",
                 }}

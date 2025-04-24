@@ -19,13 +19,19 @@ const AnalyticGroup = (props: AnalyticGroupProps) => {
         sx={{
           ...theme.mixins.row,
           ...theme.mixins.value,
-          fontSize: "typography.fontSize18",
+          fontSize: theme.typography.fontSize20,
         }}
       >
-        <Formatter value={1000000} />
+        <Formatter
+          sx={{ fontWeight: theme.typography.fontWeight700 }}
+          value={1000000}
+        />
         <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
           <Text
-            sx={{ fontWeight: "typography.fontWeight400", fontSize: "0.8em" }}
+            sx={{
+              fontWeight: theme.typography.fontWeight400,
+              fontSize: "0.8em",
+            }}
           >
             USD
           </Text>
@@ -41,9 +47,9 @@ const AnalyticGroup = (props: AnalyticGroupProps) => {
       >
         <Text
           sx={{
-            fontWeight: "typography.fontWeight500",
-            leading: "typography.lineHeight140",
-            fontSize: "typography.fontSize14",
+            fontWeight: theme.typography.fontWeight500,
+            leading: theme.typography.leading140,
+            fontSize: theme.typography.fontSize14,
             textTransform: "capitalize",
           }}
         >
