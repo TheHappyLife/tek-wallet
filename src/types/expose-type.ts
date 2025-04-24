@@ -107,7 +107,8 @@ export interface WithdrawProviderDataType {
 
 export type Wallet = Omit<WalletProviderDataType, "session"> &
   DepositProviderDataType &
-  LockTokensProviderDataType;
+  LockTokensProviderDataType &
+  WithdrawProviderDataType;
 export interface LoginInfo {
   accessToken: string;
   refreshToken: string;

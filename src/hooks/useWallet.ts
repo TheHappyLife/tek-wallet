@@ -9,15 +9,24 @@ import {
   initialLockTokens,
   LockTokensContext,
 } from "../providers/LockTokenProvider";
-
+import {
+  initialWithdraw,
+  WithdrawContext,
+} from "../providers/WithdrawProvider";
 function useWallet(): Wallet {
   const depositData = useContext(DepositContext);
+  const withdrawData = useContext(WithdrawContext);
   const walletData = useContext(WalletDataContext);
   const lockTokensData = useContext(LockTokensContext);
   try {
     delete walletData.session;
 
-    return { ...walletData, ...depositData, ...lockTokensData };
+    return {
+      ...walletData,
+      ...depositData,
+      ...lockTokensData,
+      ...withdrawData,
+    };
   } catch (error) {
     console.error("🚀 ~ useWallet ~ error:", error);
     delete initialWalletData.session;
@@ -26,6 +35,7 @@ function useWallet(): Wallet {
       ...initialWalletData,
       ...initialDeposit,
       ...initialLockTokens,
+      ...initialWithdraw,
     };
   }
 }
