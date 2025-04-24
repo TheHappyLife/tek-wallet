@@ -53,9 +53,13 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
             fontSize: theme.typography.fontSize16,
             lineHeight: theme.typography.leading140,
             fontWeight: theme.typography.fontWeight400,
-            padding: theme.mixins.customPadding.p12,
+            padding: `${theme.mixins.customPadding.p8} ${theme.mixins.customPadding.p12}`,
             height: "fit-content",
             minHeight: "unset",
+          },
+          "& .Mui-focused": {
+            border: "none !important",
+            outline: "none !important",
           },
           "& .MuiInputBase-input::placeholder": {
             color: theme.palette.text.white64,
