@@ -14,6 +14,7 @@ const TokensBoard = () => {
       sx={{
         ...theme.mixins.paper,
         backgroundColor: "background.black24",
+        boxShadow: theme.shadows[1],
       }}
     >
       <Box

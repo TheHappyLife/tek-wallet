@@ -1,4 +1,4 @@
-import { createTheme, ThemeOptions } from "@mui/material/styles";
+import { createTheme, Shadows, ThemeOptions } from "@mui/material/styles";
 
 const typography = {
   fontSize10: "0.625rem",
@@ -121,6 +121,34 @@ const theBorderRadius = {
   r16: "1rem",
 };
 
+const shadows = [
+  "none",
+  "10px 10px 15px 10px rgba(255, 255, 255, 0.2)", // 0
+  "0px 3px 6px rgba(255, 255, 255, 0.1)", // 1
+  "0px 5px 15px rgba(255, 255, 255, 0.1)", // 2
+  "0px 5px 15px rgba(255, 255, 255, 0.2)", // 3
+  "0px 6px 24px rgba(255, 255, 255, 0.1)", // 4
+  "0px 10px 20px rgba(255, 255, 255, 0.1)", // 5
+  "0px 12px 24px rgba(255, 255, 255, 0.2)", // 6
+  "0px 15px 30px rgba(255, 255, 255, 0.1)", // 7
+  "0px 15px 30px rgba(255, 255, 255, 0.2)", // 8
+  "0px 18px 36px rgba(255, 255, 255, 0.1)", // 9
+  "0px 18px 36px rgba(255, 255, 255, 0.2)", // 10
+  "0px 20px 40px rgba(255, 255, 255, 0.1)", // 11
+  "0px 20px 40px rgba(0, 0, 0, 0.2)", // 12
+  "0px 24px 48px rgba(0, 0, 0, 0.1)", // 13
+  "0px 24px 48px rgba(0, 0, 0, 0.2)", // 14
+  "0px 30px 60px rgba(0, 0, 0, 0.1)", // 15
+  "0px 30px 60px rgba(0, 0, 0, 0.2)", // 16
+  "0px 35px 70px rgba(0, 0, 0, 0.1)", // 17
+  "0px 35px 70px rgba(0, 0, 0, 0.2)", // 18
+  "0px 40px 80px rgba(0, 0, 0, 0.1)", // 19
+  "0px 40px 80px rgba(0, 0, 0, 0.2)", // 20
+  "0px 45px 90px rgba(0, 0, 0, 0.1)", // 21
+  "0px 45px 90px rgba(0, 0, 0, 0.2)", // 22
+  "0px 50px 100px rgba(0, 0, 0, 0.1)", // 23
+];
+
 const theme: ThemeOptions = createTheme({
   palette: {
     primary: {
@@ -137,6 +165,7 @@ const theme: ThemeOptions = createTheme({
     divider: "rgba(255, 255, 255, 0.16)",
   },
   typography,
+  shadows: shadows as Shadows,
   mixins: {
     pagePadding,
     customPadding,
