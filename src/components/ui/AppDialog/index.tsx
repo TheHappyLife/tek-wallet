@@ -28,7 +28,11 @@ const AppDialog = forwardRef<AppDialogRef, AppDialogProps>((props, ref) => {
       open={overrideOpen ?? isOpen}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      hideBackdrop
       sx={{
+        "& .MuiPaper-root": {
+          backgroundColor: "transparent",
+        },
         ...sx,
       }}
       {...rest}
