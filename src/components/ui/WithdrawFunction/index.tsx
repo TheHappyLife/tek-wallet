@@ -36,6 +36,7 @@ import validateWalletAddressService from "../../../services/axios/validate-walle
 import parseTonTransferUrl, {
   TonTransferUrlParams,
 } from "../../../utils/parseTonTransferUrl";
+import AppBackDrop, { AppBackDropRef } from "../BackDrop";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -85,7 +86,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [recipientAddress, setRecipientAddress] = useState<string>("");
     const scannerAllQrCodeRef = useRef<QrCodeReaderRef>(null);
     const scannerAddressQrCodeRef = useRef<QrCodeReaderRef>(null);
-
+    const backDropRef = useRef<AppBackDropRef>(null);
+    const [selectedMethod, setSelectedMethod] = useState<SendMethods>();
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
@@ -154,6 +156,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
     const handleSelectMethod = (method: SendMethods) => {
       console.warn("🚀 ~ handleSelectMethod ~ method:", method);
+      setSelectedMethod(method);
       switch (method) {
         case SendMethods.SCAN_QR_CODE:
           navigator.mediaDevices
@@ -174,7 +177,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         case SendMethods.TRANSFER_INTERNAL:
           break;
         case SendMethods.TRANSFER_EXTERNAL:
-          nextStep();
+          gotoStep(WithdrawStep.SELECT_TOKEN);
           break;
         default:
           break;
@@ -186,23 +189,22 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setCurrentStep((prev) => prev - 1);
     };
 
-    const nextStep = () => {
-      swiperRef.current?.next();
-      setCurrentStep((prev) => prev + 1);
-    };
-
     const handleSelectToken = (token: WithdrawCurrency) => {
       console.warn("🚀 ~ handleSelectToken ~ token:", token);
       setSelectedToken(token);
       if (!!token) {
-        nextStep();
+        if (selectedMethod === SendMethods.TRANSFER_EXTERNAL) {
+          gotoStep(WithdrawStep.SELECT_NETWORK);
+        } else if (selectedMethod === SendMethods.TRANSFER_INTERNAL) {
+          gotoStep(WithdrawStep.CONFIRM);
+        }
       }
     };
 
     const handleSelectNetwork = (network?: NetworkData) => {
       console.warn("network", selectedNetwork);
       setSelectedNetwork(network);
-      nextStep();
+      gotoStep(WithdrawStep.CONFIRM);
     };
 
     // const handleValidateWalletAddress = async (
@@ -215,6 +217,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     // };
 
     const handleScanAllQrCode = async (result: IDetectedBarcode[]) => {
+      scannerAllQrCodeRef.current?.close();
       if (result) {
         console.error("result", result);
 
@@ -223,10 +226,13 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         const tonTransferParam: TonTransferUrlParams =
           parseTonTransferUrl(text);
 
+        backDropRef.current?.open();
+
         const validateWalletAddress = await validateWalletAddressService({
           address: tonTransferParam?.address,
           network: selectedNetwork?.slug || "ton",
         });
+        backDropRef.current?.close();
 
         console.warn("validateWalletAddress", validateWalletAddress);
 
@@ -240,8 +246,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           //invalid
           console.warn("invalid");
         }
-
-        scannerAllQrCodeRef.current?.close();
       }
     };
     const handleScanAddressQrCode = () => {};
@@ -299,7 +303,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 <Box
                   sx={{
                     ...theme.mixins.column,
-                    gap: theme.mixins.gaps.g12,
                     height: "fit-content",
                   }}
                 >
@@ -314,6 +317,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                           onClick={() =>
                             handleSelectMethod(item as SendMethods)
                           }
+                          sx={{
+                            my: theme.mixins.customMargin.m12,
+                          }}
                         />
                       </Fragment>
                     );
@@ -479,6 +485,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
               ref={scannerAddressQrCodeRef}
               onResult={handleScanAddressQrCode}
             />
+            <AppBackDrop ref={backDropRef} />
           </ModalLayout>
         </DrawerComponent>
       </RequireConnect>
