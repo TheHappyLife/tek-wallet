@@ -127,6 +127,18 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
                 }}
               ></div>
             </div>
+            <div
+              onClick={close}
+              style={{
+                position: "absolute",
+                top: "1rem",
+                right: "1rem",
+                zIndex: 6000,
+                cursor: "pointer",
+              }}
+            >
+              Close
+            </div>
           </Scanner>
         )}
       </DrawerComponent>

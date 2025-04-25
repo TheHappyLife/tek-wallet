@@ -37,8 +37,6 @@ function ListItemCustom({
       sx={{
         ...theme.mixins.row,
         gap: theme.mixins.gaps.g12,
-        backgroundColor: "background.white16",
-        borderRadius: theme.mixins.theBorderRadius.r12,
         padding: 0,
         ...sx,
       }}

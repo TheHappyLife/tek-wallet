@@ -32,6 +32,10 @@ import ListItemCustom from "../ListItemCustom";
 import Input from "../Input";
 import QrCodeReader, { QrCodeReaderRef } from "../QrCodeReader";
 import { IDetectedBarcode } from "@yudiel/react-qr-scanner";
+import validateWalletAddressService from "../../../services/axios/validate-wallet-address-service";
+import parseTonTransferUrl, {
+  TonTransferUrlParams,
+} from "../../../utils/parseTonTransferUrl";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -201,9 +205,42 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       nextStep();
     };
 
-    const handleScanAllQrCode = (result: IDetectedBarcode[]) => {
+    // const handleValidateWalletAddress = async (
+    //   data: ValidateWalletAddressBody
+    // ) => {
+    //   const validateWalletAddress = await validateWalletAddressService({
+    //     address: data?.address,
+    //     network: data?.network,
+    //   });
+    // };
+
+    const handleScanAllQrCode = async (result: IDetectedBarcode[]) => {
       if (result) {
         console.error("result", result);
+
+        const text = result?.[0]?.rawValue;
+
+        const tonTransferParam: TonTransferUrlParams =
+          parseTonTransferUrl(text);
+
+        const validateWalletAddress = await validateWalletAddressService({
+          address: tonTransferParam?.address,
+          network: selectedNetwork?.slug || "",
+        });
+
+        console.warn("validateWalletAddress", validateWalletAddress);
+
+        if (!!validateWalletAddress?.master_wallet_address) {
+          //internal
+          console.warn("internal");
+        } else if (!!validateWalletAddress?.valid) {
+          //external
+          console.warn("external");
+        } else {
+          //invalid
+          console.warn("invalid");
+        }
+
         scannerAllQrCodeRef.current?.close();
       }
     };
