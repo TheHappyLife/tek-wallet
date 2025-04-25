@@ -1,6 +1,6 @@
 import { Box, BoxProps } from "@mui/material";
 import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
-import { forwardRef, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useTheme } from "@mui/material";
 import { OnResultFunction, QrReader } from "react-qr-reader";
 
@@ -16,18 +16,27 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
   (props, ref) => {
     const theme = useTheme();
     const drawerRef = useRef<DrawerComponentRef>(null);
-
+    const [isOpen, setIsOpen] = useState(false);
+    const open = () => {
+      drawerRef.current?.open();
+      setIsOpen(true);
+    };
+    const close = () => {
+      drawerRef.current?.close();
+      setIsOpen(false);
+    };
     useImperativeHandle(ref, () => ({
-      open: () => {
-        drawerRef.current?.open();
-      },
-      close: () => {
-        drawerRef.current?.close();
-      },
+      open,
+      close,
     }));
 
     return (
-      <DrawerComponent trigger={props.children} ref={drawerRef}>
+      <DrawerComponent
+        trigger={props.children}
+        ref={drawerRef}
+        onClose={close}
+        onOpen={open}
+      >
         <Box
           sx={{
             width: "100%",
@@ -35,15 +44,17 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
             position: "relative",
           }}
         >
-          <QrReader
-            containerStyle={{
-              width: "100%",
-              height: "100%",
-            }}
-            constraints={{ facingMode: "environment" }}
-            onResult={props.onResult}
-            videoStyle={{ objectFit: "cover" }}
-          />
+          {isOpen && (
+            <QrReader
+              containerStyle={{
+                width: "100%",
+                height: "100%",
+              }}
+              constraints={{ facingMode: "environment" }}
+              onResult={props.onResult}
+              videoStyle={{ objectFit: "cover", width: "100%", height: "100%" }}
+            />
+          )}
           <Box
             sx={{
               ...theme.mixins.center,
