@@ -31,7 +31,7 @@ import { WithdrawCurrency } from "../../../services/axios/get-withdraw-tokens-li
 import ListItemCustom from "../ListItemCustom";
 import Input from "../Input";
 import QrCodeReader, { QrCodeReaderRef } from "../QrCodeReader";
-import { OnResultFunction } from "react-qr-reader";
+import { IDetectedBarcode } from "@yudiel/react-qr-scanner";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -201,8 +201,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       nextStep();
     };
 
-    const handleScanAllQrCode: OnResultFunction = (result) => {
-      console.warn("🚀 ~ handleScanAllQrCode ~ result:", result);
+    const handleScanAllQrCode = (result: IDetectedBarcode[]) => {
       if (result) {
         console.error("result", result);
         scannerAllQrCodeRef.current?.close();
