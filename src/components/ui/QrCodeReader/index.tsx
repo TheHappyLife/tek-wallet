@@ -25,6 +25,15 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
       drawerRef.current?.close();
       setIsOpen(false);
     };
+
+    const onOpen = () => {
+      setIsOpen(true);
+    };
+
+    const onClose = () => {
+      setIsOpen(false);
+    };
+
     useImperativeHandle(ref, () => ({
       open,
       close,
@@ -34,8 +43,8 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
       <DrawerComponent
         trigger={props.children}
         ref={drawerRef}
-        onClose={close}
-        onOpen={open}
+        onClose={onClose}
+        onOpen={onOpen}
       >
         <Box
           sx={{
@@ -45,24 +54,30 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
           }}
         >
           {isOpen && (
-            <QrReader
-              containerStyle={{
-                width: "100%",
-                height: "100%",
-              }}
-              constraints={{ facingMode: "environment" }}
-              onResult={props.onResult}
-              videoStyle={{ objectFit: "cover", width: "100%", height: "100%" }}
-            />
+            <>
+              <QrReader
+                containerStyle={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                constraints={{ facingMode: "environment" }}
+                onResult={props.onResult}
+                videoStyle={{
+                  objectFit: "cover",
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+              <Box
+                sx={{
+                  ...theme.mixins.center,
+                  width: "50%",
+                  aspectRatio: 1,
+                  border: `1px solid ${theme.palette.border.white64}`,
+                }}
+              ></Box>
+            </>
           )}
-          <Box
-            sx={{
-              ...theme.mixins.center,
-              width: "50%",
-              aspectRatio: 1,
-              border: `1px solid ${theme.palette.border.white64}`,
-            }}
-          ></Box>
         </Box>
       </DrawerComponent>
     );
