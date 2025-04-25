@@ -1,6 +1,7 @@
 "use client";
 import {
   forwardRef,
+  Fragment,
   ReactEventHandler,
   useEffect,
   useImperativeHandle,
@@ -29,6 +30,8 @@ import useWithdrawData from "../../../hooks/useWithdrawData";
 import { WithdrawCurrency } from "../../../services/axios/get-withdraw-tokens-list-service/type";
 import ListItemCustom from "../ListItemCustom";
 import Input from "../Input";
+import QrCodeReader, { QrCodeReaderRef } from "../QrCodeReader";
+import { OnResultFunction } from "react-qr-reader";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -76,6 +79,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [amount, setAmount] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
     const [recipientAddress, setRecipientAddress] = useState<string>("");
+    const scannerAllQrCodeRef = useRef<QrCodeReaderRef>(null);
+    const scannerAddressQrCodeRef = useRef<QrCodeReaderRef>(null);
+
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
@@ -146,6 +152,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       console.warn("🚀 ~ handleSelectMethod ~ method:", method);
       switch (method) {
         case SendMethods.SCAN_QR_CODE:
+          scannerAllQrCodeRef.current?.open();
           break;
         case SendMethods.TRANSFER_INTERNAL:
           break;
@@ -180,6 +187,17 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setSelectedNetwork(network);
       nextStep();
     };
+
+    const handleScanAllQrCode: OnResultFunction = (
+      result,
+      error,
+      codeReader
+    ) => {
+      console.warn("🚀 ~ handleScanAllQrCode ~ result:", result);
+      console.warn("🚀 ~ handleScanAllQrCode ~ error:", error);
+      console.warn("🚀 ~ handleScanAllQrCode ~ codeReader:", codeReader);
+    };
+    const handleScanAddressQrCode = () => {};
 
     useEffect(() => {
       if (isAuthenticated && !withdrawTokens) {
@@ -238,15 +256,19 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     height: "fit-content",
                   }}
                 >
-                  {Object.values(SendMethods).map((item) => {
+                  {Object.values(SendMethods).map((item, index) => {
                     return (
-                      <ListItemCustom
-                        key={item}
-                        title={item}
-                        description={item}
-                        icon={getIcon(item + "_icon")}
-                        onClick={() => handleSelectMethod(item as SendMethods)}
-                      />
+                      <Fragment key={item}>
+                        {index !== 0 && <Divider />}
+                        <ListItemCustom
+                          title={item}
+                          description={item}
+                          icon={getIcon(item + "_icon")}
+                          onClick={() =>
+                            handleSelectMethod(item as SendMethods)
+                          }
+                        />
+                      </Fragment>
                     );
                   })}
                 </Box>
@@ -402,6 +424,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 </Box>
               </SwiperSlide>
             </SwiperControlled>
+            <QrCodeReader
+              ref={scannerAllQrCodeRef}
+              onResult={handleScanAllQrCode}
+            />
+            <QrCodeReader
+              ref={scannerAddressQrCodeRef}
+              onResult={handleScanAddressQrCode}
+            />
           </ModalLayout>
         </DrawerComponent>
       </RequireConnect>

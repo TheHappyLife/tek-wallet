@@ -1,10 +1,16 @@
-import { Box, ListItem, ListItemProps, useTheme } from "@mui/material";
+import {
+  Box,
+  ListItemButton,
+  ListItemButtonProps,
+  useTheme,
+} from "@mui/material";
 import { ReactEventHandler } from "react";
 import Icon from "../Icon";
 import getIcon from "../../../utils/getIcon";
 import Text from "../Text";
 
-export interface ListItemCustomProps extends Omit<ListItemProps, "title"> {
+export interface ListItemCustomProps
+  extends Omit<ListItemButtonProps, "title"> {
   title: React.ReactNode;
   description: React.ReactNode;
   icon: string;
@@ -26,13 +32,14 @@ function ListItemCustom({
   const theme = useTheme();
 
   return (
-    <ListItem
+    <ListItemButton
       {...rest}
       sx={{
         ...theme.mixins.row,
         gap: theme.mixins.gaps.g12,
         backgroundColor: "background.white16",
         borderRadius: theme.mixins.theBorderRadius.r12,
+        padding: 0,
         ...sx,
       }}
     >
@@ -50,9 +57,9 @@ function ListItemCustom({
       </Box>
       {rightIcon ??
         (!hideDefaultRightIcon && (
-          <Icon width={10} src={getIcon("arrow-right")} sx={{ ml: "auto" }} />
+          <Icon width={10} src={getIcon("right_arrow")} sx={{ ml: "auto" }} />
         ))}
-    </ListItem>
+    </ListItemButton>
   );
 }
 
