@@ -126,6 +126,7 @@ const ConfirmByPasscode = forwardRef<
         ref={loadingRef}
         sx={{
           backgroundColor: "transparent",
+          width: "100%",
         }}
       >
         <ModalLayout title={"Authentication"} onClose={handleClose}>

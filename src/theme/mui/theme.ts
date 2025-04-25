@@ -60,6 +60,7 @@ const text = {
   white80: "rgba(255, 255, 255, 0.8)",
   white64: "rgba(255, 255, 255, 0.64)",
   white24: "rgba(255, 255, 255, 0.24)",
+  secondary: "#01FFFF",
   successStatus: "#01FF00",
   errorStatus: "#FE6565",
   loadingStatus: "#01FFFF",

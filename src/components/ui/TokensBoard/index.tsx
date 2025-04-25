@@ -71,7 +71,7 @@ const TokensBoard = () => {
 
           return <TokenItem key={item.id} tokenData={stringifiedTokenData} />;
         })}
-        {!tokens && <WaitingData className="m-auto" />}
+        {!tokens && <WaitingData sx={{ margin: "auto" }} />}
       </Box>
       {!!tokens && (
         <Text
