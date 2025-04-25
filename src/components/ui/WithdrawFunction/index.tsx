@@ -225,7 +225,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
         const validateWalletAddress = await validateWalletAddressService({
           address: tonTransferParam?.address,
-          network: selectedNetwork?.slug || "",
+          network: selectedNetwork?.slug || "ton",
         });
 
         console.warn("validateWalletAddress", validateWalletAddress);
