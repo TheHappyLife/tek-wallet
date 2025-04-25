@@ -190,7 +190,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
     const handleScanAllQrCode: OnResultFunction = (result) => {
       console.warn("🚀 ~ handleScanAllQrCode ~ result:", result);
-      scannerAllQrCodeRef.current?.close();
+      if (result) {
+        console.error("result", result);
+        scannerAllQrCodeRef.current?.close();
+      }
     };
     const handleScanAddressQrCode = () => {};
 
