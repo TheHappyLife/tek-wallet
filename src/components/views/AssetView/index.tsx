@@ -10,6 +10,7 @@ import useWalletData from "../../../hooks/useWalletData";
 import Text from "../../ui/Text";
 import { useTheme } from "@mui/material";
 import AmountGroupAndChart from "../../ui/AmountGroupAndChart";
+import { QrReader } from "react-qr-reader";
 const AssetView = () => {
   const { isAuthenticated } = useWalletData();
   const theme = useTheme();
@@ -24,7 +25,20 @@ const AssetView = () => {
       {!!isAuthenticated && (
         <DefaultPageLayout>
           <AmountGroupAndChart />
-
+          <QrReader
+            containerStyle={{
+              width: "300px",
+              border: "1px solid red",
+            }}
+            constraints={{ facingMode: "environment" }}
+            // onResult={props.onResult}
+            videoStyle={{
+              objectFit: "cover",
+              width: "100%",
+              border: "1px solid blue",
+              zIndex: 5000,
+            }}
+          />
           <Box
             sx={{
               display: "grid",
