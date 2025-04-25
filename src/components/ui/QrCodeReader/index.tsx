@@ -57,7 +57,7 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
             <>
               <QrReader
                 containerStyle={{
-                  width: "100%",
+                  width: "300px",
                   border: "1px solid red",
                 }}
                 constraints={{ facingMode: "environment" }}
