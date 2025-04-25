@@ -152,6 +152,19 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       console.warn("🚀 ~ handleSelectMethod ~ method:", method);
       switch (method) {
         case SendMethods.SCAN_QR_CODE:
+          navigator.mediaDevices
+            .enumerateDevices()
+            .then((devices) => {
+              console.warn("🚀 ~ .then ~ devices:", devices);
+              devices.forEach((device) => {
+                if (device.kind === "videoinput") {
+                  console.warn("🚀 ~ handleSelectMethod ~ device:", device);
+                }
+              });
+            })
+            .catch((error) => {
+              console.error("Error accessing media devices.", error);
+            });
           scannerAllQrCodeRef.current?.open();
           break;
         case SendMethods.TRANSFER_INTERNAL:
