@@ -1,0 +1,35 @@
+import { Box, BoxProps, Divider, useTheme } from "@mui/material";
+import { ReactNode } from "react";
+import Text from "../Text";
+
+interface DialogContentLayoutProps
+  extends Omit<BoxProps, "content" | "actions"> {
+  content?: ReactNode;
+  actions?: ReactNode;
+}
+
+function DialogContentLayout(props: DialogContentLayoutProps) {
+  const { content, actions, sx, ...rest } = props;
+  const theme = useTheme();
+
+  return (
+    <Box
+      sx={{
+        ...theme.mixins.column,
+        gap: theme.mixins.gaps.g12,
+        padding: theme.mixins.customPadding.p12,
+        borderRadius: theme.mixins.theBorderRadius.r12,
+        backgroundColor: theme.palette.background.black64,
+        backdropFilter: "blur(12px)",
+        ...sx,
+      }}
+      {...rest}
+    >
+      <Text sx={{ ...theme.mixins.dialogContent }}>{content}</Text>
+      {!!actions && <Divider />}
+      {actions}
+    </Box>
+  );
+}
+
+export default DialogContentLayout;

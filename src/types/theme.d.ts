@@ -56,6 +56,9 @@ declare module "@mui/material/styles" {
     listTitle: React.CSSProperties;
     listDescription: React.CSSProperties;
     smallButton: React.CSSProperties;
+    dialogContent: React.CSSProperties;
+    dialogActionsOk: React.CSSProperties;
+    dialogActionsCancel: React.CSSProperties;
   }
 
   interface TypeBackground {

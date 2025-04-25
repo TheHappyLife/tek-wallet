@@ -274,6 +274,21 @@ const theme: ThemeOptions = createTheme({
       borderRadius: theBorderRadius.full,
       lineHeight: typography.leading100,
     },
+    dialogContent: {
+      fontSize: typography.fontSize14,
+      lineHeight: typography.leading140,
+      color: text.white64,
+    },
+    dialogActionsOk: {
+      fontSize: typography.fontSize14,
+      lineHeight: typography.leading140,
+      color: "#2482ff",
+    },
+    dialogActionsCancel: {
+      fontSize: typography.fontSize14,
+      lineHeight: typography.leading140,
+      color: text.white64,
+    },
   },
 });
 

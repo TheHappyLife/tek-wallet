@@ -3,6 +3,7 @@ import {
   forwardRef,
   Fragment,
   ReactEventHandler,
+  ReactNode,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -36,7 +37,9 @@ import validateWalletAddressService from "../../../services/axios/validate-walle
 import parseTonTransferUrl, {
   TonTransferUrlParams,
 } from "../../../utils/parseTonTransferUrl";
-import AppBackDrop, { AppBackDropRef } from "../BackDrop";
+import AppBackDrop, { AppBackDropRef } from "../AppBackDrop";
+import DialogContentLayout from "../DialogContentLayout";
+import AppDialog from "../AppDialog";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -81,6 +84,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
     const { isAuthenticated } = useWalletData();
     const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
+    const [dialogContent, setDialogContent] = useState<ReactNode>();
     const [amount, setAmount] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
     const [recipientAddress, setRecipientAddress] = useState<string>("");
@@ -237,10 +241,17 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
           return;
         }
+
         backDropRef.current?.close();
+        setDialogContent(
+          "Unsupported QR, please scan a valid QR code or enter the recipient address manually"
+        );
 
         console.warn("validateWalletAddress", validateWalletAddress);
+        // if(validateWalletAddress?.is_current_wallet) {
 
+        //   return
+        // }
         if (!!validateWalletAddress?.master_wallet_address) {
           //internal
           console.warn("internal");
@@ -491,6 +502,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
               onResult={handleScanAddressQrCode}
             />
             <AppBackDrop ref={backDropRef} />
+            <AppDialog overrideOpen={!!dialogContent}>
+              <DialogContentLayout
+                content={dialogContent}
+                actions={<Button.Primary>Confirm</Button.Primary>}
+              />
+            </AppDialog>
           </ModalLayout>
         </DrawerComponent>
       </RequireConnect>
