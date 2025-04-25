@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@mui/material";
-import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
+import { DrawerComponentRef } from "../DrawerComponent";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useTheme } from "@mui/material";
 import { OnResultFunction, QrReader } from "react-qr-reader";
@@ -26,13 +26,13 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
       setIsOpen(false);
     };
 
-    const onOpen = () => {
-      setIsOpen(true);
-    };
+    // const onOpen = () => {
+    //   setIsOpen(true);
+    // };
 
-    const onClose = () => {
-      setIsOpen(false);
-    };
+    // const onClose = () => {
+    //   setIsOpen(false);
+    // };
 
     useImperativeHandle(ref, () => ({
       open,
@@ -40,47 +40,34 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
     }));
 
     return (
-      <DrawerComponent
-        trigger={props.children}
-        ref={drawerRef}
-        onClose={onClose}
-        onOpen={onOpen}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            height: "100dvh",
-            position: "relative",
-          }}
-        >
-          {isOpen && (
-            <>
-              <QrReader
-                containerStyle={{
-                  width: "300px",
-                  border: "1px solid red",
-                }}
-                constraints={{ facingMode: "environment" }}
-                onResult={props.onResult}
-                videoStyle={{
-                  objectFit: "cover",
-                  width: "100%",
-                  border: "1px solid blue",
-                  zIndex: 5000,
-                }}
-              />
-              <Box
-                sx={{
-                  ...theme.mixins.center,
-                  width: "50%",
-                  aspectRatio: 1,
-                  border: `1px solid ${theme.palette.border.white64}`,
-                }}
-              ></Box>
-            </>
-          )}
-        </Box>
-      </DrawerComponent>
+      <>
+        {isOpen && (
+          <>
+            <QrReader
+              containerStyle={{
+                width: "300px",
+                border: "1px solid red",
+              }}
+              constraints={{ facingMode: "environment" }}
+              onResult={props.onResult}
+              videoStyle={{
+                objectFit: "cover",
+                width: "100%",
+                border: "1px solid blue",
+                zIndex: 5000,
+              }}
+            />
+            <Box
+              sx={{
+                ...theme.mixins.center,
+                width: "50%",
+                aspectRatio: 1,
+                border: `1px solid ${theme.palette.border.white64}`,
+              }}
+            ></Box>
+          </>
+        )}
+      </>
     );
   }
 );
