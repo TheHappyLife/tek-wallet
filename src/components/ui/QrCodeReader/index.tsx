@@ -58,14 +58,13 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
               <QrReader
                 containerStyle={{
                   width: "100%",
-                  height: "100%",
+                  border: "1px solid red",
                 }}
                 constraints={{ facingMode: "environment" }}
                 onResult={props.onResult}
                 videoStyle={{
                   objectFit: "cover",
                   width: "100%",
-                  height: "100%",
                 }}
               />
               <Box
