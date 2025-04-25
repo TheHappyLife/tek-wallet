@@ -232,6 +232,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           address: tonTransferParam?.address,
           network: selectedNetwork?.slug || "ton",
         });
+        if (!validateWalletAddress) {
+          alert("Unsupported QR");
+
+          return;
+        }
         backDropRef.current?.close();
 
         console.warn("validateWalletAddress", validateWalletAddress);
