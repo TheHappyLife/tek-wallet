@@ -160,6 +160,20 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
               }
             />
           </Box>
+          <Text
+            sx={{
+              ...theme.mixins.value,
+            }}
+          >
+            Your balance is{" "}
+            <Text
+              sx={{
+                fontWeight: theme.typography.fontWeight600,
+              }}
+            >
+              <Formatter value={token?.balance} unit={token?.name} />
+            </Text>
+          </Text>
           {!!error && (
             <Text
               sx={{

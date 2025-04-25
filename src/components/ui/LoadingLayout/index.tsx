@@ -44,6 +44,7 @@ const LoadingLayout = forwardRef<LoadingLayoutRef, LoadingLayoutProps>(
               ...theme.mixins.whiteLoadingOverlay,
               ...theme.mixins.row,
               gap: theme.mixins.gaps.g8,
+              justifyContent: "center",
             }}
           >
             <CircularProgress color="secondary" size={20} />
