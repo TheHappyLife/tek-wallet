@@ -120,31 +120,33 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
               />
             </DelayMounted>
           </Box>
-          <Box sx={{ position: "absolute", bottom: 0 }}>
-            <motion.div
-              initial="hidden"
-              animate={expandAreaChart ? "visible" : "hidden"}
-              variants={variants}
-              transition={{
-                opacity: {
-                  duration: expandAreaChart ? 0.5 : 0.25,
-                  ease: "linear",
-                  delay: expandAreaChart ? 0.5 : 0,
-                },
-                left: {
-                  duration: expandAreaChart ? 0.5 : 0.25,
-                  ease: "linear",
-                  delay: expandAreaChart ? 0.3 : 0,
-                },
-              }}
-            >
-              <TimeFilter
-                hideAll
-                initialValue={defaultTimeRange}
-                onChange={handleChangeTimeRange}
-              />
-            </motion.div>
-          </Box>
+          <motion.div
+            style={{
+              position: "absolute",
+              bottom: 0,
+            }}
+            initial="hidden"
+            animate={expandAreaChart ? "visible" : "hidden"}
+            variants={variants}
+            transition={{
+              opacity: {
+                duration: expandAreaChart ? 0.5 : 0.25,
+                ease: "linear",
+                delay: expandAreaChart ? 0.5 : 0,
+              },
+              left: {
+                duration: expandAreaChart ? 0.5 : 0.25,
+                ease: "linear",
+                delay: expandAreaChart ? 0.3 : 0,
+              },
+            }}
+          >
+            <TimeFilter
+              hideAll
+              initialValue={defaultTimeRange}
+              onChange={handleChangeTimeRange}
+            />
+          </motion.div>
         </Box>
         <Icon
           sx={{
