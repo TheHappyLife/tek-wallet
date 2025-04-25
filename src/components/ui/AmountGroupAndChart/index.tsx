@@ -130,12 +130,12 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
             variants={variants}
             transition={{
               opacity: {
-                duration: expandAreaChart ? 0.5 : 0.25,
+                duration: expandAreaChart ? 0.5 : 0.1,
                 ease: "linear",
                 delay: expandAreaChart ? 0.5 : 0,
               },
               left: {
-                duration: expandAreaChart ? 0.5 : 0.25,
+                duration: expandAreaChart ? 0.5 : 0.2,
                 ease: "linear",
                 delay: expandAreaChart ? 0.3 : 0,
               },
