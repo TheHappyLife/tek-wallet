@@ -123,7 +123,7 @@ const theBorderRadius = {
 
 const shadows = [
   "none",
-  "10px 10px 15px 10px rgba(255, 255, 255, 0.2)", // 0
+  "inset 0px 0px 15px 5px rgba(255, 255, 255, 0.1)", // 0
   "0px 3px 6px rgba(255, 255, 255, 0.1)", // 1
   "0px 5px 15px rgba(255, 255, 255, 0.1)", // 2
   "0px 5px 15px rgba(255, 255, 255, 0.2)", // 3
