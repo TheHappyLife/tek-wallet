@@ -168,6 +168,41 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       clearValues();
       props.onClose?.(e);
     };
+    const findWithdrawToken = (
+      contract_address: string
+    ): WithdrawCurrency | undefined => {
+      return withdrawTokens?.find((item) => item?.address === contract_address);
+    };
+    const handleSelectTransferInternal = () => {
+      suggestUseTransferInternalDialogRef.current?.close();
+      const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
+      if (!tokenSet) {
+        gotoStep(WithdrawStep.SELECT_TOKEN);
+      } else {
+        setSelectedToken(tokenSet);
+        setSelectedNetwork(tokenSet?.network_data);
+        gotoStep(WithdrawStep.CONFIRM);
+      }
+      setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
+      setRecipientAddress(recipientAddressInternal);
+      setAmount(sendInfoGet?.amount || "");
+    };
+
+    const handleSelectContinueTransferExternal = () => {
+      suggestUseTransferInternalDialogRef.current?.close();
+      const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
+      if (!tokenSet) {
+        gotoStep(WithdrawStep.SELECT_TOKEN);
+      } else {
+        setSelectedToken(tokenSet);
+        setSelectedNetwork(tokenSet?.network_data);
+        gotoStep(WithdrawStep.CONFIRM);
+      }
+      setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
+      setRecipientAddress(sendInfoGet?.address);
+      setAmount(sendInfoGet?.amount || "");
+      setMemo(sendInfoGet?.text);
+    };
 
     const handleSelectMethod = (method: SendMethods) => {
       console.warn("🚀 ~ handleSelectMethod ~ method:", method);
@@ -190,6 +225,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           scannerAllQrCodeRef.current?.open();
           break;
         case SendMethods.TRANSFER_INTERNAL:
+          handleSelectTransferInternal();
           break;
         case SendMethods.TRANSFER_EXTERNAL:
           gotoStep(WithdrawStep.SELECT_TOKEN);
@@ -238,12 +274,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     //     network: data?.network,
     //   });
     // };
-
-    const findWithdrawToken = (
-      contract_address: string
-    ): WithdrawCurrency | undefined => {
-      return withdrawTokens?.find((item) => item?.address === contract_address);
-    };
 
     const handleScanAllQrCode = async (result: IDetectedBarcode[]) => {
       scannerAllQrCodeRef.current?.close();
@@ -299,37 +329,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
     };
     const handleScanAddressQrCode = () => {};
-
-    const handleSelectTransferInternal = () => {
-      suggestUseTransferInternalDialogRef.current?.close();
-      const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
-      if (!tokenSet) {
-        gotoStep(WithdrawStep.SELECT_TOKEN);
-      } else {
-        setSelectedToken(tokenSet);
-        setSelectedNetwork(tokenSet?.network_data);
-        gotoStep(WithdrawStep.CONFIRM);
-      }
-      setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
-      setRecipientAddress(recipientAddressInternal);
-      setAmount(sendInfoGet?.amount || "");
-    };
-
-    const handleSelectContinueTransferExternal = () => {
-      suggestUseTransferInternalDialogRef.current?.close();
-      const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
-      if (!tokenSet) {
-        gotoStep(WithdrawStep.SELECT_TOKEN);
-      } else {
-        setSelectedToken(tokenSet);
-        setSelectedNetwork(tokenSet?.network_data);
-        gotoStep(WithdrawStep.CONFIRM);
-      }
-      setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
-      setRecipientAddress(sendInfoGet?.address);
-      setAmount(sendInfoGet?.amount || "");
-      setMemo(sendInfoGet?.text);
-    };
 
     useEffect(() => {
       if (isAuthenticated && !withdrawTokens) {
