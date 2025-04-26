@@ -145,23 +145,27 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const handleChangeMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
       setMemo(e.target.value);
     };
-
-    const gotoStep = (step: WithdrawStep) => {
-      setCurrentStep(step);
-      swiperRef.current?.slideTo(step);
-    };
-
-    const handleReSelectNetwork = () => {
-      gotoStep(WithdrawStep.SELECT_NETWORK);
-    };
-
     const clearValues = () => {
       setSelectedToken(undefined);
       setSelectedNetwork(undefined);
       setAmount("");
       setMemo("");
       setRecipientAddress("");
-      gotoStep(WithdrawStep.SELECT_METHOD);
+      setSelectedMethod(undefined);
+      setSendInfoGet(undefined);
+      setRecipientAddressInternal(undefined);
+    };
+
+    const gotoStep = (step: WithdrawStep) => {
+      if (step === WithdrawStep.SELECT_METHOD) {
+        clearValues();
+      }
+      setCurrentStep(step);
+      swiperRef.current?.slideTo(step);
+    };
+
+    const handleReSelectNetwork = () => {
+      gotoStep(WithdrawStep.SELECT_NETWORK);
     };
 
     const handleOnClose: ReactEventHandler = (e) => {
@@ -244,8 +248,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
         return;
       }
-      swiperRef.current?.prev();
-      setCurrentStep((prev) => prev - 1);
+      gotoStep(currentStep - 1);
     };
 
     const handleSelectToken = (token: WithdrawCurrency) => {
