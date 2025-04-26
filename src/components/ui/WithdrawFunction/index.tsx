@@ -95,6 +95,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const backDropRef = useRef<AppBackDropRef>(null);
     const suggestUseTransferInternalDialogRef = useRef<AppDialogRef>(null);
     const [selectedMethod, setSelectedMethod] = useState<SendMethods>();
+    const [sendInfoGet, setSendInfoGet] = useState<TonTransferUrlParams>();
+    const [recipientAddressInternal, setRecipientAddressInternal] =
+      useState<string>();
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
@@ -267,14 +270,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           return;
         }
 
-        setRecipientAddress(tonTransferParam?.address);
-        const withdrawToken = findWithdrawToken(tonTransferParam?.jetton || "");
-        if (!!withdrawToken) {
-          setSelectedToken(withdrawToken);
-          setAmount(tonTransferParam?.amount);
-        }
+        setSendInfoGet(tonTransferParam);
 
-        setMemo(tonTransferParam?.text);
         backDropRef.current?.close();
 
         console.warn("validateWalletAddress", validateWalletAddress);
@@ -285,6 +282,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         if (!!validateWalletAddress?.master_wallet_address) {
           //internal
           console.warn("internal");
+          setRecipientAddressInternal(
+            validateWalletAddress?.master_wallet_address
+          );
           suggestUseTransferInternalDialogRef.current?.open();
         } else if (!!validateWalletAddress?.valid) {
           //external
@@ -301,22 +301,33 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
     const handleSelectTransferInternal = () => {
       suggestUseTransferInternalDialogRef.current?.close();
-      if (!selectedToken) {
+      const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
+      if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
+        setSelectedToken(tokenSet);
+        setSelectedNetwork(tokenSet?.network_data);
         gotoStep(WithdrawStep.CONFIRM);
       }
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
+      setRecipientAddress(recipientAddressInternal);
+      setAmount(sendInfoGet?.amount);
     };
 
     const handleSelectContinueTransferExternal = () => {
       suggestUseTransferInternalDialogRef.current?.close();
-      if (!selectedToken) {
+      const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
+      if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
+        setSelectedToken(tokenSet);
+        setSelectedNetwork(tokenSet?.network_data);
         gotoStep(WithdrawStep.CONFIRM);
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
+      setRecipientAddress(sendInfoGet?.address);
+      setAmount(sendInfoGet?.amount);
+      setMemo(sendInfoGet?.text);
     };
 
     useEffect(() => {
