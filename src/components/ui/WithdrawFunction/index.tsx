@@ -154,6 +154,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setSelectedMethod(undefined);
       setSendInfoGet(undefined);
       setRecipientAddressInternal(undefined);
+      setCurrentStep(WithdrawStep.SELECT_METHOD);
     };
 
     const handleClickMaxAmount = () => {
