@@ -227,6 +227,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     //   });
     // };
 
+    const findWithdrawToken = (
+      contract_address: string
+    ): WithdrawCurrency | undefined => {
+      return withdrawTokens?.find((item) => item?.address === contract_address);
+    };
+
     const handleScanAllQrCode = async (result: IDetectedBarcode[]) => {
       scannerAllQrCodeRef.current?.close();
       if (result) {
@@ -254,9 +260,13 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         }
 
         setRecipientAddress(tonTransferParam?.address);
-        setAmount(tonTransferParam?.amount);
-        setMemo(tonTransferParam?.text);
+        const withdrawToken = findWithdrawToken(tonTransferParam?.address);
+        if (withdrawToken) {
+          setSelectedToken(withdrawToken);
+          setAmount(tonTransferParam?.amount);
+        }
 
+        setMemo(tonTransferParam?.text);
         backDropRef.current?.close();
 
         console.warn("validateWalletAddress", validateWalletAddress);
@@ -283,12 +293,22 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
     const handleSelectTransferInternal = () => {
       suggestUseTransferInternalDialogRef.current?.close();
-      gotoStep(WithdrawStep.CONFIRM);
+      if (!selectedToken) {
+        gotoStep(WithdrawStep.SELECT_TOKEN);
+      } else {
+        gotoStep(WithdrawStep.CONFIRM);
+      }
+      setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
     };
 
     const handleSelectContinueTransferExternal = () => {
       suggestUseTransferInternalDialogRef.current?.close();
-      gotoStep(WithdrawStep.CONFIRM);
+      if (!selectedToken) {
+        gotoStep(WithdrawStep.SELECT_TOKEN);
+      } else {
+        gotoStep(WithdrawStep.CONFIRM);
+      }
+      setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
     };
 
     useEffect(() => {
@@ -322,7 +342,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 overrideBack={handleBack}
                 hideBack={currentStep === WithdrawStep.SELECT_METHOD}
                 center={
-                  currentStep == WithdrawStep.CONFIRM
+                  currentStep === WithdrawStep.CONFIRM
                     ? `Confirm withdrawn ${selectedToken?.name}`
                     : WITHDRAW_STEP_NAME[currentStep]
                 }
@@ -454,25 +474,27 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       }
                     />
                   </Box>
-                  <Box sx={{ ...theme.mixins.row }}>
-                    <Text sx={{ ...theme.mixins.fieldTitle }}>Network</Text>
+                  {selectedMethod === SendMethods.TRANSFER_EXTERNAL && (
+                    <Box sx={{ ...theme.mixins.row }}>
+                      <Text sx={{ ...theme.mixins.fieldTitle }}>Network</Text>
 
-                    <Box
-                      onClick={handleReSelectNetwork}
-                      sx={{
-                        ...theme.mixins.row,
-                        gap: theme.mixins.gaps.g6,
-                        ml: "auto",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Icon width={20} src={selectedNetwork?.icon} />
-                      <Text sx={{ ...theme.mixins.value }}>
-                        {selectedNetwork?.name}
-                      </Text>
-                      <Icon width={10} src={getIcon("right_arrow")} />
+                      <Box
+                        onClick={handleReSelectNetwork}
+                        sx={{
+                          ...theme.mixins.row,
+                          gap: theme.mixins.gaps.g6,
+                          ml: "auto",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <Icon width={20} src={selectedNetwork?.icon} />
+                        <Text sx={{ ...theme.mixins.value }}>
+                          {selectedNetwork?.name}
+                        </Text>
+                        <Icon width={10} src={getIcon("right_arrow")} />
+                      </Box>
                     </Box>
-                  </Box>
+                  )}
                   <Box
                     sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}
                   >
@@ -499,18 +521,20 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       }
                     />
                   </Box>
-                  <Box
-                    sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}
-                  >
-                    <Text sx={{ ...theme.mixins.fieldTitle }}>Memo</Text>
-                    <Input
-                      inputRest={{
-                        placeholder: "Enter memo",
-                        value: memo,
-                        onChange: handleChangeMemo,
-                      }}
-                    />
-                  </Box>
+                  {selectedMethod === SendMethods.TRANSFER_EXTERNAL && (
+                    <Box
+                      sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}
+                    >
+                      <Text sx={{ ...theme.mixins.fieldTitle }}>Memo</Text>
+                      <Input
+                        inputRest={{
+                          placeholder: "Enter memo",
+                          value: memo,
+                          onChange: handleChangeMemo,
+                        }}
+                      />
+                    </Box>
+                  )}
 
                   <Button.Primary sx={{ width: "100%" }}>
                     Confirm
