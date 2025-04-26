@@ -85,9 +85,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const { isAuthenticated } = useWalletData();
     const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
     const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
-    const [amount, setAmount] = useState<string>("");
-    const [memo, setMemo] = useState<string>("");
-    const [recipientAddress, setRecipientAddress] = useState<string>("");
+    const [amount, setAmount] = useState<string | undefined>(undefined);
+    const [memo, setMemo] = useState<string | undefined>(undefined);
+    const [recipientAddress, setRecipientAddress] = useState<
+      string | undefined
+    >(undefined);
     const scannerAllQrCodeRef = useRef<QrCodeReaderRef>(null);
     const scannerAddressQrCodeRef = useRef<QrCodeReaderRef>(null);
     const backDropRef = useRef<AppBackDropRef>(null);
@@ -251,10 +253,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           return;
         }
 
+        setRecipientAddress(tonTransferParam?.address);
+        setAmount(tonTransferParam?.amount);
+        setMemo(tonTransferParam?.text);
+
         backDropRef.current?.close();
-        setInfoDialogContent(
-          "Unsupported QR Code, please scan a valid QR code or enter the recipient address manually"
-        );
 
         console.warn("validateWalletAddress", validateWalletAddress);
         // if(validateWalletAddress?.is_current_wallet) {
@@ -267,6 +270,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           suggestUseTransferInternalDialogRef.current?.open();
         } else if (!!validateWalletAddress?.valid) {
           //external
+          handleSelectContinueTransferExternal();
+
           console.warn("external");
         } else {
           //invalid
@@ -275,6 +280,16 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
     };
     const handleScanAddressQrCode = () => {};
+
+    const handleSelectTransferInternal = () => {
+      suggestUseTransferInternalDialogRef.current?.close();
+      gotoStep(WithdrawStep.CONFIRM);
+    };
+
+    const handleSelectContinueTransferExternal = () => {
+      suggestUseTransferInternalDialogRef.current?.close();
+      gotoStep(WithdrawStep.CONFIRM);
+    };
 
     useEffect(() => {
       if (isAuthenticated && !withdrawTokens) {
@@ -528,13 +543,13 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
             <AppDialog ref={suggestUseTransferInternalDialogRef}>
               <DialogContentLayout
                 content={
-                  "This wallet is supported transfer internal, use it for faster transaction?"
+                  "This wallet is supported send internally, use it for faster transaction?"
                 }
                 actions={
                   <Box
                     sx={{
                       display: "grid",
-                      gridTemplate: "1fr 1fr",
+                      gridTemplateColumns: "1fr auto 1fr",
                       gap: theme.mixins.gaps.g8,
                     }}
                   >
@@ -543,14 +558,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         ...theme.mixins.dialogActionsCancel,
                         width: "100%",
                       }}
-                      onClick={handleClearInfoDialogContent}
+                      onClick={handleSelectContinueTransferExternal}
                     >
                       Keep continue
                     </Text>
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <Text
                       sx={{ ...theme.mixins.dialogActionsOk, width: "100%" }}
-                      onClick={handleClearInfoDialogContent}
+                      onClick={handleSelectTransferInternal}
                     >
                       Ok
                     </Text>
