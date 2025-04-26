@@ -126,7 +126,13 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
       return newNetWorks;
     }, [selectedToken, selectedNetwork]);
-
+    const gotoStep = (step: WithdrawStep) => {
+      if (step === WithdrawStep.SELECT_METHOD) {
+        clearValues();
+      }
+      setCurrentStep(step);
+      swiperRef.current?.slideTo(step);
+    };
     const clearValues = () => {
       setSelectedToken(undefined);
       setSelectedNetwork(undefined);
@@ -136,9 +142,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setSelectedMethod(undefined);
       setSendInfoGet(undefined);
       setRecipientAddressInternal(undefined);
-      setCurrentStep(WithdrawStep.SELECT_METHOD);
       setAmountError(undefined);
       setAmountErrorMessage(undefined);
+      gotoStep(WithdrawStep.SELECT_METHOD);
     };
 
     const open = () => {
@@ -204,14 +210,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         +selectedToken?.max_value
       );
       setAmount(balance.toString() || "");
-    };
-
-    const gotoStep = (step: WithdrawStep) => {
-      if (step === WithdrawStep.SELECT_METHOD) {
-        clearValues();
-      }
-      setCurrentStep(step);
-      swiperRef.current?.slideTo(step);
     };
 
     const handleReSelectNetwork = () => {
