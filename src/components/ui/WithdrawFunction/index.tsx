@@ -202,7 +202,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
         setSelectedToken(tokenSet);
-        // setSelectedNetwork(tokenSet?.network_data);
+        setSelectedNetwork(tokenSet?.network_data);
         gotoStep(WithdrawStep.CONFIRM);
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
