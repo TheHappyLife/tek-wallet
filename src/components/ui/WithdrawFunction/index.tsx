@@ -144,7 +144,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setRecipientAddressInternal(undefined);
       setAmountError(undefined);
       setAmountErrorMessage(undefined);
-      gotoStep(WithdrawStep.SELECT_METHOD);
     };
 
     const open = () => {
@@ -152,7 +151,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
     const close = () => {
       drawerRef.current?.close();
-      clearValues();
+      gotoStep(WithdrawStep.SELECT_METHOD);
     };
     useImperativeHandle(ref, () => ({
       open,
@@ -217,7 +216,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     const handleOnClose: ReactEventHandler = (e) => {
-      clearValues();
+      gotoStep(WithdrawStep.SELECT_METHOD);
       props.onClose?.(e);
     };
     const findWithdrawToken = (
