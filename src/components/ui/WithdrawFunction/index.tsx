@@ -86,7 +86,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const { isAuthenticated } = useWalletData();
     const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
     const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
-    const [amount, setAmount] = useState<string | undefined>("");
+    const [amount, setAmount] = useState<string>("");
     const [memo, setMemo] = useState<string | undefined>(undefined);
     const [recipientAddress, setRecipientAddress] = useState<
       string | undefined
@@ -525,8 +525,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       }}
                       inputRest={{
                         placeholder: `${selectedToken?.min_value} - ${selectedToken?.max_value} ${selectedToken?.name}`,
-                        value: amount,
+                        value: amount.toString(),
                         onChange: handleChangeAmount,
+                        type: "text",
+                        inputMode: "decimal",
                       }}
                       rightPart={
                         <Box sx={{ ...theme.mixins.row }}>
