@@ -35,7 +35,7 @@ import QrCodeReader, { QrCodeReaderRef } from "../QrCodeReader";
 import { IDetectedBarcode } from "@yudiel/react-qr-scanner";
 import validateWalletAddressService from "../../../services/axios/validate-wallet-address-service";
 import parseTonTransferUrl, {
-  TonTransferUrlParams,
+  ParseTonTransferUrlResult,
 } from "../../../utils/parseTonTransferUrl";
 import AppBackDrop, { AppBackDropRef } from "../AppBackDrop";
 import DialogContentLayout from "../DialogContentLayout";
@@ -227,13 +227,19 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
         const text = result?.[0]?.rawValue;
 
-        const tonTransferParam: TonTransferUrlParams =
+        const tonTransferParam: ParseTonTransferUrlResult =
           parseTonTransferUrl(text);
         console.warn(
           "🚀 ~ handleScanAllQrCode ~ tonTransferParam:",
           tonTransferParam
         );
         backDropRef.current?.open();
+
+        if (!tonTransferParam) {
+          alert("Unsupported QR");
+
+          return;
+        }
 
         const validateWalletAddress = await validateWalletAddressService({
           address: tonTransferParam?.address,
