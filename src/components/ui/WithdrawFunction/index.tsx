@@ -317,10 +317,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       console.warn("🚀 ~ handleSelectToken ~ token:", token);
       setSelectedToken(token);
       if (!!token) {
-        if (selectedMethod === SendMethods.TRANSFER_EXTERNAL) {
-          gotoStep(WithdrawStep.SELECT_NETWORK);
-        } else if (selectedMethod === SendMethods.TRANSFER_INTERNAL) {
+        if (selectedMethod === SendMethods.TRANSFER_INTERNAL) {
           gotoStep(WithdrawStep.CONFIRM);
+        } else {
+          gotoStep(WithdrawStep.SELECT_NETWORK);
         }
       }
     };
@@ -390,7 +390,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           console.warn("invalid");
           setRecipientAddressError("Invalid wallet address");
           gotoStep(WithdrawStep.SELECT_TOKEN);
-          setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
         }
       }
     };
