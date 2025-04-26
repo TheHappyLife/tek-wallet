@@ -694,7 +694,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
             <AppBackDrop ref={backDropRef} />
             <AppDialog overrideOpen={!!infoDialogContent}>
               <DialogContentLayout
-                content={infoDialogContent}
+                content={
+                  <Text sx={{ textAlign: "center" }}>{infoDialogContent}</Text>
+                }
                 actions={
                   <Text
                     sx={{
