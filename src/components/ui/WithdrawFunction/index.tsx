@@ -127,6 +127,20 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       return newNetWorks;
     }, [selectedToken, selectedNetwork]);
 
+    const clearValues = () => {
+      setSelectedToken(undefined);
+      setSelectedNetwork(undefined);
+      setAmount("");
+      setMemo("");
+      setRecipientAddress("");
+      setSelectedMethod(undefined);
+      setSendInfoGet(undefined);
+      setRecipientAddressInternal(undefined);
+      setCurrentStep(WithdrawStep.SELECT_METHOD);
+      setAmountError(undefined);
+      setAmountErrorMessage(undefined);
+    };
+
     const open = () => {
       drawerRef.current?.open();
     };
@@ -176,24 +190,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setAmount(e.target.value?.toString() ?? "");
+      setAmount(e.target.value?.toString() || "");
     };
 
     const handleChangeMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
       setMemo(e.target.value);
-    };
-    const clearValues = () => {
-      setSelectedToken(undefined);
-      setSelectedNetwork(undefined);
-      setAmount("");
-      setMemo("");
-      setRecipientAddress("");
-      setSelectedMethod(undefined);
-      setSendInfoGet(undefined);
-      setRecipientAddressInternal(undefined);
-      setCurrentStep(WithdrawStep.SELECT_METHOD);
-      setAmountError(undefined);
-      setAmountErrorMessage(undefined);
     };
 
     const handleClickMaxAmount = () => {
@@ -202,7 +203,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         +selectedToken?.balance,
         +selectedToken?.max_value
       );
-      setAmount(balance.toString());
+      setAmount(balance.toString() || "");
     };
 
     const gotoStep = (step: WithdrawStep) => {
