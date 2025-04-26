@@ -109,6 +109,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const suggestUseTransferInternalDialogRef = useRef<AppDialogRef>(null);
     const [selectedMethod, setSelectedMethod] = useState<SendMethods>();
     const [sendInfoGet, setSendInfoGet] = useState<TonTransferUrlParams>();
+    const [recipientAddressError, setRecipientAddressError] =
+      useState<string>();
     const [recipientAddressInternal, setRecipientAddressInternal] =
       useState<string>();
     const networks = useMemo(() => {
@@ -383,11 +385,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         } else if (!!validateWalletAddress?.valid) {
           //external
           handleSelectContinueTransferExternal(tonTransferParam);
-
           console.warn("external");
         } else {
-          //invalid
           console.warn("invalid");
+          setRecipientAddressError("Invalid wallet address");
+          gotoStep(WithdrawStep.SELECT_TOKEN);
         }
       }
     };
@@ -560,6 +562,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         </Box>
                       }
                     />
+                    {!!recipientAddressError && (
+                      <Text sx={{ ...theme.mixins.validationError }}>
+                        {recipientAddressError}
+                      </Text>
+                    )}
                   </Box>
                   {selectedMethod === SendMethods.TRANSFER_EXTERNAL && (
                     <Box sx={{ ...theme.mixins.row }}>
