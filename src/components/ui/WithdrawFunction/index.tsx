@@ -343,7 +343,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 hideBack={currentStep === WithdrawStep.SELECT_METHOD}
                 center={
                   currentStep === WithdrawStep.CONFIRM
-                    ? `Confirm withdrawn ${selectedToken?.name}`
+                    ? `Send ${selectedToken?.name} ${selectedMethod === SendMethods.TRANSFER_EXTERNAL ? "externally" : "internally"}`
                     : WITHDRAW_STEP_NAME[currentStep]
                 }
               >
