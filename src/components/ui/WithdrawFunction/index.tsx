@@ -260,8 +260,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         }
 
         setRecipientAddress(tonTransferParam?.address);
-        const withdrawToken = findWithdrawToken(tonTransferParam?.address);
-        if (withdrawToken) {
+        const withdrawToken = findWithdrawToken(tonTransferParam?.jetton || "");
+        if (!!withdrawToken) {
           setSelectedToken(withdrawToken);
           setAmount(tonTransferParam?.amount);
         }
