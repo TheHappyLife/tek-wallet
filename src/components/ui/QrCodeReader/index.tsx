@@ -135,9 +135,10 @@ const QrCodeReader = forwardRef<QrCodeReaderRef, QrCodeReaderProps>(
                 right: "1rem",
                 zIndex: 6000,
                 cursor: "pointer",
+                color: "text.white",
               }}
             >
-              Close
+              Cancel
             </div>
           </Scanner>
         )}

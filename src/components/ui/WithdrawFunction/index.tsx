@@ -176,7 +176,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setAmount(e.target.value);
+      setAmount(e.target.value?.toString() ?? "");
     };
 
     const handleChangeMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
