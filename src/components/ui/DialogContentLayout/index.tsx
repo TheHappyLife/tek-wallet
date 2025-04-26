@@ -19,7 +19,7 @@ function DialogContentLayout(props: DialogContentLayoutProps) {
         padding: theme.mixins.customPadding.p12,
         borderRadius: theme.mixins.theBorderRadius.r12,
         backgroundColor: theme.palette.background.black,
-        boxShadow: theme.shadows[2],
+        boxShadow: theme.shadows[1],
         ...theme.mixins.dialogContent,
         ...sx,
       }}
