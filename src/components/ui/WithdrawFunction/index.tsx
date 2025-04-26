@@ -237,7 +237,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       );
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
       setRecipientAddress(recipientAddressInternal);
-      setAmount(sendInfoGet?.amount || "");
+      setAmount(getAmountAfterDecimal(sendInfoGet?.amount));
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
@@ -262,7 +262,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
       setRecipientAddress(data?.address);
-      setAmount(data?.amount || "");
+      setAmount(getAmountAfterDecimal(data?.amount));
       setMemo(data?.text);
     };
 
@@ -283,6 +283,13 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         default:
           break;
       }
+    };
+
+    const getAmountAfterDecimal = (amount?: string | number) => {
+      if (!amount) return "";
+      const amountNumber = +amount / 10 ** (selectedToken?.decimal ?? 0);
+
+      return amountNumber || "";
     };
 
     const handleBack = () => {

@@ -23,6 +23,7 @@ export interface WithdrawCurrency {
   balance: string;
   min_value: number;
   max_value: number;
+  decimal: number;
 }
 
 export interface WithdrawTokenList {
