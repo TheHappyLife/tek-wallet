@@ -196,6 +196,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     const handleBack = () => {
+      if (
+        currentStep === WithdrawStep.CONFIRM &&
+        selectedMethod === SendMethods.TRANSFER_INTERNAL
+      ) {
+        gotoStep(WithdrawStep.SELECT_TOKEN);
+      }
       swiperRef.current?.prev();
       setCurrentStep((prev) => prev - 1);
     };
