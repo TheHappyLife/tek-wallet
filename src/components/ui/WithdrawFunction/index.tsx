@@ -235,15 +235,15 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         "🚀 ~ handleSelectTransferInternal ~ sendInfoGet:",
         sendInfoGet
       );
+      setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
+      setRecipientAddress(recipientAddressInternal);
+      setAmount(sendInfoGet?.amount || "");
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
         setSelectedToken(tokenSet);
         gotoStep(WithdrawStep.CONFIRM);
       }
-      setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
-      setRecipientAddress(recipientAddressInternal);
-      setAmount(sendInfoGet?.amount || "");
     };
 
     const handleSelectContinueTransferExternal = (
@@ -430,7 +430,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 spaceBetween: 32,
               }}
               disableSwipe
-              key={(withdrawTokens?.length ?? 0) + currentStep}
+              key={withdrawTokens?.length}
             >
               <SwiperSlide key={WithdrawStep.SELECT_METHOD}>
                 <Box
