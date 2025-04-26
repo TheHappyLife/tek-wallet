@@ -639,7 +639,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         ...theme.mixins.dialogActionsCancel,
                         width: "100%",
                       }}
-                      onClick={handleSelectContinueTransferExternal}
+                      onClick={() => handleSelectContinueTransferExternal()}
                     >
                       Keep continue
                     </Text>
