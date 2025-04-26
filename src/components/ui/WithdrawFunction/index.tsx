@@ -388,6 +388,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           console.warn("external");
         } else {
           setInfoDialogContent("Unsupported QR");
+          setRecipientAddressError("Invalid wallet address");
         }
       }
     };
