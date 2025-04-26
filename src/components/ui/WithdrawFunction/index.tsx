@@ -232,7 +232,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const handleSelectTransferInternal = () => {
       suggestUseTransferInternalDialogRef.current?.close();
       const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
-      console.warn("🚀 ~ handleSelectTransferInternal ~ tokenSet:", tokenSet);
+      console.warn(
+        "🚀 ~ handleSelectTransferInternal ~ sendInfoGet:",
+        sendInfoGet
+      );
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
@@ -248,12 +251,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       dataPromptly?: TonTransferUrlParams
     ) => {
       const data = dataPromptly ?? sendInfoGet;
+      console.warn("🚀 ~ data handleSelectContinueTransferExternal:", data);
       suggestUseTransferInternalDialogRef.current?.close();
       const tokenSet = findWithdrawToken(data?.jetton || "");
-      console.warn(
-        "🚀 ~ handleSelectContinueTransferExternal ~ tokenSet:",
-        tokenSet
-      );
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
