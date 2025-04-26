@@ -430,7 +430,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 spaceBetween: 32,
               }}
               disableSwipe
-              key={withdrawTokens?.length}
+              key={(withdrawTokens?.length ?? 0) + currentStep}
             >
               <SwiperSlide key={WithdrawStep.SELECT_METHOD}>
                 <Box
