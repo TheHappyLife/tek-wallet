@@ -93,7 +93,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const { isAuthenticated } = useWalletData();
     const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
     const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
-    const [amount, setAmount] = useState<string>("");
+    const [amount, setAmountV2] = useState<string>("");
     const [memo, setMemo] = useState<string | undefined>(undefined);
     const [recipientAddress, setRecipientAddress] = useState<
       string | undefined
@@ -126,12 +126,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
       return newNetWorks;
     }, [selectedToken, selectedNetwork]);
-    const gotoStep = (step: WithdrawStep) => {
-      if (step === WithdrawStep.SELECT_METHOD) {
-        clearValues();
-      }
-      setCurrentStep(step);
-      swiperRef.current?.slideTo(step);
+
+    const setAmount = (value: string) => {
+      console.warn("🚀 ~ setAmount ~ value:", value);
+      setAmountV2(value);
     };
     const clearValues = () => {
       setSelectedToken(undefined);
@@ -144,6 +142,13 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setRecipientAddressInternal(undefined);
       setAmountError(undefined);
       setAmountErrorMessage(undefined);
+    };
+    const gotoStep = (step: WithdrawStep) => {
+      if (step === WithdrawStep.SELECT_METHOD) {
+        clearValues();
+      }
+      setCurrentStep(step);
+      swiperRef.current?.slideTo(step);
     };
 
     const open = () => {
