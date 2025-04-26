@@ -413,6 +413,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         //   return
 
         // }
+
+        if (!!validateWalletAddress?.valid) {
+          setRecipientAddressError(undefined);
+        }
+
         if (!!validateWalletAddress?.master_wallet_address) {
           //internal
           console.warn("internal");
