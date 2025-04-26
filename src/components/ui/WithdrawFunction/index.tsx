@@ -106,7 +106,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
       const newNetWorks = [selectedToken.network_data];
       const sameNetwork = newNetWorks.find(
-        (item) => item?.id === selectedToken?.id
+        (item) => item?.slug === selectedNetwork?.slug
       );
 
       if (!sameNetwork) {
@@ -114,7 +114,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
 
       return newNetWorks;
-    }, [selectedToken]);
+    }, [selectedToken, selectedNetwork]);
 
     const open = () => {
       drawerRef.current?.open();
@@ -202,7 +202,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
         setSelectedToken(tokenSet);
-        setSelectedNetwork(tokenSet?.network_data);
+        // setSelectedNetwork(tokenSet?.network_data);
         gotoStep(WithdrawStep.CONFIRM);
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
