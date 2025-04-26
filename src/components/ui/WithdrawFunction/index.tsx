@@ -390,6 +390,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           console.warn("invalid");
           setRecipientAddressError("Invalid wallet address");
           gotoStep(WithdrawStep.SELECT_TOKEN);
+          setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
         }
       }
     };
