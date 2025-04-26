@@ -35,11 +35,11 @@ import QrCodeReader, { QrCodeReaderRef } from "../QrCodeReader";
 import { IDetectedBarcode } from "@yudiel/react-qr-scanner";
 import validateWalletAddressService from "../../../services/axios/validate-wallet-address-service";
 import parseTonTransferUrl, {
-  ParseTonTransferUrlResult,
+  TonTransferUrlParams,
 } from "../../../utils/parseTonTransferUrl";
 import AppBackDrop, { AppBackDropRef } from "../AppBackDrop";
 import DialogContentLayout from "../DialogContentLayout";
-import AppDialog from "../AppDialog";
+import AppDialog, { AppDialogRef } from "../AppDialog";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -84,13 +84,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
     const { isAuthenticated } = useWalletData();
     const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
-    const [dialogContent, setDialogContent] = useState<ReactNode>();
+    const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
     const [amount, setAmount] = useState<string>("");
     const [memo, setMemo] = useState<string>("");
     const [recipientAddress, setRecipientAddress] = useState<string>("");
     const scannerAllQrCodeRef = useRef<QrCodeReaderRef>(null);
     const scannerAddressQrCodeRef = useRef<QrCodeReaderRef>(null);
     const backDropRef = useRef<AppBackDropRef>(null);
+    const suggestUseTransferInternalDialogRef = useRef<AppDialogRef>(null);
     const [selectedMethod, setSelectedMethod] = useState<SendMethods>();
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
@@ -120,6 +121,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       open,
       close,
     }));
+
+    const handleClearInfoDialogContent = () => {
+      setInfoDialogContent(undefined);
+    };
 
     const handleChangeRecipientAddress = (
       e: React.ChangeEvent<HTMLInputElement>
@@ -227,33 +232,28 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
         const text = result?.[0]?.rawValue;
 
-        const tonTransferParam: ParseTonTransferUrlResult =
+        const tonTransferParam: TonTransferUrlParams =
           parseTonTransferUrl(text);
         console.warn(
           "🚀 ~ handleScanAllQrCode ~ tonTransferParam:",
           tonTransferParam
         );
+
         backDropRef.current?.open();
-
-        if (!tonTransferParam) {
-          alert("Unsupported QR");
-
-          return;
-        }
 
         const validateWalletAddress = await validateWalletAddressService({
           address: tonTransferParam?.address,
           network: selectedNetwork?.slug || "ton",
         });
         if (!validateWalletAddress) {
-          alert("Unsupported QR");
+          setInfoDialogContent("Unsupported QR");
 
           return;
         }
 
         backDropRef.current?.close();
-        setDialogContent(
-          "Unsupported QR, please scan a valid QR code or enter the recipient address manually"
+        setInfoDialogContent(
+          "Unsupported QR Code, please scan a valid QR code or enter the recipient address manually"
         );
 
         console.warn("validateWalletAddress", validateWalletAddress);
@@ -264,6 +264,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         if (!!validateWalletAddress?.master_wallet_address) {
           //internal
           console.warn("internal");
+          suggestUseTransferInternalDialogRef.current?.open();
         } else if (!!validateWalletAddress?.valid) {
           //external
           console.warn("external");
@@ -511,10 +512,50 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
               onResult={handleScanAddressQrCode}
             />
             <AppBackDrop ref={backDropRef} />
-            <AppDialog overrideOpen={!!dialogContent}>
+            <AppDialog overrideOpen={!!infoDialogContent}>
               <DialogContentLayout
-                content={dialogContent}
-                actions={<Button.Primary>Confirm</Button.Primary>}
+                content={infoDialogContent}
+                actions={
+                  <Text
+                    sx={{ ...theme.mixins.dialogActionsOk, width: "100%" }}
+                    onClick={handleClearInfoDialogContent}
+                  >
+                    Ok
+                  </Text>
+                }
+              />
+            </AppDialog>
+            <AppDialog ref={suggestUseTransferInternalDialogRef}>
+              <DialogContentLayout
+                content={
+                  "This wallet is supported transfer internal, use it for faster transaction?"
+                }
+                actions={
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplate: "1fr 1fr",
+                      gap: theme.mixins.gaps.g8,
+                    }}
+                  >
+                    <Text
+                      sx={{
+                        ...theme.mixins.dialogActionsCancel,
+                        width: "100%",
+                      }}
+                      onClick={handleClearInfoDialogContent}
+                    >
+                      Keep continue
+                    </Text>
+                    <Divider orientation="vertical" variant="middle" flexItem />
+                    <Text
+                      sx={{ ...theme.mixins.dialogActionsOk, width: "100%" }}
+                      onClick={handleClearInfoDialogContent}
+                    >
+                      Ok
+                    </Text>
+                  </Box>
+                }
               />
             </AppDialog>
           </ModalLayout>

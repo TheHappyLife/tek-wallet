@@ -1,7 +1,7 @@
 import { Address } from "ton-core";
 
 export interface TonTransferUrlParams {
-  protocol: "ton" | "https";
+  protocol?: "ton" | "https";
   address: string;
   amount: string | undefined;
   text: string | undefined;
@@ -11,11 +11,7 @@ export interface TonTransferUrlParams {
   isDeepLinkFormat: boolean;
 }
 
-export type ParseTonTransferUrlResult = TonTransferUrlParams | undefined;
-
-export default function parseTonTransferUrl(
-  url: string
-): ParseTonTransferUrlResult {
+export default function parseTonTransferUrl(url: string): TonTransferUrlParams {
   try {
     let protocol: "ton" | "https";
     let address: string | undefined;
@@ -118,6 +114,15 @@ export default function parseTonTransferUrl(
   } catch (error) {
     console.error("error", error);
 
-    return undefined;
+    return {
+      protocol: undefined,
+      address: url,
+      amount: undefined,
+      text: undefined,
+      bin: undefined,
+      init: undefined,
+      jetton: undefined,
+      isDeepLinkFormat: false,
+    };
   }
 }

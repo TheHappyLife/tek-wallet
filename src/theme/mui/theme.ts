@@ -281,8 +281,10 @@ const theme: ThemeOptions = createTheme({
     },
     dialogActionsOk: {
       fontSize: typography.fontSize14,
-      lineHeight: typography.leading140,
+      lineHeight: typography.leading100,
       color: "#2482ff",
+      textAlign: "center",
+      padding: `${customPadding.p8} ${customPadding.p16}`,
     },
     dialogActionsCancel: {
       fontSize: typography.fontSize14,
