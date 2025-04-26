@@ -20,7 +20,7 @@ import { SwiperSlide } from "swiper/react";
 import BackHeader from "../BackHeader";
 import Text from "../Text";
 import { useTheme, Box, Divider } from "@mui/material";
-import Button from "../Button";
+import Button, { BUTTON_STATUS } from "../Button";
 import Icon from "../Icon";
 import getIcon from "../../../utils/getIcon";
 import NetworkSelection from "../NetworkSelection";
@@ -101,6 +101,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [amountErrorMessage, setAmountErrorMessage] = useState<
       AmountError | undefined
     >();
+    const [hiddenError, setHiddenError] = useState<boolean>(true);
     const [amountError, setAmountError] = useState<number>();
     const scannerAllQrCodeRef = useRef<QrCodeReaderRef>(null);
     const scannerAddressQrCodeRef = useRef<QrCodeReaderRef>(null);
@@ -138,6 +139,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setRecipientAddressInternal(undefined);
       setAmountError(undefined);
       setAmountErrorMessage(undefined);
+      setHiddenError(true);
     };
     const gotoStep = (step: WithdrawStep) => {
       if (step === WithdrawStep.SELECT_METHOD) {
@@ -197,6 +199,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
     const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
       setAmount(e.target.value);
+      setHiddenError(false);
     };
 
     const handleChangeMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -268,19 +271,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setSelectedMethod(method);
       switch (method) {
         case SendMethods.SCAN_QR_CODE:
-          navigator.mediaDevices
-            .enumerateDevices()
-            .then((devices) => {
-              console.warn("🚀 ~ .then ~ devices:", devices);
-              devices.forEach((device) => {
-                if (device.kind === "videoinput") {
-                  console.warn("🚀 ~ handleSelectMethod ~ device:", device);
-                }
-              });
-            })
-            .catch((error) => {
-              console.error("Error accessing media devices.", error);
-            });
+          setHiddenError(false);
           scannerAllQrCodeRef.current?.open();
           break;
         case SendMethods.TRANSFER_INTERNAL:
@@ -601,7 +592,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         </Button.Secondary>
                       }
                     />
-                    {!!amountError && (
+                    {!!amountError && !hiddenError && (
                       <Text sx={{ ...theme.mixins.validationError }}>
                         {amountErrorMessage}{" "}
                         <Formatter
@@ -644,7 +635,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     </Box>
                   )}
 
-                  <Button.Primary sx={{ width: "100%" }}>
+                  <Button.Primary
+                    sx={{ width: "100%" }}
+                    status={
+                      amountError
+                        ? BUTTON_STATUS.DISABLED
+                        : BUTTON_STATUS.ENABLED
+                    }
+                  >
                     Confirm
                   </Button.Primary>
                 </Box>
