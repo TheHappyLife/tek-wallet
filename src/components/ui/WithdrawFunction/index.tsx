@@ -180,6 +180,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const handleSelectTransferInternal = () => {
       suggestUseTransferInternalDialogRef.current?.close();
       const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
+      console.warn("🚀 ~ handleSelectTransferInternal ~ tokenSet:", tokenSet);
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
@@ -191,9 +192,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setAmount(sendInfoGet?.amount || "");
     };
 
-    const handleSelectContinueTransferExternal = () => {
+    const handleSelectContinueTransferExternal = (
+      dataPromptly?: TonTransferUrlParams
+    ) => {
+      const data = dataPromptly ?? sendInfoGet;
       suggestUseTransferInternalDialogRef.current?.close();
-      const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
+      const tokenSet = findWithdrawToken(data?.jetton || "");
       console.warn(
         "🚀 ~ handleSelectContinueTransferExternal ~ tokenSet:",
         tokenSet
@@ -206,9 +210,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         gotoStep(WithdrawStep.CONFIRM);
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
-      setRecipientAddress(sendInfoGet?.address);
+      setRecipientAddress(data?.address);
       setAmount("12");
-      setMemo(sendInfoGet?.text);
+      setMemo(data?.text);
     };
 
     const handleSelectMethod = (method: SendMethods) => {
@@ -325,7 +329,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           suggestUseTransferInternalDialogRef.current?.open();
         } else if (!!validateWalletAddress?.valid) {
           //external
-          handleSelectContinueTransferExternal();
+          handleSelectContinueTransferExternal(tonTransferParam);
 
           console.warn("external");
         } else {
