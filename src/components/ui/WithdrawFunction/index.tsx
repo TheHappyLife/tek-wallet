@@ -198,6 +198,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       e: React.ChangeEvent<HTMLInputElement>
     ) => {
       setRecipientAddress(e.target.value);
+      handleValidateWalletAddress(
+        e.target.value,
+        selectedNetwork?.slug || "ton"
+      );
     };
 
     const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -340,6 +344,30 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     //     network: data?.network,
     //   });
     // };
+
+    const handleValidateWalletAddress = async (
+      address: string,
+      network: string
+    ) => {
+      setRecipientAddressError(undefined);
+      const validateWalletAddress = await validateWalletAddressService({
+        address,
+        network,
+      });
+      if (!!validateWalletAddress?.master_wallet_address) {
+        setRecipientAddressInternal(
+          validateWalletAddress?.master_wallet_address
+        );
+        suggestUseTransferInternalDialogRef.current?.open();
+      } else if (!!validateWalletAddress?.valid) {
+        //external
+        handleSelectContinueTransferExternal();
+        console.warn("external");
+      } else {
+        setInfoDialogContent("Unsupported QR");
+        setRecipientAddressError("Invalid wallet address");
+      }
+    };
 
     const handleScanAllQrCode = async (result: IDetectedBarcode[]) => {
       scannerAllQrCodeRef.current?.close();
@@ -673,7 +701,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   <Button.Primary
                     sx={{ width: "100%" }}
                     status={
-                      amountError
+                      amountError ||
+                      !recipientAddress ||
+                      !amount ||
+                      !selectedToken ||
+                      !selectedNetwork ||
+                      !!recipientAddressError
                         ? BUTTON_STATUS.DISABLED
                         : BUTTON_STATUS.ENABLED
                     }
