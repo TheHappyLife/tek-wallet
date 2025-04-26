@@ -277,7 +277,7 @@ const theme: ThemeOptions = createTheme({
     dialogContent: {
       fontSize: typography.fontSize14,
       lineHeight: typography.leading140,
-      color: text.white64,
+      color: text.white,
     },
     dialogActionsOk: {
       fontSize: typography.fontSize14,

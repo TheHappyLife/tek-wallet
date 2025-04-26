@@ -26,6 +26,9 @@ const AppBackDrop = forwardRef<AppBackDropRef, AppBackDropProps>(
         sx={{
           color: "text.white",
           zIndex: theme.zIndex.drawer + 1,
+          "& .MuiBackdrop-root": {
+            backdropFilter: "blur(12px)",
+          },
           ...sx,
         }}
         {...rest}
