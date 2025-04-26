@@ -3,7 +3,7 @@ import { Address } from "ton-core";
 export interface TonTransferUrlParams {
   protocol?: "ton" | "https";
   address: string;
-  amount: string | undefined;
+  amount: number;
   text: string | undefined;
   bin: string | undefined;
   init: string | undefined;
@@ -55,7 +55,7 @@ export default function parseTonTransferUrl(url: string): TonTransferUrlParams {
     const result: TonTransferUrlParams = {
       protocol,
       address,
-      amount: undefined,
+      amount: 0,
       text: undefined,
       bin: undefined,
       init: undefined,
@@ -72,7 +72,7 @@ export default function parseTonTransferUrl(url: string): TonTransferUrlParams {
         if (!/^\d+(\.\d+)?$/.test(amount)) {
           throw new Error("Invalid amount: must be a number");
         }
-        result.amount = amount;
+        result.amount = Number(amount);
       }
 
       // text
@@ -117,7 +117,7 @@ export default function parseTonTransferUrl(url: string): TonTransferUrlParams {
     return {
       protocol: undefined,
       address: url,
-      amount: undefined,
+      amount: 0,
       text: undefined,
       bin: undefined,
       init: undefined,

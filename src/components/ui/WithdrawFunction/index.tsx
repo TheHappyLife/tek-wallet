@@ -93,7 +93,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const { isAuthenticated } = useWalletData();
     const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
     const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
-    const [amount, setAmountV2] = useState<string>("");
+    const [amount, setAmount] = useState<number | string>("");
     const [memo, setMemo] = useState<string | undefined>(undefined);
     const [recipientAddress, setRecipientAddress] = useState<
       string | undefined
@@ -127,10 +127,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       return newNetWorks;
     }, [selectedToken, selectedNetwork]);
 
-    const setAmount = (value: string) => {
-      console.warn("🚀 ~ setAmount ~ value:", value);
-      setAmountV2(value);
-    };
     const clearValues = () => {
       setSelectedToken(undefined);
       setSelectedNetwork(undefined);
@@ -200,7 +196,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setAmount(e.target.value?.toString() || "");
+      setAmount(e.target.value);
     };
 
     const handleChangeMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,7 +209,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         +selectedToken?.balance,
         +selectedToken?.max_value
       );
-      setAmount(balance.toString() || "");
+      setAmount(balance || "");
     };
 
     const handleReSelectNetwork = () => {
@@ -591,7 +587,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       }}
                       inputRest={{
                         placeholder: `${selectedToken?.min_value} - ${selectedToken?.max_value} ${selectedToken?.name}`,
-                        value: amount.toString(),
+                        value: amount,
                         onChange: handleChangeAmount,
                         type: "text",
                         inputMode: "decimal",
