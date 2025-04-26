@@ -144,6 +144,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setHiddenError(true);
       setRecipientAddressError(undefined);
     };
+
+    const handleClearRecipientAddress = () => {
+      setRecipientAddress("");
+      setRecipientAddressError("The recipient address is required");
+    };
     const gotoStep = (step: WithdrawStep) => {
       if (step === WithdrawStep.SELECT_METHOD) {
         clearValues();
@@ -354,6 +359,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         address,
         network,
       });
+      if (!!validateWalletAddress?.valid) {
+        setRecipientAddressError(undefined);
+      }
       if (!!validateWalletAddress?.master_wallet_address) {
         setRecipientAddressInternal(
           validateWalletAddress?.master_wallet_address
@@ -364,7 +372,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         handleSelectContinueTransferExternal();
         console.warn("external");
       } else {
-        setInfoDialogContent("Unsupported QR");
+        // setInfoDialogContent("Unsupported QR");
         setRecipientAddressError("Invalid wallet address");
       }
     };
@@ -583,7 +591,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                                 ...theme.mixins.smallButton,
                                 color: theme.palette.text.warningStatus,
                               }}
-                              onClick={() => setRecipientAddress("")}
+                              onClick={handleClearRecipientAddress}
                             >
                               Clear
                             </Button.Secondary>
