@@ -341,6 +341,54 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     //   });
     // };
 
+    const handleValidateWalletAddress = async (
+      address: string,
+      network: string
+    ) => {
+      backDropRef.current?.open();
+
+      const validateWalletAddress = await validateWalletAddressService({
+        address: address,
+        network: network,
+      });
+      if (!validateWalletAddress) {
+        setInfoDialogContent("Unsupported QR");
+
+        return;
+      }
+
+      backDropRef.current?.close();
+
+      console.warn("validateWalletAddress", validateWalletAddress);
+      // if(validateWalletAddress?.is_current_wallet) {
+
+      //   return
+
+      // }
+      if (!!validateWalletAddress?.master_wallet_address) {
+        //internal
+        console.warn("internal");
+        setRecipientAddressInternal(
+          validateWalletAddress?.master_wallet_address
+        );
+        suggestUseTransferInternalDialogRef.current?.open();
+      } else if (!!validateWalletAddress?.valid) {
+        //external
+        handleSelectContinueTransferExternal();
+        console.warn("external");
+      } else {
+        setInfoDialogContent("Invalid wallet address");
+        setRecipientAddressError("Invalid wallet address");
+      }
+    };
+
+    useEffect(() => {
+      handleValidateWalletAddress(
+        recipientAddress || "",
+        selectedNetwork?.slug || "ton"
+      );
+    }, [recipientAddress]);
+
     const handleScanAllQrCode = async (result: IDetectedBarcode[]) => {
       scannerAllQrCodeRef.current?.close();
       if (result) {
@@ -355,43 +403,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           tonTransferParam
         );
 
-        backDropRef.current?.open();
-
-        const validateWalletAddress = await validateWalletAddressService({
-          address: tonTransferParam?.address,
-          network: selectedNetwork?.slug || "ton",
-        });
-        if (!validateWalletAddress) {
-          setInfoDialogContent("Unsupported QR");
-
-          return;
-        }
-
         setSendInfoGet(tonTransferParam);
-
-        backDropRef.current?.close();
-
-        console.warn("validateWalletAddress", validateWalletAddress);
-        // if(validateWalletAddress?.is_current_wallet) {
-
-        //   return
-
-        // }
-        if (!!validateWalletAddress?.master_wallet_address) {
-          //internal
-          console.warn("internal");
-          setRecipientAddressInternal(
-            validateWalletAddress?.master_wallet_address
-          );
-          suggestUseTransferInternalDialogRef.current?.open();
-        } else if (!!validateWalletAddress?.valid) {
-          //external
-          handleSelectContinueTransferExternal(tonTransferParam);
-          console.warn("external");
-        } else {
-          setInfoDialogContent("Unsupported QR");
-          setRecipientAddressError("Invalid wallet address");
-        }
+        setRecipientAddress(tonTransferParam?.address);
       }
     };
     const handleScanAddressQrCode = () => {};
@@ -695,7 +708,15 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
             <AppDialog overrideOpen={!!infoDialogContent}>
               <DialogContentLayout
                 content={
-                  <Text sx={{ textAlign: "center" }}>{infoDialogContent}</Text>
+                  <Text
+                    sx={{
+                      textAlign: "center",
+                      display: "inline-block",
+                      width: "100%",
+                    }}
+                  >
+                    {infoDialogContent}
+                  </Text>
                 }
                 actions={
                   <Text
