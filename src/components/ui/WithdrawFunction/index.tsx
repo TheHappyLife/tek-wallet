@@ -547,11 +547,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       <Text
                         sx={{
                           fontWeight: theme.typography.fontWeight600,
+                          color: theme.palette.text.secondary,
                         }}
                       >
                         <Formatter
                           value={selectedToken?.balance}
-                          unit={selectedToken?.name}
+                          unit={` ${selectedToken?.name}`}
                         />
                       </Text>
                     </Text>

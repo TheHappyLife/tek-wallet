@@ -169,9 +169,10 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
             <Text
               sx={{
                 fontWeight: theme.typography.fontWeight600,
+                color: theme.palette.text.secondary,
               }}
             >
-              <Formatter value={token?.balance} unit={token?.name} />
+              <Formatter value={token?.balance} unit={` ${token?.name}`} />
             </Text>
           </Text>
           {!!error && (

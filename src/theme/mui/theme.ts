@@ -206,7 +206,7 @@ const theme: ThemeOptions = createTheme({
       fontSize: typography.fontSize12,
     },
     fieldTitle: {
-      color: "text.white",
+      color: "text.white80",
       fontWeight: typography.fontWeight500,
       fontSize: typography.fontSize14,
     },
