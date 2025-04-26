@@ -184,7 +184,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
         setSelectedToken(tokenSet);
-        setSelectedNetwork(tokenSet?.network_data);
         gotoStep(WithdrawStep.CONFIRM);
       }
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
@@ -195,6 +194,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const handleSelectContinueTransferExternal = () => {
       suggestUseTransferInternalDialogRef.current?.close();
       const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
+      console.warn(
+        "🚀 ~ handleSelectContinueTransferExternal ~ tokenSet:",
+        tokenSet
+      );
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
@@ -204,7 +207,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
       setRecipientAddress(sendInfoGet?.address);
-      setAmount(sendInfoGet?.amount || "");
+      setAmount("12");
       setMemo(sendInfoGet?.text);
     };
 
