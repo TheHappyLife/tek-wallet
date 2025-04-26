@@ -40,6 +40,7 @@ import parseTonTransferUrl, {
 import AppBackDrop, { AppBackDropRef } from "../AppBackDrop";
 import DialogContentLayout from "../DialogContentLayout";
 import AppDialog, { AppDialogRef } from "../AppDialog";
+import Formatter from "../Formatter";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -311,7 +312,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
       setRecipientAddress(recipientAddressInternal);
-      setAmount(sendInfoGet?.amount);
+      !!sendInfoGet?.amount && setAmount(sendInfoGet?.amount);
     };
 
     const handleSelectContinueTransferExternal = () => {
@@ -326,7 +327,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
       setRecipientAddress(sendInfoGet?.address);
-      setAmount(sendInfoGet?.amount);
+      !!sendInfoGet?.amount && setAmount(sendInfoGet?.amount);
       setMemo(sendInfoGet?.text);
     };
 
@@ -517,9 +518,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   <Box
                     sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}
                   >
-                    <Text sx={{ ...theme.mixins.fieldTitle }}>
-                      Enter amount
-                    </Text>
+                    <Text sx={{ ...theme.mixins.fieldTitle }}>Amount</Text>
                     <Input
                       sx={{
                         paddingRight: theme.mixins.customPadding.p12,
@@ -539,6 +538,23 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         </Box>
                       }
                     />
+                    <Text
+                      sx={{
+                        ...theme.mixins.value,
+                      }}
+                    >
+                      Your balance is{" "}
+                      <Text
+                        sx={{
+                          fontWeight: theme.typography.fontWeight600,
+                        }}
+                      >
+                        <Formatter
+                          value={selectedToken?.balance}
+                          unit={selectedToken?.name}
+                        />
+                      </Text>
+                    </Text>
                   </Box>
                   {selectedMethod === SendMethods.TRANSFER_EXTERNAL && (
                     <Box
