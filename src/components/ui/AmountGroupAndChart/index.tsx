@@ -61,8 +61,8 @@ const labels = [
 const defaultTimeRange = TimeFilterType.SEVEN_DAYS;
 
 const variants = {
-  hidden: { opacity: 0, left: "-20%" },
-  visible: { opacity: 1, left: "0%" },
+  hidden: { opacity: 0, bottom: "-5%" },
+  visible: { opacity: 1, bottom: "0" },
 };
 
 const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
@@ -123,7 +123,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
           <motion.div
             style={{
               position: "absolute",
-              bottom: 0,
+              left: 0,
             }}
             initial="hidden"
             animate={expandAreaChart ? "visible" : "hidden"}
