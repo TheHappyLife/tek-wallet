@@ -229,7 +229,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
         const tonTransferParam: TonTransferUrlParams =
           parseTonTransferUrl(text);
-
+        console.warn(
+          "🚀 ~ handleScanAllQrCode ~ tonTransferParam:",
+          tonTransferParam
+        );
         backDropRef.current?.open();
 
         const validateWalletAddress = await validateWalletAddressService({
