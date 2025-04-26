@@ -67,6 +67,7 @@ Button.Secondary = (props: ButtonProps) => {
       color="secondary"
       sx={{
         borderRadius: theme.mixins.theBorderRadius.full,
+        borderColor: "currentColor",
         ...sx,
       }}
     />

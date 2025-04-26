@@ -142,6 +142,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setAmountError(undefined);
       setAmountErrorMessage(undefined);
       setHiddenError(true);
+      setRecipientAddressError(undefined);
     };
     const gotoStep = (step: WithdrawStep) => {
       if (step === WithdrawStep.SELECT_METHOD) {

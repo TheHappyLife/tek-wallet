@@ -19,6 +19,7 @@ function DialogContentLayout(props: DialogContentLayoutProps) {
         borderRadius: theme.mixins.theBorderRadius.r12,
         backgroundColor: theme.palette.background.black,
         boxShadow: theme.shadows[1],
+        minWidth: "60%",
         ...theme.mixins.dialogContent,
         ...sx,
       }}
@@ -32,7 +33,15 @@ function DialogContentLayout(props: DialogContentLayoutProps) {
         {content}
       </Text>
       {!!actions && <Divider />}
-      <Box sx={{ px: theme.mixins.customPadding.p12 }}>{actions}</Box>
+      <Box
+        sx={{
+          px: theme.mixins.customPadding.p12,
+          width: "100%",
+          height: "fit-content",
+        }}
+      >
+        {actions}
+      </Box>
     </Box>
   );
 }
