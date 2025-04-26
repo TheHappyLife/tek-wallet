@@ -290,6 +290,8 @@ const theme: ThemeOptions = createTheme({
       fontSize: typography.fontSize14,
       lineHeight: typography.leading140,
       color: text.white64,
+      textAlign: "center",
+      padding: `${customPadding.p8} ${customPadding.p16}`,
     },
   },
 });
