@@ -271,7 +271,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
         console.warn("validateWalletAddress", validateWalletAddress);
         // if(validateWalletAddress?.is_current_wallet) {
-
         //   return
         // }
         if (!!validateWalletAddress?.master_wallet_address) {
