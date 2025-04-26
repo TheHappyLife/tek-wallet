@@ -4,6 +4,7 @@ import {
   Fragment,
   ReactEventHandler,
   ReactNode,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -71,6 +72,12 @@ const WITHDRAW_STEP_NAME = {
   [WithdrawStep.CONFIRM]: "Confirm",
 };
 
+export enum AmountError {
+  INSUFFICIENT_BALANCE = "Your balance is insufficient",
+  MAX_LIMIT = "The maximum amount is",
+  MIN_LIMIT = "The minimum amount is",
+}
+
 const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   (props, ref) => {
     const drawerRef = useRef<DrawerComponentRef>(null);
@@ -91,6 +98,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [recipientAddress, setRecipientAddress] = useState<
       string | undefined
     >(undefined);
+    const [amountErrorMessage, setAmountErrorMessage] = useState<
+      AmountError | undefined
+    >();
+    const [amountError, setAmountError] = useState<number>();
     const scannerAllQrCodeRef = useRef<QrCodeReaderRef>(null);
     const scannerAddressQrCodeRef = useRef<QrCodeReaderRef>(null);
     const backDropRef = useRef<AppBackDropRef>(null);
@@ -128,6 +139,32 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       close,
     }));
 
+    const validateAmount = useCallback((): boolean => {
+      if (!selectedToken) return false;
+      if (+amount < +selectedToken?.min_value) {
+        setAmountErrorMessage(AmountError.MIN_LIMIT);
+        setAmountError(+(selectedToken?.min_value ?? 0));
+
+        return false;
+      }
+      if (+amount > +selectedToken?.max_value) {
+        setAmountErrorMessage(AmountError.MAX_LIMIT);
+        setAmountError(+(selectedToken?.max_value ?? 0));
+
+        return false;
+      }
+      if (+amount > +selectedToken?.balance) {
+        setAmountErrorMessage(AmountError.INSUFFICIENT_BALANCE);
+
+        return false;
+      }
+
+      setAmountError(undefined);
+      setAmountErrorMessage(undefined);
+
+      return true;
+    }, [amount, selectedToken]);
+
     const handleClearInfoDialogContent = () => {
       setInfoDialogContent(undefined);
     };
@@ -155,6 +192,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setSendInfoGet(undefined);
       setRecipientAddressInternal(undefined);
       setCurrentStep(WithdrawStep.SELECT_METHOD);
+      setAmountError(undefined);
+      setAmountErrorMessage(undefined);
     };
 
     const handleClickMaxAmount = () => {
@@ -360,6 +399,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
     }, [isAuthenticated]);
 
+    useEffect(() => {
+      validateAmount();
+    }, [validateAmount]);
+
     return (
       <RequireConnect>
         <DrawerComponent
@@ -559,6 +602,15 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         </Button.Secondary>
                       }
                     />
+                    {!!amountError && (
+                      <Text sx={{ ...theme.mixins.validationError }}>
+                        {amountErrorMessage}{" "}
+                        <Formatter
+                          value={amountError}
+                          unit={` ${selectedToken?.name}`}
+                        />
+                      </Text>
+                    )}
                     <Text
                       sx={{
                         ...theme.mixins.value,

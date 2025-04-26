@@ -61,7 +61,7 @@ const labels = [
 const defaultTimeRange = TimeFilterType.SEVEN_DAYS;
 
 const variants = {
-  hidden: { opacity: 0, left: "-70%" },
+  hidden: { opacity: 0, left: "-20%" },
   visible: { opacity: 1, left: "0%" },
 };
 
