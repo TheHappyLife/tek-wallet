@@ -86,7 +86,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const { isAuthenticated } = useWalletData();
     const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
     const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
-    const [amount, setAmount] = useState<string | undefined>(undefined);
+    const [amount, setAmount] = useState<string | undefined>("");
     const [memo, setMemo] = useState<string | undefined>(undefined);
     const [recipientAddress, setRecipientAddress] = useState<
       string | undefined
@@ -312,7 +312,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
       setRecipientAddress(recipientAddressInternal);
-      !!sendInfoGet?.amount && setAmount(sendInfoGet?.amount);
+      setAmount(sendInfoGet?.amount || "");
     };
 
     const handleSelectContinueTransferExternal = () => {
@@ -327,7 +327,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
       setRecipientAddress(sendInfoGet?.address);
-      !!sendInfoGet?.amount && setAmount(sendInfoGet?.amount);
+      setAmount(sendInfoGet?.amount || "");
       setMemo(sendInfoGet?.text);
     };
 
