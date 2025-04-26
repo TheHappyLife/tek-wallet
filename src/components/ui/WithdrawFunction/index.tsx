@@ -341,15 +341,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       gotoStep(WithdrawStep.CONFIRM);
     };
 
-    // const handleValidateWalletAddress = async (
-    //   data: ValidateWalletAddressBody
-    // ) => {
-    //   const validateWalletAddress = await validateWalletAddressService({
-    //     address: data?.address,
-    //     network: data?.network,
-    //   });
-    // };
-
     const handleValidateWalletAddress = async (
       address: string,
       network: string
@@ -713,11 +704,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   <Button.Primary
                     sx={{ width: "100%" }}
                     status={
-                      amountError ||
+                      !!amountError ||
                       !recipientAddress ||
                       !amount ||
                       !selectedToken ||
-                      !selectedNetwork ||
                       !!recipientAddressError
                         ? BUTTON_STATUS.DISABLED
                         : BUTTON_STATUS.ENABLED
