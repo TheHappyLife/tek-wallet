@@ -11,6 +11,7 @@ declare module "@mui/material/styles" {
     loadingStatus: string;
     increase: string;
     decrease: string;
+    warningStatus: string;
   }
 
   interface BorderType {

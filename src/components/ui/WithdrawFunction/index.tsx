@@ -388,6 +388,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           console.warn("external");
         } else {
           console.warn("invalid");
+          setRecipientAddress(tonTransferParam?.address);
           setRecipientAddressError("Invalid wallet address");
           gotoStep(WithdrawStep.SELECT_TOKEN);
         }
@@ -548,11 +549,24 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                             gap: theme.mixins.gaps.g8,
                           }}
                         >
-                          <Button.Secondary
-                            sx={{ ...theme.mixins.smallButton }}
-                          >
-                            Paste
-                          </Button.Secondary>
+                          {!!recipientAddress && (
+                            <Button.Secondary
+                              sx={{
+                                ...theme.mixins.smallButton,
+                                color: theme.palette.text.warningStatus,
+                              }}
+                              onClick={() => setRecipientAddress("")}
+                            >
+                              Clear
+                            </Button.Secondary>
+                          )}
+                          {!recipientAddress && (
+                            <Button.Secondary
+                              sx={{ ...theme.mixins.smallButton }}
+                            >
+                              Paste
+                            </Button.Secondary>
+                          )}
                           <Divider
                             orientation="vertical"
                             variant="middle"

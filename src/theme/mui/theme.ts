@@ -66,6 +66,7 @@ const text = {
   loadingStatus: "#01FFFF",
   increase: "#01FF00",
   decrease: "#FE6565",
+  warningStatus: "#FFA500",
 };
 
 const gaps = {
