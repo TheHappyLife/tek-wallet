@@ -156,6 +156,15 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setRecipientAddressInternal(undefined);
     };
 
+    const handleClickMaxAmount = () => {
+      if (!selectedToken) return;
+      const balance = Math.min(
+        +selectedToken?.balance,
+        +selectedToken?.max_value
+      );
+      setAmount(balance.toString());
+    };
+
     const gotoStep = (step: WithdrawStep) => {
       if (step === WithdrawStep.SELECT_METHOD) {
         clearValues();
@@ -211,7 +220,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
       setRecipientAddress(data?.address);
-      setAmount("12");
+      setAmount(data?.amount || "");
       setMemo(data?.text);
     };
 
@@ -496,7 +505,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                           </Button.Secondary>
                           <Divider
                             orientation="vertical"
-                            sx={{ height: "90%" }}
+                            variant="middle"
+                            flexItem
                           />
                           <Icon src={getIcon("qr_can")} width={20} />
                         </Box>
@@ -540,13 +550,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         inputMode: "decimal",
                       }}
                       rightPart={
-                        <Box sx={{ ...theme.mixins.row }}>
-                          <Button.Secondary
-                            sx={{ ...theme.mixins.smallButton }}
-                          >
-                            Max
-                          </Button.Secondary>
-                        </Box>
+                        <Button.Secondary
+                          onClick={handleClickMaxAmount}
+                          sx={{ ...theme.mixins.smallButton }}
+                        >
+                          Max
+                        </Button.Secondary>
                       }
                     />
                     <Text
