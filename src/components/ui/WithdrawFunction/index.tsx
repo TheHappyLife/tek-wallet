@@ -696,7 +696,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 content={infoDialogContent}
                 actions={
                   <Text
-                    sx={{ ...theme.mixins.dialogActionsOk, width: "100%" }}
+                    sx={{
+                      ...theme.mixins.dialogActionsOk,
+                      width: "100%",
+                      display: "inline-block",
+                    }}
                     onClick={handleClearInfoDialogContent}
                   >
                     Ok

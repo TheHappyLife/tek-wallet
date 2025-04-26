@@ -19,7 +19,7 @@ function DialogContentLayout(props: DialogContentLayoutProps) {
         borderRadius: theme.mixins.theBorderRadius.r12,
         backgroundColor: theme.palette.background.black,
         boxShadow: theme.shadows[1],
-        minWidth: "60%",
+        minWidth: "12rem",
         ...theme.mixins.dialogContent,
         ...sx,
       }}
