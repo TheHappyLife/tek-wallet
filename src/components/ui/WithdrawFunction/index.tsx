@@ -440,6 +440,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
     const handleScanAddressQrCode = async (result: IDetectedBarcode[]) => {
       onlyChangeAddress.current = true;
+      scannerAddressQrCodeRef.current?.close();
       handleScanAllQrCode(result);
     };
 
