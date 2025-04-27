@@ -113,6 +113,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       useState<string>();
     const [recipientAddressInternal, setRecipientAddressInternal] =
       useState<string>();
+    const onlyChangeAddress = useRef<boolean>(false);
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
@@ -143,6 +144,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setAmountErrorMessage(undefined);
       setHiddenError(true);
       setRecipientAddressError(undefined);
+      onlyChangeAddress.current = false;
     };
 
     const handleClearRecipientAddress = () => {
@@ -247,8 +249,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         "🚀 ~ handleSelectTransferInternal ~ sendInfoGet:",
         sendInfoGet
       );
-      setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
       setRecipientAddress(recipientAddressInternal);
+
+      setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
+      if (!onlyChangeAddress.current) {
+        return;
+      }
       setAmount(
         getAmountAfterDecimal(sendInfoGet?.amount || 0, tokenSet?.decimal || 0)
       );
@@ -267,6 +273,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       console.warn("🚀 ~ data handleSelectContinueTransferExternal:", data);
       suggestUseTransferInternalDialogRef.current?.close();
       const tokenSet = findWithdrawToken(data?.jetton || "");
+      setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
+      setRecipientAddress(data?.address);
+      if (!onlyChangeAddress.current) {
+        return;
+      }
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
@@ -274,8 +285,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         setSelectedNetwork(tokenSet?.network_data);
         gotoStep(WithdrawStep.CONFIRM);
       }
-      setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
-      setRecipientAddress(data?.address);
       setAmount(
         getAmountAfterDecimal(data?.amount || 0, tokenSet?.decimal || 0)
       );
@@ -425,7 +434,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         }
       }
     };
-    const handleScanAddressQrCode = () => {};
+    const handleScanAddressQrCode = async (result: IDetectedBarcode[]) => {
+      onlyChangeAddress.current = true;
+      handleScanAllQrCode(result);
+    };
 
     useEffect(() => {
       if (isAuthenticated && !withdrawTokens) {
