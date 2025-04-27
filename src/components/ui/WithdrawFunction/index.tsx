@@ -252,7 +252,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setRecipientAddress(recipientAddressInternal);
 
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
-      if (!onlyChangeAddress.current) {
+      if (onlyChangeAddress.current) {
         return;
       }
       setAmount(
@@ -275,7 +275,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       const tokenSet = findWithdrawToken(data?.jetton || "");
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
       setRecipientAddress(data?.address);
-      if (!onlyChangeAddress.current) {
+      if (onlyChangeAddress.current) {
         return;
       }
       if (!tokenSet) {
@@ -308,6 +308,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         default:
           break;
       }
+    };
+
+    const openScannerAddressQrCode = () => {
+      scannerAddressQrCodeRef.current?.open();
     };
 
     const getAmountAfterDecimal = (
@@ -615,7 +619,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                             variant="middle"
                             flexItem
                           />
-                          <Icon src={getIcon("qr_can")} width={20} />
+                          <Icon
+                            src={getIcon("qr_scan")}
+                            width={20}
+                            onClick={openScannerAddressQrCode}
+                          />
                         </Box>
                       }
                     />
