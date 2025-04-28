@@ -44,6 +44,7 @@ import AppDialog, { AppDialogRef } from "../AppDialog";
 import Formatter from "../Formatter";
 import sendInternalService from "../../../services/axios/send-internal-service";
 import getEstimateFeeService from "../../../services/axios/get-est-fee-service";
+import Fees from "../Fees";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -783,6 +784,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       />
                     </Box>
                   )}
+
+                  <Fees />
 
                   <Button.Primary
                     sx={{ width: "100%" }}
