@@ -417,6 +417,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
         // }
 
+        if (validateWalletAddress?.is_current_wallet) {
+          setInfoDialogContent("You can not send to your own wallet");
+
+          return;
+        }
+
         if (!!validateWalletAddress?.valid) {
           setRecipientAddressError(undefined);
         }

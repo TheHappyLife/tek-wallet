@@ -11,6 +11,7 @@ export interface ValidateWalletAddressData {
   valid: number;
   master_wallet_address: null;
   is_existed: boolean;
+  is_current_wallet: boolean;
 }
 
 export interface ValidateWalletAddressBody {
