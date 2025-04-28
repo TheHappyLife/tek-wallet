@@ -43,6 +43,7 @@ import DialogContentLayout from "../DialogContentLayout";
 import AppDialog, { AppDialogRef } from "../AppDialog";
 import Formatter from "../Formatter";
 import sendInternalService from "../../../services/axios/send-internal-service";
+import getEstimateFeeService from "../../../services/axios/get-est-fee-service";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -112,6 +113,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const suggestUseTransferInternalDialogRef = useRef<AppDialogRef>(null);
     const [selectedMethod, setSelectedMethod] = useState<SendMethods>();
     const [sendInfoGet, setSendInfoGet] = useState<TonTransferUrlParams>();
+    const [isLoadingEstimateFee, setIsLoadingEstimateFee] =
+      useState<boolean>(false);
+    // const [estimateFee, setEstimateFee] = useState<number>();
     const [recipientAddressError, setRecipientAddressError] =
       useState<string>();
     const [recipientAddressInternal, setRecipientAddressInternal] =
@@ -313,6 +317,17 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
     };
 
+    const handleGetEstimateFee = async () => {
+      setIsLoadingEstimateFee(true);
+      const response = await getEstimateFeeService({
+        amount: `${amount}`,
+        transaction_type: "withdrawn",
+        currency: selectedToken?.slug || "",
+      });
+      console.warn("🚀 ~ handleGetEstimateFee ~ response:", response);
+      setIsLoadingEstimateFee(false);
+    };
+
     const openScannerAddressQrCode = () => {
       scannerAddressQrCodeRef.current?.open();
     };
@@ -464,8 +479,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       console.warn("🚀 ~ handleSendInternal ~ response:", response);
     };
 
-    const handleSendExternal = () => {
+    const handleSendExternal = async () => {
       console.warn("withdraw external");
+      // const response = await getEstimateFeeService({
+      //   amount: `${amount}`,
+      //   transaction_type: "withdrawn",
+      //   currency: selectedToken?.slug || "",
+      // });
+      // console.warn("🚀 ~ handleSendExternal ~ response:", response);
     };
 
     const handleSend = () => {
@@ -494,6 +515,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     useEffect(() => {
       validateAmount();
     }, [validateAmount]);
+
+    useEffect(() => {
+      handleGetEstimateFee();
+    }, [amount, selectedToken?.slug]);
 
     return (
       <RequireConnect>
@@ -767,7 +792,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       !recipientAddress ||
                       !amount ||
                       !selectedToken ||
-                      !!recipientAddressError
+                      !!recipientAddressError ||
+                      isLoadingEstimateFee
                         ? BUTTON_STATUS.DISABLED
                         : BUTTON_STATUS.ENABLED
                     }
