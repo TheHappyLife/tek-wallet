@@ -17,7 +17,7 @@ import {
   TimelineContent,
   TimelineDot,
 } from "@mui/lab";
-export interface FeesProps extends AccordionProps {}
+export interface FeesProps extends Omit<AccordionProps, "children"> {}
 
 function Fees(props: FeesProps) {
   const { sx, ...rest } = props;
