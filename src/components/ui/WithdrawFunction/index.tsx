@@ -54,21 +54,23 @@ type WithdrawFunctionRef = {
 
 export enum SendMethods {
   SCAN_QR_CODE = "scan qr code",
-  TRANSFER_INTERNAL = "transfer internal",
-  TRANSFER_EXTERNAL = "transfer external",
+  TRANSFER_INTERNAL = "send internal",
+  TRANSFER_EXTERNAL = "send external",
 }
 
 export enum WithdrawStep {
   SELECT_METHOD = 0,
   SELECT_TOKEN = 1,
   SELECT_NETWORK = 2,
-  CONFIRM = 3,
+  FORM = 3,
+  CONFIRM = 4,
 }
 
 const WITHDRAW_STEP_NAME = {
   [WithdrawStep.SELECT_METHOD]: "Select method",
   [WithdrawStep.SELECT_TOKEN]: "Select token",
   [WithdrawStep.SELECT_NETWORK]: "Select network",
+  [WithdrawStep.FORM]: "Form",
   [WithdrawStep.CONFIRM]: "Confirm",
 };
 
@@ -262,7 +264,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
         setSelectedToken(tokenSet);
-        gotoStep(WithdrawStep.CONFIRM);
+        gotoStep(WithdrawStep.FORM);
       }
     };
 
@@ -283,7 +285,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       } else {
         setSelectedToken(tokenSet);
         setSelectedNetwork(tokenSet?.network_data);
-        gotoStep(WithdrawStep.CONFIRM);
+        gotoStep(WithdrawStep.FORM);
       }
       setAmount(
         getAmountAfterDecimal(data?.amount || 0, tokenSet?.decimal || 0)
@@ -326,7 +328,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
     const handleBack = () => {
       if (
-        currentStep === WithdrawStep.CONFIRM &&
+        currentStep === WithdrawStep.FORM &&
         selectedMethod === SendMethods.TRANSFER_INTERNAL
       ) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
@@ -341,7 +343,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setSelectedToken(token);
       if (!!token) {
         if (selectedMethod === SendMethods.TRANSFER_INTERNAL) {
-          gotoStep(WithdrawStep.CONFIRM);
+          gotoStep(WithdrawStep.FORM);
         } else {
           gotoStep(WithdrawStep.SELECT_NETWORK);
         }
@@ -351,7 +353,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const handleSelectNetwork = (network?: NetworkData) => {
       console.warn("network", selectedNetwork);
       setSelectedNetwork(network);
-      gotoStep(WithdrawStep.CONFIRM);
+      gotoStep(WithdrawStep.FORM);
     };
 
     const handleValidateWalletAddress = async (
@@ -450,6 +452,27 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       handleScanAllQrCode(result);
     };
 
+    const handleWithdrawInternal = () => {
+      console.warn("withdraw internal");
+    };
+
+    const handleWithdrawExternal = () => {
+      console.warn("withdraw external");
+    };
+
+    const handleWithdraw = () => {
+      switch (selectedMethod) {
+        case SendMethods.TRANSFER_INTERNAL:
+          handleWithdrawInternal();
+          break;
+        case SendMethods.TRANSFER_EXTERNAL:
+          handleWithdrawExternal();
+          break;
+        default:
+          break;
+      }
+    };
+
     useEffect(() => {
       if (isAuthenticated && !withdrawTokens) {
         console.warn(
@@ -485,7 +508,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 overrideBack={handleBack}
                 hideBack={currentStep === WithdrawStep.SELECT_METHOD}
                 center={
-                  currentStep === WithdrawStep.CONFIRM
+                  currentStep === WithdrawStep.FORM
                     ? `Send ${selectedToken?.name} ${selectedMethod === SendMethods.TRANSFER_EXTERNAL ? "externally" : "internally"}`
                     : WITHDRAW_STEP_NAME[currentStep]
                 }
@@ -574,7 +597,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={WithdrawStep.CONFIRM}>
+              <SwiperSlide key={WithdrawStep.FORM}>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -730,6 +753,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
                   <Button.Primary
                     sx={{ width: "100%" }}
+                    onClick={handleWithdraw}
                     status={
                       !!amountError ||
                       !recipientAddress ||
@@ -740,7 +764,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         : BUTTON_STATUS.ENABLED
                     }
                   >
-                    Confirm
+                    Continue
                   </Button.Primary>
                 </Box>
               </SwiperSlide>

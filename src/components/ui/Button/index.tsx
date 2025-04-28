@@ -38,7 +38,7 @@ const Button: React.FC<ButtonProps> & {
 Button.displayName = "Button";
 
 Button.Primary = (props: ButtonProps) => {
-  const { sx, ...rest } = props;
+  const { sx, children, ...rest } = props;
   const theme = useTheme();
 
   return (
@@ -50,7 +50,9 @@ Button.Primary = (props: ButtonProps) => {
         borderRadius: theme.mixins.theBorderRadius.full,
         ...sx,
       }}
-    />
+    >
+      {children}
+    </Button>
   );
 };
 

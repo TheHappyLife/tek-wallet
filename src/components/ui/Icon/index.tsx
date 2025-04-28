@@ -1,16 +1,14 @@
-import { Box } from "@mui/material";
-import { GeneralProps } from "../../../types/ui";
-export interface IconProps
-  extends Omit<GeneralProps, "onClick">,
-    React.ImgHTMLAttributes<HTMLImageElement> {
+import { Box, SxProps } from "@mui/material";
+export interface IconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src?: string;
   alt?: string;
   width?: number;
   height?: number;
+  sx?: SxProps;
 }
 
 const Icon = (props: IconProps) => {
-  const { src, alt, onClick, width, height, ...rest } = props;
+  const { src, alt, onClick, width, height, sx, ...rest } = props;
 
   return (
     <Box
@@ -29,7 +27,7 @@ const Icon = (props: IconProps) => {
           (height ?? width ?? false)
             ? `${(height || width || 0) / 16}rem`
             : "auto",
-        ...props.sx,
+        ...sx,
       }}
     />
   );

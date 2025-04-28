@@ -1,8 +1,8 @@
 import getIcon from "../../../utils/getIcon";
 import Icon from "../Icon";
-import { GeneralProps } from "../../../types/ui";
+import { IconProps } from "../Icon";
 
-interface BackArrowProps extends GeneralProps {}
+interface BackArrowProps extends IconProps {}
 
 const BackArrow = (props: BackArrowProps) => {
   const { ...rest } = props;

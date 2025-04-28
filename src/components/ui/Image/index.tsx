@@ -1,6 +1,5 @@
-import { GeneralProps } from "../../../types/ui";
-import { Box } from "@mui/material";
-interface ImageProps extends GeneralProps {
+import { Box, BoxProps } from "@mui/material";
+interface ImageProps extends BoxProps {
   src?: string;
   alt?: string;
 }
