@@ -42,6 +42,7 @@ import AppBackDrop, { AppBackDropRef } from "../AppBackDrop";
 import DialogContentLayout from "../DialogContentLayout";
 import AppDialog, { AppDialogRef } from "../AppDialog";
 import Formatter from "../Formatter";
+import sendInternalService from "../../../services/axios/send-internal-service";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -452,21 +453,28 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       handleScanAllQrCode(result);
     };
 
-    const handleWithdrawInternal = () => {
+    const handleSendInternal = async () => {
       console.warn("withdraw internal");
+      const response = await sendInternalService({
+        amount: `${amount}`,
+        to_address: recipientAddress || "",
+        currency_slug: selectedToken?.slug || "",
+        passcode: "111111",
+      });
+      console.warn("🚀 ~ handleSendInternal ~ response:", response);
     };
 
-    const handleWithdrawExternal = () => {
+    const handleSendExternal = () => {
       console.warn("withdraw external");
     };
 
-    const handleWithdraw = () => {
+    const handleSend = () => {
       switch (selectedMethod) {
         case SendMethods.TRANSFER_INTERNAL:
-          handleWithdrawInternal();
+          handleSendInternal();
           break;
         case SendMethods.TRANSFER_EXTERNAL:
-          handleWithdrawExternal();
+          handleSendExternal();
           break;
         default:
           break;
@@ -753,7 +761,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
                   <Button.Primary
                     sx={{ width: "100%" }}
-                    onClick={handleWithdraw}
+                    onClick={handleSend}
                     status={
                       !!amountError ||
                       !recipientAddress ||

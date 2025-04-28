@@ -40,15 +40,19 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    if (!masterWallet) return;
-    const ablyService = new AblyService();
-    console.warn("Connecting to realtime");
-    ablyService.listenMessage(masterWallet, (message) => {
-      // eslint-disable-next-line no-console
-      console.log("🚀 ~ ablyService.listenMessage ~ message:", message);
-      setIsConnected(true);
-      setTransaction(message);
-    });
+    try {
+      if (!masterWallet) return;
+      const ablyService = new AblyService();
+      console.warn("Connecting to realtime");
+      ablyService.listenMessage(masterWallet, (message) => {
+        // eslint-disable-next-line no-console
+        console.log("🚀 ~ ablyService.listenMessage ~ message:", message);
+        setIsConnected(true);
+        setTransaction(message);
+      });
+    } catch (error) {
+      console.error("🚀 ~ TEK-WALLET: Error connecting to realtime", error);
+    }
   }, [masterWallet]);
 
   return (
