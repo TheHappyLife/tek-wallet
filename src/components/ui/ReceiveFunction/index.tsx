@@ -57,8 +57,8 @@ type ReceiveFunctionRef = {
 };
 
 export enum ReceiveMethods {
-  RECEIVE_INTERNAL = "internal",
-  RECEIVE_EXTERNAL = "external",
+  RECEIVE_INTERNAL = "Receive internally",
+  RECEIVE_EXTERNAL = "Receive externally",
 }
 
 enum ReceiveStep {
@@ -210,7 +210,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
               <Formatter
                 value={selectedToken?.max_value}
                 unit={selectedToken?.name}
-              />{" "}
+              />
             </strong>
             , unless you will lose your assets.
           </>
@@ -492,16 +492,12 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                         Receive{" "}
                         <strong>
                           {!!amount && <Formatter value={amount} />}{" "}
-                          {selectedToken?.name} {selectedMethod}
-                        </strong>
+                          {selectedToken?.name}
+                        </strong>{" "}
+                        {selectedMethod === ReceiveMethods.RECEIVE_INTERNAL
+                          ? "Internally"
+                          : "Externally"}
                       </Text>
-                      {/* <Text
-                      sx={{
-                        ...theme.mixins.valueDescription,
-                      }}
-                    >
-                      @user1234we
-                    </Text> */}
                     </Box>
 
                     <Box
@@ -518,7 +514,6 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                     >
                       <QRCode
                         value={qrCodeValue}
-                        title={`Receive ${selectedToken?.name}`}
                         logo={getIcon("ton")}
                         bgColor={"transparent"}
                       />
