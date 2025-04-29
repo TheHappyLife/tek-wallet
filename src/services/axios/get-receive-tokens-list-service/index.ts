@@ -4,6 +4,7 @@ import {
 } from "../../../types/expose-type";
 import getConfigTokenList, {
   GetConfigTokenListQuery,
+  TransactionType,
 } from "../get-config-tokens-list-service";
 
 export type GetReceiveTokenListQuery = Omit<
@@ -16,7 +17,7 @@ const getReceiveTokenList = async (
 ): Promise<ReceiveTokenList> => {
   const params: GetConfigTokenListQuery = {
     ...query,
-    transactionType: "receive",
+    transactionType: TransactionType.DEPOSIT,
   };
   const response = await getConfigTokenList<ReceiveTokenListResponse>(params);
 

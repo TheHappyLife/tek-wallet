@@ -1,5 +1,6 @@
 import getConfigTokenList, {
   GetConfigTokenListQuery,
+  TransactionType,
 } from "../get-config-tokens-list-service";
 import {
   GetWithdrawTokenListQuery,
@@ -12,7 +13,7 @@ const getWithdrawTokenList = async (
 ): Promise<WithdrawTokenList> => {
   const params: GetConfigTokenListQuery = {
     ...query,
-    transactionType: "withdrawn",
+    transactionType: TransactionType.WITHDRAWN,
   };
   const response = await getConfigTokenList<WithdrawTokenListResponse>(params);
   console.warn("🚀 ~ response getWithdrawTokenList:", response);
