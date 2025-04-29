@@ -107,24 +107,33 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       return newNetWorks;
     }, [selectedToken]);
 
-    const addressByNetwork: string | undefined = useMemo(() => {
-      if (!blockchainWallets || !selectedNetwork) {
+    const receiveAddress = useMemo(() => {
+      if (!selectedToken) {
         return undefined;
       }
+      if (selectedMethod === ReceiveMethods.RECEIVE_INTERNAL) {
+        return masterWallet;
+      }
 
-      return blockchainWallets.find(
+      return blockchainWallets?.find(
         (item) => item.networkSlug === selectedNetwork?.slug
       )?.blockchainAddress;
-    }, [blockchainWallets, selectedNetwork]);
+    }, [
+      blockchainWallets,
+      selectedNetwork,
+      selectedMethod,
+      masterWallet,
+      selectedToken,
+    ]);
 
     const qrCodeValue: string = useMemo(() => {
-      if (!addressByNetwork || !selectedToken) {
+      if (!receiveAddress || !selectedToken) {
         return "";
       }
 
       if (selectedMethod === ReceiveMethods.RECEIVE_INTERNAL) {
         const tonTransferParamInternal: ReceiveInternalParams = {
-          address: masterWallet || "",
+          address: receiveAddress,
           amount: amount * 10 ** (selectedToken?.decimal ?? 0),
           jetton: selectedToken.address,
           isTekWalletReceiveInternal: true,
@@ -137,12 +146,15 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
         return JSON.stringify(tonTransferParamInternal);
       }
 
-      return `ton://transfer/${addressByNetwork}?&jetton=${selectedToken.address}&amount=${amount * 10 ** (selectedToken?.decimal ?? 0)}`;
-    }, [addressByNetwork, selectedToken, amount, selectedMethod, masterWallet]);
+      return `ton://transfer/${receiveAddress}?&jetton=${selectedToken.address}&amount=${amount * 10 ** (selectedToken?.decimal ?? 0)}`;
+    }, [receiveAddress, selectedToken, amount, selectedMethod]);
     const clearValues = () => {
       setInputAmount(0);
       setAmount(0);
       setAmountError("");
+      setSelectedToken(undefined);
+      setSelectedNetwork(undefined);
+      setSelectedMethod(undefined);
     };
     const open = () => {
       if (!isAuthenticated) throw new Error("Please connect your wallet");
@@ -158,8 +170,15 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       close,
     }));
     const handleBack = () => {
-      swiperRef.current?.prev();
-      setCurrentStep(currentStep - 1);
+      if (
+        currentStep === ReceiveStep.SHOW_QR_CODE &&
+        selectedMethod === ReceiveMethods.RECEIVE_INTERNAL
+      ) {
+        gotoStep(ReceiveStep.SELECT_TOKEN);
+
+        return;
+      }
+      gotoStep(currentStep - 1);
     };
 
     const handleSelectMethod = (method: ReceiveMethods) => {
@@ -495,8 +514,8 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                           wordBreak: "break-all",
                         }}
                       >
-                        <CopyTextComponent value={addressByNetwork || ""}>
-                          {addressByNetwork}
+                        <CopyTextComponent value={receiveAddress || ""}>
+                          {receiveAddress}
                         </CopyTextComponent>
                       </Text>
                     </Box>
