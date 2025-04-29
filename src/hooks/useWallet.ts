@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { DepositContext, initialDeposit } from "../providers/DepositProvider";
+import { ReceiveContext, initialReceive } from "../providers/ReceiveProvider";
 import {
   initialWalletData,
   WalletDataContext,
@@ -14,7 +14,7 @@ import {
   WithdrawContext,
 } from "../providers/WithdrawProvider";
 function useWallet(): Wallet {
-  const depositData = useContext(DepositContext);
+  const receiveData = useContext(ReceiveContext);
   const withdrawData = useContext(WithdrawContext);
   const walletData = useContext(WalletDataContext);
   const lockTokensData = useContext(LockTokensContext);
@@ -23,7 +23,7 @@ function useWallet(): Wallet {
 
     return {
       ...walletData,
-      ...depositData,
+      ...receiveData,
       ...lockTokensData,
       ...withdrawData,
     };
@@ -33,7 +33,7 @@ function useWallet(): Wallet {
 
     return {
       ...initialWalletData,
-      ...initialDeposit,
+      ...initialReceive,
       ...initialLockTokens,
       ...initialWithdraw,
     };

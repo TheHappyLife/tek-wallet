@@ -94,10 +94,10 @@ export interface WalletProviderDataType {
   ) => Promise<GetSeedPhraseServiceResponse>;
 }
 
-export interface DepositProviderDataType {
-  isLoadingDepositToken: boolean;
-  depositTokens: DepositCurrency[] | undefined;
-  updateDepositToken: () => void;
+export interface ReceiveProviderDataType {
+  isLoadingReceiveToken: boolean;
+  receiveTokens: ReceiveCurrency[] | undefined;
+  updateReceiveToken: () => void;
 }
 export interface WithdrawProviderDataType {
   isLoadingWithdrawToken: boolean;
@@ -106,7 +106,7 @@ export interface WithdrawProviderDataType {
 }
 
 export type Wallet = Omit<WalletProviderDataType, "session"> &
-  DepositProviderDataType &
+  ReceiveProviderDataType &
   LockTokensProviderDataType &
   WithdrawProviderDataType;
 export interface LoginInfo {
@@ -224,19 +224,19 @@ export interface ResponseError<T = string> {
   message: T;
 }
 
-export interface DepositTokenListResponse {
+export interface ReceiveTokenListResponse {
   success: boolean;
   message: string;
-  data: DepositTokenList;
+  data: ReceiveTokenList;
   timestamp: string;
 }
 
-export interface DepositTokenList {
-  supported_tokens: DepositCurrency[];
+export interface ReceiveTokenList {
+  supported_tokens: ReceiveCurrency[];
   paginated: Paginated;
 }
 
-export interface DepositCurrency {
+export interface ReceiveCurrency {
   id: number;
   status: string;
   name: string;

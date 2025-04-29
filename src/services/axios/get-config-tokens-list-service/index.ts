@@ -1,6 +1,6 @@
 import userClientRequest from "../clients/userClientRequest";
 
-export type TransactionType = "deposit" | "withdrawn" | "transfer-internal";
+export type TransactionType = "receive" | "withdrawn" | "transfer-internal";
 export interface GetConfigTokenListQuery {
   page?: number;
   take?: number;

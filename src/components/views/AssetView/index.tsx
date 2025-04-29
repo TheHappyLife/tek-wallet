@@ -1,7 +1,7 @@
 "use client";
 import { Box, ListItem } from "@mui/material";
 import DefaultPageLayout from "../../layouts/DefaultPageLayout";
-import DepositFunction from "../../ui/DepositFunction";
+import ReceiveFunction from "../../ui/ReceiveFunction";
 import FunctionItem from "../../ui/FunctionItem";
 import getIcon from "../../../utils/getIcon";
 import WithdrawFunction from "../../ui/WithdrawFunction";
@@ -31,15 +31,15 @@ const AssetView = () => {
               gap: theme.mixins.gaps.g12,
             }}
           >
-            <DepositFunction>
+            <ReceiveFunction>
               <ListItem>
                 <FunctionItem
-                  icon={getIcon("deposit")}
-                  label="Deposit"
+                  icon={getIcon("receive")}
+                  label="Receive"
                   sx={{ width: "100%" }}
                 />
               </ListItem>
-            </DepositFunction>
+            </ReceiveFunction>
             <WithdrawFunction>
               <ListItem>
                 <FunctionItem

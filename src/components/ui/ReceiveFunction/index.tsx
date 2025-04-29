@@ -26,9 +26,9 @@ import getIcon from "../../../utils/getIcon";
 import Share from "../Share";
 import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
-import { DepositCurrency } from "../../../types/expose-type";
+import { ReceiveCurrency } from "../../../types/expose-type";
 import CloseModal from "../CloseModal";
-import useDepositData from "../../../hooks/useDepositData";
+import useReceiveData from "../../../hooks/useReceiveData";
 import { NetworkData } from "../../../services/axios/type";
 import RequireConnect from "../RequireConnect";
 import WaitingData from "../WaitingData";
@@ -70,7 +70,7 @@ const RECEIVE_STEP_NAME = {
   [ReceiveStep.SHOW_QR_CODE]: "Scan QR code",
 };
 
-const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
+const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
   (props, ref) => {
     const drawerRef = useRef<DrawerComponentRef>(null);
     const amountDrawerRef = useRef<DrawerComponentRef>(null);
@@ -81,7 +81,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       ReceiveStep.SELECT_METHOD
     );
     const [selectedToken, setSelectedToken] = useState<
-      DepositCurrency | undefined
+      ReceiveCurrency | undefined
     >();
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
     const { isAuthenticated, blockchainWallets, masterWallet } =
@@ -89,7 +89,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
     const [inputAmount, setInputAmount] = useState<number>(0);
     const [amount, setAmount] = useState<number>(0);
     const [amountError, setAmountError] = useState<string>("");
-    const { depositTokens, updateDepositToken } = useDepositData();
+    const { receiveTokens, updateReceiveToken } = useReceiveData();
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
@@ -183,7 +183,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       swiperRef.current?.slideTo(step);
     };
 
-    const handleSelectToken = (token: DepositCurrency) => {
+    const handleSelectToken = (token: ReceiveCurrency) => {
       console.warn("🚀 ~ handleSelectToken ~ token:", token);
       setSelectedToken(token);
       if (!!token) {
@@ -248,8 +248,8 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       props.onClose?.();
     };
     useEffect(() => {
-      if (isAuthenticated && !depositTokens) {
-        updateDepositToken();
+      if (isAuthenticated && !receiveTokens) {
+        updateReceiveToken();
       }
     }, [isAuthenticated]);
 
@@ -286,7 +286,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                 spaceBetween: 32,
               }}
               disableSwipe
-              key={depositTokens?.length}
+              key={receiveTokens?.length}
             >
               <SwiperSlide key={ReceiveStep.SELECT_METHOD}>
                 <Box
@@ -323,9 +323,9 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                     height: "fit-content",
                   }}
                 >
-                  {!depositTokens && <WaitingData />}
-                  {depositTokens?.length === 0 && <EmptyData />}
-                  {depositTokens?.map((item) => {
+                  {!receiveTokens && <WaitingData />}
+                  {receiveTokens?.length === 0 && <EmptyData />}
+                  {receiveTokens?.map((item) => {
                     const stringifiedTokenData = JSON.stringify(item);
                     if (!item) return null;
 
@@ -380,7 +380,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                       alignItems: "flex-start",
                       backdropFilter: "blur(10px)",
                     }}
-                    id="share-deposit-info"
+                    id="share-receive-info"
                   >
                     <Box
                       sx={{
@@ -396,7 +396,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                           textAlign: "center",
                         }}
                       >
-                        Deposit{" "}
+                        Receive{" "}
                         <strong>
                           {!!amount && <Formatter value={amount} />}{" "}
                           {selectedToken?.name}
@@ -425,7 +425,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                     >
                       <QRCode
                         value={qrCodeValue}
-                        title={`Deposit ${selectedToken?.name}`}
+                        title={`Receive ${selectedToken?.name}`}
                         logo={getIcon("ton")}
                         bgColor={"transparent"}
                       />
@@ -517,7 +517,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                               ...theme.mixins.valueDescription,
                             }}
                           >
-                            Deposit{" "}
+                            Receive{" "}
                             <strong style={{ color: theme.palette.text.white }}>
                               min {selectedToken?.min_value}{" "}
                               {selectedToken?.name}
@@ -636,7 +636,7 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                         <Icon src={getIcon("copy")} width={20} />
                       </Button.Secondary>
                     </CopyTextComponent>
-                    <Share elementId="share-deposit-info">
+                    <Share elementId="share-receive-info">
                       <Button.Secondary
                         sx={{
                           gap: theme.mixins.gaps.g4,
@@ -667,6 +667,6 @@ const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
   }
 );
 
-DepositFunction.displayName = "DepositFunction";
+ReceiveFunction.displayName = "ReceiveFunction";
 
-export default DepositFunction;
+export default ReceiveFunction;
