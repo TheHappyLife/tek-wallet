@@ -95,9 +95,12 @@ export interface WalletProviderDataType {
 }
 
 export interface ReceiveProviderDataType {
-  isLoadingReceiveToken: boolean;
-  receiveTokens: ReceiveCurrency[] | undefined;
-  updateReceiveToken: () => void;
+  isLoadingReceiveExternalToken: boolean;
+  receiveExternalTokens: ReceiveExternalCurrency[] | undefined;
+  updateReceiveExternalToken: () => void;
+  isLoadingReceiveInternalToken: boolean;
+  receiveInternalTokens: ReceiveInternalCurrency[] | undefined;
+  updateReceiveInternalToken: () => void;
 }
 export interface WithdrawProviderDataType {
   isLoadingWithdrawToken: boolean;
@@ -224,19 +227,50 @@ export interface ResponseError<T = string> {
   message: T;
 }
 
-export interface ReceiveTokenListResponse {
+export interface ReceiveExternalTokenListResponse {
   success: boolean;
   message: string;
-  data: ReceiveTokenList;
+  data: ReceiveExternalTokenList;
+  timestamp: string;
+}
+export interface ReceiveInternalTokenListResponse {
+  success: boolean;
+  message: string;
+  data: ReceiveInternalTokenList;
   timestamp: string;
 }
 
-export interface ReceiveTokenList {
-  supported_tokens: ReceiveCurrency[];
+export interface ReceiveExternalTokenList {
+  supported_tokens: ReceiveExternalCurrency[];
+  paginated: Paginated;
+}
+export interface ReceiveInternalTokenList {
+  supported_tokens: ReceiveInternalCurrency[];
   paginated: Paginated;
 }
 
-export interface ReceiveCurrency {
+export interface ReceiveExternalCurrency {
+  id: number;
+  status: string;
+  name: string;
+  slug: string;
+  is_crypto_token: boolean;
+  address: string;
+  network: number;
+  wallet_integrations_currencies: number;
+  wallet_integrations_input_withdrawn: number;
+  wallet_integrations_output_withdrawn: number;
+  full_name: string;
+  icon: string;
+  usd_rate: string;
+  icon_svg: string;
+  network_data: Networkdata;
+  balance: string;
+  min_value: number;
+  max_value: number;
+  decimal: number;
+}
+export interface ReceiveInternalCurrency {
   id: number;
   status: string;
   name: string;

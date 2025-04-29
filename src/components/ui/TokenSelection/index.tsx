@@ -5,7 +5,7 @@ import Formatter from "../Formatter";
 import Text from "../Text";
 import Icon from "../Icon";
 import { Box, useTheme } from "@mui/material";
-import { ReceiveCurrency } from "../../../types/expose-type";
+import { ReceiveExternalCurrency } from "../../../types/expose-type";
 
 interface TokenSelectionProps extends GeneralProps {
   tokenData?: string;
@@ -15,8 +15,8 @@ interface TokenSelectionProps extends GeneralProps {
 const TokenSelection = (props: TokenSelectionProps) => {
   const { tokenData: tokenDataString, sx, onClick, ...rest } = props;
   const theme = useTheme();
-  const tokenData = useMemo<ReceiveCurrency | undefined>(
-    () => parsePropsData<ReceiveCurrency>(tokenDataString),
+  const tokenData = useMemo<ReceiveExternalCurrency | undefined>(
+    () => parsePropsData<ReceiveExternalCurrency>(tokenDataString),
     [tokenDataString]
   );
 

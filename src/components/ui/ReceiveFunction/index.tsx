@@ -26,7 +26,10 @@ import getIcon from "../../../utils/getIcon";
 import Share from "../Share";
 import NetworkSelection from "../NetworkSelection";
 import TokenSelection from "../TokenSelection";
-import { ReceiveCurrency } from "../../../types/expose-type";
+import {
+  ReceiveExternalCurrency,
+  ReceiveInternalCurrency,
+} from "../../../types/expose-type";
 import CloseModal from "../CloseModal";
 import useReceiveData from "../../../hooks/useReceiveData";
 import { NetworkData } from "../../../services/axios/type";
@@ -70,6 +73,11 @@ const RECEIVE_STEP_NAME = {
   [ReceiveStep.SHOW_QR_CODE]: "Scan QR code",
 };
 
+type ReceiveTokenType =
+  | ReceiveExternalCurrency
+  | ReceiveInternalCurrency
+  | undefined;
+
 const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
   (props, ref) => {
     const drawerRef = useRef<DrawerComponentRef>(null);
@@ -80,16 +88,27 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
     const [currentStep, setCurrentStep] = useState<ReceiveStep>(
       ReceiveStep.SELECT_METHOD
     );
-    const [selectedToken, setSelectedToken] = useState<
-      ReceiveCurrency | undefined
-    >();
+    const [selectedToken, setSelectedToken] = useState<ReceiveTokenType>();
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
     const { isAuthenticated, blockchainWallets, masterWallet } =
       useWalletData();
     const [inputAmount, setInputAmount] = useState<number>(0);
     const [amount, setAmount] = useState<number>(0);
     const [amountError, setAmountError] = useState<string>("");
-    const { receiveTokens, updateReceiveToken } = useReceiveData();
+    const {
+      receiveExternalTokens,
+      updateReceiveExternalToken,
+      receiveInternalTokens,
+      updateReceiveInternalToken,
+    } = useReceiveData();
+    const receiveTokens = useMemo(() => {
+      if (selectedMethod === ReceiveMethods.RECEIVE_INTERNAL) {
+        return receiveInternalTokens;
+      }
+
+      return receiveExternalTokens;
+    }, [receiveExternalTokens, receiveInternalTokens, selectedMethod]);
+
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
@@ -163,7 +182,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
     const close = () => {
       if (!isAuthenticated) throw new Error("Please connect your wallet");
       drawerRef.current?.close();
-      clearValues();
+      gotoStep(ReceiveStep.SELECT_METHOD);
     };
     useImperativeHandle(ref, () => ({
       open,
@@ -202,7 +221,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       swiperRef.current?.slideTo(step);
     };
 
-    const handleSelectToken = (token: ReceiveCurrency) => {
+    const handleSelectToken = (token: ReceiveTokenType) => {
       console.warn("🚀 ~ handleSelectToken ~ token:", token);
       setSelectedToken(token);
       if (!!token) {
@@ -263,12 +282,15 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
     };
 
     const handleOnClose = () => {
-      clearValues();
       props.onClose?.();
+      gotoStep(ReceiveStep.SELECT_METHOD);
     };
     useEffect(() => {
       if (isAuthenticated && !receiveTokens) {
-        updateReceiveToken();
+        updateReceiveExternalToken();
+      }
+      if (isAuthenticated && !receiveInternalTokens) {
+        updateReceiveInternalToken();
       }
     }, [isAuthenticated]);
 
@@ -538,28 +560,37 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                               ...theme.mixins.valueDescription,
                             }}
                           >
-                            Receive{" "}
+                            The amount must be between{" "}
                             <strong style={{ color: theme.palette.text.white }}>
-                              min {selectedToken?.min_value}{" "}
-                              {selectedToken?.name}
+                              {selectedToken?.min_value} to{" "}
+                              {selectedToken?.max_value} {selectedToken?.name}
                             </strong>{" "}
-                            and{" "}
-                            <strong style={{ color: theme.palette.text.white }}>
-                              select the correct network
-                            </strong>
-                            , or you will lose your assets.
+                            {selectedMethod ===
+                              ReceiveMethods.RECEIVE_EXTERNAL && (
+                              <>
+                                and{" "}
+                                <strong
+                                  style={{ color: theme.palette.text.white }}
+                                >
+                                  select the correct network
+                                </strong>
+                              </>
+                            )}
+                            , unless you will lose your assets.
                           </Text>
                         )}
-                        {!!amount && (
-                          <Text
-                            sx={{
-                              ...theme.mixins.valueDescription,
-                            }}
-                          >
-                            <strong>Please select the correct network</strong>,
-                            unless you will lose your assets.
-                          </Text>
-                        )}
+                        {!!amount &&
+                          selectedMethod ===
+                            ReceiveMethods.RECEIVE_EXTERNAL && (
+                            <Text
+                              sx={{
+                                ...theme.mixins.valueDescription,
+                              }}
+                            >
+                              <strong>Please select the correct network</strong>
+                              , unless you will lose your assets.
+                            </Text>
+                          )}
                       </>
                     </Box>
                   </Box>

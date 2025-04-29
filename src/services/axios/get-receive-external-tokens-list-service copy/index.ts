@@ -1,6 +1,6 @@
 import {
-  ReceiveTokenList,
-  ReceiveTokenListResponse,
+  ReceiveExternalTokenList,
+  ReceiveExternalTokenListResponse as ReceiveExternalTokenListResponse,
 } from "../../../types/expose-type";
 import getConfigTokenList, {
   GetConfigTokenListQuery,
@@ -12,15 +12,16 @@ export type GetReceiveTokenListQuery = Omit<
   "transactionType"
 >;
 
-const getReceiveTokenList = async (
+const getReceiveExternalTokenList = async (
   query?: GetReceiveTokenListQuery
-): Promise<ReceiveTokenList> => {
+): Promise<ReceiveExternalTokenList> => {
   const params: GetConfigTokenListQuery = {
     ...query,
     transactionType: TransactionType.DEPOSIT,
   };
-  const response = await getConfigTokenList<ReceiveTokenListResponse>(params);
+  const response =
+    await getConfigTokenList<ReceiveExternalTokenListResponse>(params);
 
   return response?.data;
 };
-export default getReceiveTokenList;
+export default getReceiveExternalTokenList;
