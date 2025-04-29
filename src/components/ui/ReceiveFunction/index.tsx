@@ -39,6 +39,8 @@ import EmptyData from "../EmptyData";
 import Formatter from "../Formatter";
 import ListItemCustom from "../ListItemCustom";
 import { TonTransferUrlParams } from "../../../utils/parseTonTransferUrl";
+import CustomTooltip from "../CustomTooltip";
+import DialogContentLayout from "../DialogContentLayout";
 
 export interface ReceiveInternalParams extends TonTransferUrlParams {
   isTekWalletReceiveInternal: true;
@@ -569,13 +571,43 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                         color: "text.white",
                       }}
                     >
-                      <Text
+                      <Box
                         sx={{
-                          ...theme.mixins.valueDescription,
+                          ...theme.mixins.row,
+                          gap: theme.mixins.gaps.g8,
                         }}
                       >
-                        Address
-                      </Text>
+                        <Text
+                          sx={{
+                            ...theme.mixins.valueDescription,
+                          }}
+                        >
+                          {selectedMethod === ReceiveMethods.RECEIVE_INTERNAL
+                            ? "Internal address"
+                            : "Address"}
+                        </Text>
+                        {selectedMethod === ReceiveMethods.RECEIVE_INTERNAL && (
+                          <CustomTooltip
+                            trigger={
+                              <Icon src={getIcon("tooltip")} width={16} />
+                            }
+                          >
+                            <DialogContentLayout>
+                              <Text
+                                sx={{
+                                  ...theme.mixins.warning,
+                                }}
+                              >
+                                This address is used to receive token by
+                                transfer internally. You can not use it for
+                                blockchain transaction. If you want to receive
+                                token by blockchain, please selected{" "}
+                                <strong>Receive Internal</strong> method
+                              </Text>
+                            </DialogContentLayout>
+                          </CustomTooltip>
+                        )}
+                      </Box>
                       <Text
                         sx={{
                           ...theme.mixins.value,

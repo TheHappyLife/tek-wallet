@@ -294,6 +294,11 @@ const theme: ThemeOptions = createTheme({
       textAlign: "center",
       padding: `${customPadding.p8} ${customPadding.p16}`,
     },
+    warning: {
+      color: text.warningStatus,
+      fontSize: typography.fontSize12,
+      lineHeight: typography.leading140,
+    },
   },
 });
 
