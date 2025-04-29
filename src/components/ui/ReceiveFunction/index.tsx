@@ -175,8 +175,11 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
           <>
             The amount must be between{" "}
             <strong style={{ color: theme.palette.text.white }}>
-              {selectedToken?.min_value} to {selectedToken?.max_value}{" "}
-              {selectedToken?.name}
+              <Formatter value={selectedToken?.min_value} /> to{" "}
+              <Formatter
+                value={selectedToken?.max_value}
+                unit={selectedToken?.name}
+              />{" "}
             </strong>{" "}
             and{" "}
             <strong style={{ color: theme.palette.text.white }}>
@@ -203,8 +206,11 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
           <>
             The amount must be between{" "}
             <strong style={{ color: theme.palette.text.white }}>
-              {selectedToken?.min_value} to {selectedToken?.max_value}{" "}
-              {selectedToken?.name}
+              <Formatter value={selectedToken?.min_value} /> to{" "}
+              <Formatter
+                value={selectedToken?.max_value}
+                unit={selectedToken?.name}
+              />{" "}
             </strong>
             , unless you will lose your assets.
           </>
