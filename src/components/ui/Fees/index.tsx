@@ -40,8 +40,9 @@ function Fees(props: FeesProps) {
       defaultExpanded
       {...rest}
       sx={{
-        "& .MuiPaper-root": {
+        "&.MuiPaper-root": {
           backgroundColor: "transparent",
+          margin: 0,
         },
         ...sx,
       }}
