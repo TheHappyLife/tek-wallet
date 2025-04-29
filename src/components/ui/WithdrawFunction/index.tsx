@@ -259,14 +259,19 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     ) => {
       suggestUseTransferInternalDialogRef.current?.close();
       const data = tonTransferParam ?? sendInfoGet;
-      const tokenSet = findWithdrawToken(data?.jetton || "");
-      console.warn("🚀 ~ handleSelectTransferInternal ~ sendInfoGet:", data);
+
+      console.warn(
+        "🚀 ~ handleSelectTransferInternal ~ sendInfoGet:",
+        data,
+        recipientAddressInternal
+      );
       setRecipientAddress(recipientAddressInternal);
 
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
       if (onlyChangeAddress.current) {
         return;
       }
+      const tokenSet = findWithdrawToken(data?.jetton || "");
       setAmount(
         getAmountAfterDecimal(data?.amount || 0, tokenSet?.decimal || 0)
       );
