@@ -29,6 +29,8 @@ const AssetView = () => {
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
               gap: theme.mixins.gaps.g12,
+              position: "relative",
+              zIndex: 50,
             }}
           >
             <ReceiveFunction>

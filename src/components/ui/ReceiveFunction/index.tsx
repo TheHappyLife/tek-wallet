@@ -291,7 +291,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                   mb: theme.mixins.customMargin.m20,
                 }}
                 overrideBack={handleBack}
-                hideBack={currentStep === ReceiveStep.SELECT_TOKEN}
+                hideBack={currentStep === ReceiveStep.SELECT_METHOD}
                 center={RECEIVE_STEP_NAME[currentStep]}
               >
                 <CloseModal sx={{ marginLeft: "auto" }} onClick={close} />
