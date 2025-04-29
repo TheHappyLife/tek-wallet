@@ -31,6 +31,7 @@ const AssetView = () => {
               gap: theme.mixins.gaps.g12,
               position: "relative",
               zIndex: 50,
+              my: theme.mixins.customMargin.m20,
             }}
           >
             <ReceiveFunction>

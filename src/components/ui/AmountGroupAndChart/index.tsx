@@ -61,8 +61,8 @@ const labels = [
 const defaultTimeRange = TimeFilterType.SEVEN_DAYS;
 
 const variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
+  hidden: { opacity: 0, display: "none" },
+  visible: { opacity: 1, display: "block" },
 };
 
 const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
@@ -133,6 +133,11 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
                 duration: expandAreaChart ? 0.5 : 0.25,
                 ease: "linear",
                 delay: expandAreaChart ? 0.5 : 0,
+              },
+              display: {
+                duration: 0,
+                ease: "linear",
+                delay: expandAreaChart ? 0 : 0.25,
               },
             }}
           >
