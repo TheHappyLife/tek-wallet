@@ -44,6 +44,11 @@ type DepositFunctionRef = {
   close: () => void;
 };
 
+export enum DepositMethod {
+  RECEIVE_INTERNAL = "receive_internal",
+  RECEIVE_EXTERNAL = "receive_external",
+}
+
 enum DepositStep {
   SELECT_TOKEN = 1,
   SELECT_NETWORK = 2,
