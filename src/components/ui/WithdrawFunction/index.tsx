@@ -123,8 +123,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     // const [estimateFee, setEstimateFee] = useState<number>();
     const [recipientAddressError, setRecipientAddressError] =
       useState<string>();
-    const [recipientAddressInternal, setRecipientAddressInternal] =
-      useState<string>();
     const onlyChangeAddress = useRef<boolean>(false);
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
@@ -151,7 +149,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       setRecipientAddress("");
       setSelectedMethod(undefined);
       setSendInfoGet(undefined);
-      setRecipientAddressInternal(undefined);
       setAmountError(undefined);
       setAmountErrorMessage(undefined);
       setHiddenError(true);
@@ -260,12 +257,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       suggestUseTransferInternalDialogRef.current?.close();
       const data = tonTransferParam ?? sendInfoGet;
 
-      console.warn(
-        "🚀 ~ handleSelectTransferInternal ~ sendInfoGet:",
-        data,
-        recipientAddressInternal
-      );
-      setRecipientAddress(recipientAddressInternal);
+      setRecipientAddress(data?.address);
 
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
       if (onlyChangeAddress.current) {
@@ -396,9 +388,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         setRecipientAddressError(undefined);
       }
       if (!!validateWalletAddress?.master_wallet_address) {
-        setRecipientAddressInternal(
-          validateWalletAddress?.master_wallet_address
-        );
         suggestUseTransferInternalDialogRef.current?.open();
       } else if (!!validateWalletAddress?.valid) {
         //external
@@ -422,15 +411,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         const tonTransferParam = isReceiveInternal
           ? (JSON.parse(text) as ReceiveInternalParams)
           : parseTonTransferUrl(text);
-        console.warn(
-          "🚀 ~ handleScanAllQrCode ~ tonTransferParam:",
-          tonTransferParam
-        );
-
-        console.warn(
-          "🚀 ~ handleScanAllQrCode ~ tonTransferParam:",
-          tonTransferParam
-        );
 
         backDropRef.current?.open();
 
@@ -442,6 +422,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           setInfoDialogContent("Unsupported QR");
 
           return;
+        }
+
+        if (validateWalletAddress?.master_wallet_address) {
+          tonTransferParam.address =
+            validateWalletAddress?.master_wallet_address;
         }
 
         setSendInfoGet(tonTransferParam);
@@ -465,9 +450,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         }
 
         if (!!validateWalletAddress?.master_wallet_address) {
-          setRecipientAddressInternal(
-            validateWalletAddress?.master_wallet_address
-          );
           if (
             isReceiveInternal ||
             selectedMethod === SendMethods.TRANSFER_INTERNAL
