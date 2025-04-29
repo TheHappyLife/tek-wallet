@@ -54,11 +54,18 @@ function Fees(props: FeesProps) {
           margin: 0,
           borderRadius: theme.mixins.theBorderRadius.r12,
         },
+        "&.MuiAccordion-root::before": {
+          display: "none",
+        },
         "& .MuiAccordionSummary-root": {
           paddingLeft: theme.mixins.customPadding.p12,
           paddingRight: theme.mixins.customPadding.p12,
         },
         "& .MuiAccordionSummary-content": {
+          display: "inline-block",
+          width: "100%",
+        },
+        "& .MuiAccordionSummary-content.Mui-expanded": {
           marginTop: theme.mixins.customMargin.m12,
           marginBottom: theme.mixins.customMargin.m12,
         },
@@ -72,9 +79,9 @@ function Fees(props: FeesProps) {
       <AccordionSummary
         expandIcon={<Icon src={getIcon("arrow_down")} width={20} />}
       >
-        <Box sx={{ ...theme.mixins.row }}>
+        <Box sx={{ ...theme.mixins.row, width: "100%" }}>
           <Text sx={{ ...theme.mixins.fieldTitle }}>Total fees</Text>
-          <Text sx={{ ...theme.mixins.value }}>
+          <Text sx={{ ...theme.mixins.value, ml: "auto" }}>
             <Formatter value={1000} />
           </Text>
         </Box>
@@ -82,13 +89,20 @@ function Fees(props: FeesProps) {
 
       <AccordionDetails>
         <Box sx={{ ...theme.mixins.row, alignItems: "stretch" }}>
-          <Box sx={{ ...theme.mixins.column, width: "fit-content", gap: 1 }}>
+          <Box
+            sx={{
+              ...theme.mixins.column,
+              width: "fit-content",
+              gap: theme.mixins.gaps.g8,
+              alignItems: "center",
+            }}
+          >
             {[1, 2, 3].map((item, index) => (
               <Fragment key={item}>
                 {index !== 0 && (
                   <Box
                     sx={{
-                      borderRight: `1px dashed ${theme.palette.border.black16}`,
+                      borderRight: `1px dashed ${theme.palette.border.white24}`,
                       flex: 1,
                     }}
                   />

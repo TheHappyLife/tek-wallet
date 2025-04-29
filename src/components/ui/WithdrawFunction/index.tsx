@@ -460,7 +460,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
           setRecipientAddressInternal(
             validateWalletAddress?.master_wallet_address
           );
-          if (isReceiveInternal) {
+          if (
+            isReceiveInternal ||
+            selectedMethod === SendMethods.TRANSFER_INTERNAL
+          ) {
             handleSelectTransferInternal(tonTransferParam);
           } else {
             suggestUseTransferInternalDialogRef.current?.open();
