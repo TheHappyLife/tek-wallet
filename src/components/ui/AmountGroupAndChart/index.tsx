@@ -124,6 +124,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
             style={{
               position: "absolute",
               left: 0,
+              bottom: 0,
             }}
             initial="hidden"
             animate={expandAreaChart ? "visible" : "hidden"}

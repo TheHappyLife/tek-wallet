@@ -592,19 +592,21 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                               <Icon src={getIcon("tooltip")} width={16} />
                             }
                           >
-                            <DialogContentLayout>
-                              <Text
-                                sx={{
-                                  ...theme.mixins.warning,
-                                }}
-                              >
-                                This address is used to receive token by
-                                internal transfer. You can not use it for
-                                blockchain transaction. If you want to receive
-                                token by blockchain, please select the{" "}
-                                <strong>Receive Internal</strong> method.
-                              </Text>
-                            </DialogContentLayout>
+                            <DialogContentLayout
+                              content={
+                                <Text
+                                  sx={{
+                                    ...theme.mixins.warning,
+                                  }}
+                                >
+                                  This address is used to receive token by
+                                  internal transfer. You can not use it for
+                                  blockchain transaction. If you want to receive
+                                  token by blockchain, please select the{" "}
+                                  <strong>Receive Internal</strong> method.
+                                </Text>
+                              }
+                            />
                           </CustomTooltip>
                         )}
                       </Box>
