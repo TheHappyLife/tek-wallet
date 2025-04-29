@@ -99,8 +99,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     >();
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
     const { isAuthenticated } = useWalletData();
-    const { withdrawTokens, updateWithdrawToken, updateSendInternalToken } =
-      useWithdrawData();
+    const {
+      withdrawTokens,
+      updateWithdrawToken,
+      updateSendInternalToken,
+      sendInternalTokens,
+    } = useWithdrawData();
     const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
     const [amount, setAmount] = useState<number | string>("");
     const [memo, setMemo] = useState<string | undefined>(undefined);
@@ -116,6 +120,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const scannerAddressQrCodeRef = useRef<QrCodeReaderRef>(null);
     const backDropRef = useRef<AppBackDropRef>(null);
     const suggestUseTransferInternalDialogRef = useRef<AppDialogRef>(null);
+    const suggestUseTransferExternalDialogRef = useRef<AppDialogRef>(null);
     const [selectedMethod, setSelectedMethod] = useState<SendMethods>();
     const [sendInfoGet, setSendInfoGet] = useState<TonTransferUrlParams>();
     const [isLoadingEstimateFee, setIsLoadingEstimateFee] =
@@ -124,11 +129,17 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [recipientAddressError, setRecipientAddressError] =
       useState<string>();
     const onlyChangeAddress = useRef<boolean>(false);
+    const withdrawToken = useMemo(() => {
+      return selectedMethod === SendMethods.TRANSFER_EXTERNAL
+        ? withdrawTokens
+        : sendInternalTokens;
+    }, [withdrawTokens, sendInternalTokens, selectedMethod]);
     const networks = useMemo(() => {
       console.warn("🚀 ~ networks ~ selectedToken:", selectedToken);
       if (!selectedToken) {
         return [];
       }
+
       const newNetWorks = [selectedToken.network_data];
       const sameNetwork = newNetWorks.find(
         (item) => item?.slug === selectedNetwork?.slug
@@ -249,7 +260,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const findWithdrawToken = (
       contract_address: string
     ): WithdrawCurrency | undefined => {
-      return withdrawTokens?.find((item) => item?.address === contract_address);
+      return withdrawToken?.find((item) => item?.address === contract_address);
     };
     const handleSelectTransferInternal = (
       tonTransferParam?: TonTransferUrlParams
@@ -459,7 +470,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
             suggestUseTransferInternalDialogRef.current?.open();
           }
         } else if (!!validateWalletAddress?.valid) {
-          handleSelectContinueTransferExternal(tonTransferParam);
+          if (
+            selectedMethod === SendMethods.TRANSFER_EXTERNAL ||
+            selectedMethod === SendMethods.SCAN_QR_CODE
+          ) {
+            handleSelectContinueTransferExternal(tonTransferParam);
+          } else {
+            suggestUseTransferExternalDialogRef.current?.open();
+          }
         } else {
           setInfoDialogContent("Unsupported QR");
           setRecipientAddressError("Invalid wallet address");
@@ -507,10 +525,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     useEffect(() => {
-      if (isAuthenticated && !withdrawTokens) {
+      if (isAuthenticated && !withdrawToken) {
         updateWithdrawToken();
       }
-      if (isAuthenticated && !withdrawTokens) {
+      if (isAuthenticated && !withdrawToken) {
         updateSendInternalToken();
       }
     }, [isAuthenticated]);
@@ -597,7 +615,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     height: "fit-content",
                   }}
                 >
-                  {withdrawTokens?.map((item) => {
+                  {withdrawToken?.map((item) => {
                     const stringifiedTokenData = JSON.stringify(item);
                     if (!item) return null;
 
@@ -870,6 +888,41 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     <Text
                       sx={{ ...theme.mixins.dialogActionsOk, width: "100%" }}
                       onClick={() => handleSelectTransferInternal()}
+                    >
+                      Ok
+                    </Text>
+                  </Box>
+                }
+              />
+            </AppDialog>
+            <AppDialog ref={suggestUseTransferExternalDialogRef}>
+              <DialogContentLayout
+                content={
+                  "This wallet only support send externally, move to this method?"
+                }
+                actions={
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr auto 1fr",
+                      gap: theme.mixins.gaps.g8,
+                    }}
+                  >
+                    <Text
+                      sx={{
+                        ...theme.mixins.dialogActionsCancel,
+                        width: "100%",
+                      }}
+                      onClick={() =>
+                        suggestUseTransferExternalDialogRef.current?.close()
+                      }
+                    >
+                      Cancel
+                    </Text>
+                    <Divider orientation="vertical" variant="middle" flexItem />
+                    <Text
+                      sx={{ ...theme.mixins.dialogActionsOk, width: "100%" }}
+                      onClick={() => handleSelectContinueTransferExternal()}
                     >
                       Ok
                     </Text>
