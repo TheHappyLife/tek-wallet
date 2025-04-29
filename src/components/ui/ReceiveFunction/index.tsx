@@ -599,10 +599,10 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                                 }}
                               >
                                 This address is used to receive token by
-                                transfer internally. You can not use it for
+                                internal transfer. You can not use it for
                                 blockchain transaction. If you want to receive
-                                token by blockchain, please selected{" "}
-                                <strong>Receive Internal</strong> method
+                                token by blockchain, please select the{" "}
+                                <strong>Receive Internal</strong> method.
                               </Text>
                             </DialogContentLayout>
                           </CustomTooltip>
