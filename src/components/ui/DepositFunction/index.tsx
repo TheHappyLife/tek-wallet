@@ -2,6 +2,7 @@
 import {
   ChangeEventHandler,
   forwardRef,
+  Fragment,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -17,7 +18,7 @@ import { SwiperSlide } from "swiper/react";
 import BackHeader from "../BackHeader";
 import QRCode from "../QRCode";
 import Text from "../Text";
-import { useTheme, Box, Input } from "@mui/material";
+import { useTheme, Box, Input, Divider } from "@mui/material";
 import CopyTextComponent from "../CopyTextComponent";
 import Button, { BUTTON_STATUS } from "../Button";
 import Icon from "../Icon";
@@ -33,48 +34,58 @@ import RequireConnect from "../RequireConnect";
 import WaitingData from "../WaitingData";
 import EmptyData from "../EmptyData";
 import Formatter from "../Formatter";
-// import SafeSvgRenderer from "../SafeSvgRenderer";
-interface DepositFunctionProps extends GeneralProps {
+import ListItemCustom from "../ListItemCustom";
+import { TonTransferUrlParams } from "../../../utils/parseTonTransferUrl";
+
+export interface ReceiveInternalParams extends TonTransferUrlParams {
+  isTekWalletReceiveInternal: true;
+}
+
+interface ReceiveFunctionProps extends GeneralProps {
   onClose?: UnknownFunction;
   onOpen?: UnknownFunction;
 }
 
-type DepositFunctionRef = {
+type ReceiveFunctionRef = {
   open: () => void;
   close: () => void;
 };
 
-export enum DepositMethod {
+export enum ReceiveMethods {
   RECEIVE_INTERNAL = "receive_internal",
   RECEIVE_EXTERNAL = "receive_external",
 }
 
-enum DepositStep {
+enum ReceiveStep {
+  SELECT_METHOD = 0,
   SELECT_TOKEN = 1,
   SELECT_NETWORK = 2,
   SHOW_QR_CODE = 3,
 }
 
-const DEPOSIT_STEP_NAME = {
-  [DepositStep.SELECT_TOKEN]: "Select token",
-  [DepositStep.SELECT_NETWORK]: "Select network",
-  [DepositStep.SHOW_QR_CODE]: "Scan QR code",
+const RECEIVE_STEP_NAME = {
+  [ReceiveStep.SELECT_METHOD]: "Select method",
+  [ReceiveStep.SELECT_TOKEN]: "Select token",
+  [ReceiveStep.SELECT_NETWORK]: "Select network",
+  [ReceiveStep.SHOW_QR_CODE]: "Scan QR code",
 };
 
-const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
+const DepositFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
   (props, ref) => {
     const drawerRef = useRef<DrawerComponentRef>(null);
     const amountDrawerRef = useRef<DrawerComponentRef>(null);
+    const [selectedMethod, setSelectedMethod] = useState<ReceiveMethods>();
     const swiperRef = useRef<SwiperControlledRef>(null);
     const theme = useTheme();
-    const [currentStep, setCurrentStep] = useState<DepositStep>(
-      DepositStep.SELECT_TOKEN
+    const [currentStep, setCurrentStep] = useState<ReceiveStep>(
+      ReceiveStep.SELECT_METHOD
     );
     const [selectedToken, setSelectedToken] = useState<
       DepositCurrency | undefined
     >();
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
-    const { isAuthenticated, blockchainWallets } = useWalletData();
+    const { isAuthenticated, blockchainWallets, masterWallet } =
+      useWalletData();
     const [inputAmount, setInputAmount] = useState<number>(0);
     const [amount, setAmount] = useState<number>(0);
     const [amountError, setAmountError] = useState<string>("");
@@ -111,9 +122,24 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
         return "";
       }
 
+      if (selectedMethod === ReceiveMethods.RECEIVE_INTERNAL) {
+        const tonTransferParamInternal: ReceiveInternalParams = {
+          address: masterWallet || "",
+          amount: amount * 10 ** (selectedToken?.decimal ?? 0),
+          jetton: selectedToken.address,
+          isTekWalletReceiveInternal: true,
+          text: "",
+          bin: "",
+          init: "",
+          isDeepLinkFormat: false,
+        };
+
+        return JSON.stringify(tonTransferParamInternal);
+      }
+
       return `ton://transfer/${addressByNetwork}?&jetton=${selectedToken.address}&amount=${amount * 10 ** (selectedToken?.decimal ?? 0)}`;
-    }, [addressByNetwork, selectedToken, amount]);
-    const resetValues = () => {
+    }, [addressByNetwork, selectedToken, amount, selectedMethod, masterWallet]);
+    const clearValues = () => {
       setInputAmount(0);
       setAmount(0);
       setAmountError("");
@@ -125,7 +151,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     const close = () => {
       if (!isAuthenticated) throw new Error("Please connect your wallet");
       drawerRef.current?.close();
-      resetValues();
+      clearValues();
     };
     useImperativeHandle(ref, () => ({
       open,
@@ -136,23 +162,43 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
       setCurrentStep(currentStep - 1);
     };
 
-    const nextStep = () => {
-      swiperRef.current?.next();
-      setCurrentStep((prev) => prev + 1);
+    const handleSelectMethod = (method: ReceiveMethods) => {
+      console.warn("🚀 ~ handleSelectMethod ~ method:", method);
+      setSelectedMethod(method);
+      switch (method) {
+        case ReceiveMethods.RECEIVE_INTERNAL:
+        case ReceiveMethods.RECEIVE_EXTERNAL:
+          gotoStep(ReceiveStep.SELECT_TOKEN);
+          break;
+        default:
+          break;
+      }
+    };
+
+    const gotoStep = (step: ReceiveStep) => {
+      if (step === ReceiveStep.SELECT_METHOD) {
+        clearValues();
+      }
+      setCurrentStep(step);
+      swiperRef.current?.slideTo(step);
     };
 
     const handleSelectToken = (token: DepositCurrency) => {
       console.warn("🚀 ~ handleSelectToken ~ token:", token);
       setSelectedToken(token);
       if (!!token) {
-        nextStep();
+        if (selectedMethod === ReceiveMethods.RECEIVE_INTERNAL) {
+          gotoStep(ReceiveStep.SHOW_QR_CODE);
+        } else {
+          gotoStep(ReceiveStep.SELECT_NETWORK);
+        }
       }
     };
 
     const handleSelectNetwork = (network?: NetworkData) => {
       console.warn("network", selectedNetwork);
       setSelectedNetwork(network);
-      nextStep();
+      gotoStep(ReceiveStep.SHOW_QR_CODE);
     };
 
     const validateAmount = (amount: number) => {
@@ -198,7 +244,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
     };
 
     const handleOnClose = () => {
-      resetValues();
+      clearValues();
       props.onClose?.();
     };
     useEffect(() => {
@@ -226,8 +272,8 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   mb: theme.mixins.customMargin.m20,
                 }}
                 overrideBack={handleBack}
-                hideBack={currentStep === DepositStep.SELECT_TOKEN}
-                center={DEPOSIT_STEP_NAME[currentStep]}
+                hideBack={currentStep === ReceiveStep.SELECT_TOKEN}
+                center={RECEIVE_STEP_NAME[currentStep]}
               >
                 <CloseModal sx={{ marginLeft: "auto" }} onClick={close} />
               </BackHeader>
@@ -242,7 +288,34 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
               disableSwipe
               key={depositTokens?.length}
             >
-              <SwiperSlide key={DepositStep.SELECT_TOKEN}>
+              <SwiperSlide key={ReceiveStep.SELECT_METHOD}>
+                <Box
+                  sx={{
+                    ...theme.mixins.column,
+                    height: "fit-content",
+                  }}
+                >
+                  {Object.values(ReceiveMethods).map((item, index) => {
+                    return (
+                      <Fragment key={item}>
+                        {index !== 0 && <Divider />}
+                        <ListItemCustom
+                          title={item}
+                          description={item}
+                          icon={getIcon(item + "_icon")}
+                          onClick={() =>
+                            handleSelectMethod(item as ReceiveMethods)
+                          }
+                          sx={{
+                            my: theme.mixins.customMargin.m12,
+                          }}
+                        />
+                      </Fragment>
+                    );
+                  })}
+                </Box>
+              </SwiperSlide>
+              <SwiperSlide key={ReceiveStep.SELECT_TOKEN}>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -267,7 +340,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={DepositStep.SELECT_NETWORK}>
+              <SwiperSlide key={ReceiveStep.SELECT_NETWORK}>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -288,7 +361,7 @@ const DepositFunction = forwardRef<DepositFunctionRef, DepositFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={DepositStep.SHOW_QR_CODE}>
+              <SwiperSlide key={ReceiveStep.SHOW_QR_CODE}>
                 <Box
                   sx={{
                     display: "flex",
