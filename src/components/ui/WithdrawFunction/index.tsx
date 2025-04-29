@@ -922,7 +922,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <Text
                       sx={{ ...theme.mixins.dialogActionsOk, width: "100%" }}
-                      onClick={() => handleSelectContinueTransferExternal()}
+                      onClick={() => {
+                        handleSelectContinueTransferExternal();
+                        suggestUseTransferExternalDialogRef.current?.close();
+                      }}
                     >
                       Ok
                     </Text>
