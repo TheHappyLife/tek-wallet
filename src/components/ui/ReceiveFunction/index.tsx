@@ -167,6 +167,50 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
 
       return `ton://transfer/${receiveAddress}?&jetton=${selectedToken.address}&amount=${amount * 10 ** (selectedToken?.decimal ?? 0)}`;
     }, [receiveAddress, selectedToken, amount, selectedMethod]);
+    const warningMessage = useMemo(() => {
+      if (selectedMethod === ReceiveMethods.RECEIVE_EXTERNAL && !amount) {
+        return (
+          <>
+            The amount must be between{" "}
+            <strong style={{ color: theme.palette.text.white }}>
+              {selectedToken?.min_value} to {selectedToken?.max_value}{" "}
+              {selectedToken?.name}
+            </strong>{" "}
+            and{" "}
+            <strong style={{ color: theme.palette.text.white }}>
+              select the correct network
+            </strong>
+            , unless you will lose your assets.
+          </>
+        );
+      }
+      if (selectedMethod === ReceiveMethods.RECEIVE_EXTERNAL && !!amount) {
+        return (
+          <>
+            Please{" "}
+            <strong style={{ color: theme.palette.text.white }}>
+              select the correct network
+            </strong>
+            , unless you will lose your assets.
+          </>
+        );
+      }
+
+      if (selectedMethod === ReceiveMethods.RECEIVE_INTERNAL && !amount) {
+        return (
+          <>
+            The amount must be between{" "}
+            <strong style={{ color: theme.palette.text.white }}>
+              {selectedToken?.min_value} to {selectedToken?.max_value}{" "}
+              {selectedToken?.name}
+            </strong>
+            , unless you will lose your assets.
+          </>
+        );
+      }
+
+      return null;
+    }, [selectedMethod, selectedToken, amount]);
     const clearValues = () => {
       setInputAmount(0);
       setAmount(0);
@@ -544,55 +588,21 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                       </Text>
                     </Box>
 
-                    <Box
-                      sx={{
-                        ...theme.mixins.column,
-                        gap: theme.mixins.gaps.g4,
-                        backgroundColor: theme.palette.background.white16,
-                        borderRadius: theme.mixins.theBorderRadius.r12,
-                        padding: theme.mixins.customPadding.p8,
-                      }}
-                    >
-                      <>
-                        {!amount && (
-                          <Text
-                            sx={{
-                              ...theme.mixins.valueDescription,
-                            }}
-                          >
-                            The amount must be between{" "}
-                            <strong style={{ color: theme.palette.text.white }}>
-                              {selectedToken?.min_value} to{" "}
-                              {selectedToken?.max_value} {selectedToken?.name}
-                            </strong>{" "}
-                            {selectedMethod ===
-                              ReceiveMethods.RECEIVE_EXTERNAL && (
-                              <>
-                                and{" "}
-                                <strong
-                                  style={{ color: theme.palette.text.white }}
-                                >
-                                  select the correct network
-                                </strong>
-                              </>
-                            )}
-                            , unless you will lose your assets.
-                          </Text>
-                        )}
-                        {!!amount &&
-                          selectedMethod ===
-                            ReceiveMethods.RECEIVE_EXTERNAL && (
-                            <Text
-                              sx={{
-                                ...theme.mixins.valueDescription,
-                              }}
-                            >
-                              <strong>Please select the correct network</strong>
-                              , unless you will lose your assets.
-                            </Text>
-                          )}
-                      </>
-                    </Box>
+                    {!!warningMessage && (
+                      <Box
+                        sx={{
+                          ...theme.mixins.column,
+                          gap: theme.mixins.gaps.g4,
+                          backgroundColor: theme.palette.background.white16,
+                          borderRadius: theme.mixins.theBorderRadius.r12,
+                          padding: theme.mixins.customPadding.p8,
+                        }}
+                      >
+                        <Text sx={{ ...theme.mixins.valueDescription }}>
+                          {warningMessage}
+                        </Text>
+                      </Box>
+                    )}
                   </Box>
                   <DrawerComponent
                     ref={amountDrawerRef}
