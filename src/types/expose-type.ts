@@ -106,6 +106,9 @@ export interface WithdrawProviderDataType {
   isLoadingWithdrawToken: boolean;
   withdrawTokens: WithdrawCurrency[] | undefined;
   updateWithdrawToken: () => void;
+  isLoadingSendInternalToken: boolean;
+  sendInternalTokens: WithdrawCurrency[] | undefined;
+  updateSendInternalToken: () => void;
 }
 
 export type Wallet = Omit<WalletProviderDataType, "session"> &

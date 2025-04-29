@@ -6,6 +6,7 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useId,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -86,6 +87,7 @@ export enum AmountError {
 
 const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   (props, ref) => {
+    const swiperKey = useId();
     const drawerRef = useRef<DrawerComponentRef>(null);
     const swiperRef = useRef<SwiperControlledRef>(null);
     const theme = useTheme();
@@ -97,7 +99,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     >();
     const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
     const { isAuthenticated } = useWalletData();
-    const { withdrawTokens, updateWithdrawToken } = useWithdrawData();
+    const { withdrawTokens, updateWithdrawToken, updateSendInternalToken } =
+      useWithdrawData();
     const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
     const [amount, setAmount] = useState<number | string>("");
     const [memo, setMemo] = useState<string | undefined>(undefined);
@@ -518,11 +521,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
     useEffect(() => {
       if (isAuthenticated && !withdrawTokens) {
-        console.warn(
-          "🚀 ~ updateWithdrawToken ~ isAuthenticated:",
-          isAuthenticated
-        );
         updateWithdrawToken();
+      }
+      if (isAuthenticated && !withdrawTokens) {
+        updateSendInternalToken();
       }
     }, [isAuthenticated]);
 
@@ -571,7 +573,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 spaceBetween: 32,
               }}
               disableSwipe
-              key={withdrawTokens?.length}
+              key={swiperKey}
             >
               <SwiperSlide key={WithdrawStep.SELECT_METHOD}>
                 <Box

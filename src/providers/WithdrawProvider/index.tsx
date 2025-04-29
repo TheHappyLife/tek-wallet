@@ -8,6 +8,9 @@ export const initialWithdraw: WithdrawProviderDataType = {
   isLoadingWithdrawToken: true,
   withdrawTokens: undefined,
   updateWithdrawToken: () => {},
+  isLoadingSendInternalToken: true,
+  sendInternalTokens: undefined,
+  updateSendInternalToken: () => {},
 };
 
 export const WithdrawContext =
@@ -17,6 +20,11 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
   const [isLoadingWithdrawToken, setIsLoadingWithdrawToken] =
     useState<boolean>(true);
   const [withdrawTokens, setWithdrawTokens] = React.useState<
+    WithdrawCurrency[] | undefined
+  >(undefined);
+  const [isLoadingSendInternalToken, setIsLoadingSendInternalToken] =
+    useState<boolean>(true);
+  const [sendInternalTokens, setSendInternalTokens] = React.useState<
     WithdrawCurrency[] | undefined
   >(undefined);
 
@@ -43,6 +51,29 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
       setIsLoadingWithdrawToken(false);
     }
   }, [isAuthenticated]);
+  const updateSendInternalToken = useCallback(async () => {
+    console.warn(
+      "🚀 ~ updateWithdrawToken ~ updateWithdrawToken:",
+      isAuthenticated
+    );
+    try {
+      if (!isAuthenticated) {
+        throw new Error("Authenticate to get withdraw tokens");
+      }
+      setIsLoadingSendInternalToken(true);
+      const response = await getWithdrawTokenList();
+      console.warn(
+        "🚀 ~ getBalance getWithdrawTokenList ~ response:",
+        response
+      );
+      setSendInternalTokens(response?.supported_tokens);
+      setIsLoadingSendInternalToken(false);
+    } catch (error) {
+      console.error("🚀 ~ getBalance ~ error getWithdrawTokenList:", error);
+      setSendInternalTokens(undefined);
+      setIsLoadingSendInternalToken(false);
+    }
+  }, [isAuthenticated]);
 
   return (
     <WithdrawContext.Provider
@@ -50,6 +81,9 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
         isLoadingWithdrawToken,
         withdrawTokens,
         updateWithdrawToken,
+        isLoadingSendInternalToken,
+        sendInternalTokens,
+        updateSendInternalToken,
       }}
     >
       {children}
