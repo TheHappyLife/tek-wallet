@@ -45,6 +45,7 @@ import Formatter from "../Formatter";
 import sendInternalService from "../../../services/axios/send-internal-service";
 import getEstimateFeeService from "../../../services/axios/get-est-fee-service";
 import Fees from "../Fees";
+import { ReceiveInternalParams } from "../ReceiveFunction";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -250,13 +251,13 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     ): WithdrawCurrency | undefined => {
       return withdrawTokens?.find((item) => item?.address === contract_address);
     };
-    const handleSelectTransferInternal = () => {
+    const handleSelectTransferInternal = (
+      tonTransferParam?: TonTransferUrlParams
+    ) => {
       suggestUseTransferInternalDialogRef.current?.close();
-      const tokenSet = findWithdrawToken(sendInfoGet?.jetton || "");
-      console.warn(
-        "🚀 ~ handleSelectTransferInternal ~ sendInfoGet:",
-        sendInfoGet
-      );
+      const data = tonTransferParam ?? sendInfoGet;
+      const tokenSet = findWithdrawToken(data?.jetton || "");
+      console.warn("🚀 ~ handleSelectTransferInternal ~ sendInfoGet:", data);
       setRecipientAddress(recipientAddressInternal);
 
       setSelectedMethod(SendMethods.TRANSFER_INTERNAL);
@@ -264,7 +265,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         return;
       }
       setAmount(
-        getAmountAfterDecimal(sendInfoGet?.amount || 0, tokenSet?.decimal || 0)
+        getAmountAfterDecimal(data?.amount || 0, tokenSet?.decimal || 0)
       );
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
@@ -318,7 +319,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
     };
 
-    const handleGetEstimateFee = async () => {
+    const handleGetEstimateFee = useCallback(async () => {
+      if (!selectedToken) return;
       setIsLoadingEstimateFee(true);
       const response = await getEstimateFeeService({
         amount: `${amount}`,
@@ -327,7 +329,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       });
       console.warn("🚀 ~ handleGetEstimateFee ~ response:", response);
       setIsLoadingEstimateFee(false);
-    };
+    }, [amount, selectedToken?.slug]);
 
     const openScannerAddressQrCode = () => {
       scannerAddressQrCodeRef.current?.open();
@@ -407,8 +409,16 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
         const text = result?.[0]?.rawValue;
 
-        const tonTransferParam: TonTransferUrlParams =
-          parseTonTransferUrl(text);
+        const isReceiveInternal = text?.includes("isTekWalletReceiveInternal");
+
+        const tonTransferParam = isReceiveInternal
+          ? (JSON.parse(text) as ReceiveInternalParams)
+          : parseTonTransferUrl(text);
+        console.warn(
+          "🚀 ~ handleScanAllQrCode ~ tonTransferParam:",
+          tonTransferParam
+        );
+
         console.warn(
           "🚀 ~ handleScanAllQrCode ~ tonTransferParam:",
           tonTransferParam
@@ -447,16 +457,16 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         }
 
         if (!!validateWalletAddress?.master_wallet_address) {
-          //internal
-          console.warn("internal");
           setRecipientAddressInternal(
             validateWalletAddress?.master_wallet_address
           );
-          suggestUseTransferInternalDialogRef.current?.open();
+          if (isReceiveInternal) {
+            handleSelectTransferInternal(tonTransferParam);
+          } else {
+            suggestUseTransferInternalDialogRef.current?.open();
+          }
         } else if (!!validateWalletAddress?.valid) {
-          //external
           handleSelectContinueTransferExternal(tonTransferParam);
-          console.warn("external");
         } else {
           setInfoDialogContent("Unsupported QR");
           setRecipientAddressError("Invalid wallet address");
@@ -519,7 +529,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
     useEffect(() => {
       handleGetEstimateFee();
-    }, [amount, selectedToken?.slug]);
+    }, [handleGetEstimateFee]);
 
     return (
       <RequireConnect>
@@ -867,7 +877,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     <Divider orientation="vertical" variant="middle" flexItem />
                     <Text
                       sx={{ ...theme.mixins.dialogActionsOk, width: "100%" }}
-                      onClick={handleSelectTransferInternal}
+                      onClick={() => handleSelectTransferInternal()}
                     >
                       Ok
                     </Text>

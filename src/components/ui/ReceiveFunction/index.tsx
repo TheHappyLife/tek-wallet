@@ -457,43 +457,45 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                         }}
                       /> */}
                     </Box>
-                    <Box
-                      sx={{
-                        ...theme.mixins.column,
-                        gap: theme.mixins.gaps.g4,
-                        color: "text.white",
-                      }}
-                    >
-                      <Text
-                        sx={{
-                          ...theme.mixins.valueDescription,
-                        }}
-                      >
-                        Network
-                      </Text>
+                    {selectedMethod === ReceiveMethods.RECEIVE_EXTERNAL && (
                       <Box
-                        component="button"
                         sx={{
-                          ...theme.mixins.row,
-                          gap: theme.mixins.gaps.g2,
-                          cursor: "pointer",
-                          transition: "transform 0.3s ease-in-out",
-                          "&:active": {
-                            transform: "translateX(0.5rem)",
-                          },
+                          ...theme.mixins.column,
+                          gap: theme.mixins.gaps.g4,
+                          color: "text.white",
                         }}
-                        onClick={handleBack}
                       >
                         <Text
                           sx={{
-                            ...theme.mixins.value,
+                            ...theme.mixins.valueDescription,
                           }}
                         >
-                          {selectedNetwork?.name}
+                          Network
                         </Text>
-                        <Icon src={getIcon("right_arrow")} width={10} />
+                        <Box
+                          component="button"
+                          sx={{
+                            ...theme.mixins.row,
+                            gap: theme.mixins.gaps.g2,
+                            cursor: "pointer",
+                            transition: "transform 0.3s ease-in-out",
+                            "&:active": {
+                              transform: "translateX(0.5rem)",
+                            },
+                          }}
+                          onClick={handleBack}
+                        >
+                          <Text
+                            sx={{
+                              ...theme.mixins.value,
+                            }}
+                          >
+                            {selectedNetwork?.name}
+                          </Text>
+                          <Icon src={getIcon("right_arrow")} width={10} />
+                        </Box>
                       </Box>
-                    </Box>
+                    )}
                     <Box
                       sx={{
                         ...theme.mixins.column,
