@@ -17,9 +17,18 @@ const FeeDetail = ({ feeName, value }: { feeName: string; value: number }) => {
   const theme = useTheme();
 
   return (
-    <Box sx={{ ...theme.mixins.row }}>
-      <Text sx={{ ...theme.mixins.fieldTitle }}>{feeName}</Text>
-      <Box sx={{ ...theme.mixins.column, ml: "auto" }}>
+    <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
+      <Text sx={{ ...theme.mixins.fieldTitle, whiteSpace: "nowrap" }}>
+        {feeName}
+      </Text>
+      <Box
+        sx={{
+          ...theme.mixins.column,
+          flex: 1,
+          width: "fit-content",
+          alignItems: "flex-end",
+        }}
+      >
         <Text sx={{ ...theme.mixins.value }}>
           <Formatter value={value} />
         </Text>
@@ -40,9 +49,22 @@ function Fees(props: FeesProps) {
       defaultExpanded
       {...rest}
       sx={{
-        "&.MuiPaper-root": {
+        "&.MuiAccordion-root": {
           backgroundColor: "transparent",
           margin: 0,
+          borderRadius: theme.mixins.theBorderRadius.r12,
+        },
+        "& .MuiAccordionSummary-root": {
+          paddingLeft: theme.mixins.customPadding.p12,
+          paddingRight: theme.mixins.customPadding.p12,
+        },
+        "& .MuiAccordionSummary-content": {
+          marginTop: theme.mixins.customMargin.m12,
+          marginBottom: theme.mixins.customMargin.m12,
+        },
+        "& .MuiAccordionDetails-root": {
+          paddingLeft: theme.mixins.customPadding.p12,
+          paddingRight: theme.mixins.customPadding.p12,
         },
         ...sx,
       }}
@@ -59,8 +81,8 @@ function Fees(props: FeesProps) {
       </AccordionSummary>
 
       <AccordionDetails>
-        <Box sx={{ ...theme.mixins.row }}>
-          <Box sx={{ ...theme.mixins.column, width: "fit-content", gap: 2 }}>
+        <Box sx={{ ...theme.mixins.row, alignItems: "stretch" }}>
+          <Box sx={{ ...theme.mixins.column, width: "fit-content", gap: 1 }}>
             {[1, 2, 3].map((item, index) => (
               <Fragment key={item}>
                 {index !== 0 && (
