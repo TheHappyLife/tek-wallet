@@ -54,6 +54,11 @@ const CustomTooltip = ({
         anchorOrigin={anchorOrigin}
         anchorPosition={anchorPosition}
         transformOrigin={transformOrigin}
+        sx={{
+          "& .MuiPopover-paper": {
+            backgroundColor: "transparent",
+          },
+        }}
         {...rest}
       >
         {children}

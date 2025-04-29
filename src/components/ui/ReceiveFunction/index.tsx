@@ -609,7 +609,8 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                                   internal transfer. You can not use it for
                                   blockchain transaction. If you want to receive
                                   token by blockchain, please select the{" "}
-                                  <strong>Receive Internal</strong> method.
+                                  <strong>Receive Internal</strong> method
+                                  instead.
                                 </Text>
                               }
                             />
