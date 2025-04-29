@@ -57,8 +57,8 @@ type ReceiveFunctionRef = {
 };
 
 export enum ReceiveMethods {
-  RECEIVE_INTERNAL = "receive_internal",
-  RECEIVE_EXTERNAL = "receive_external",
+  RECEIVE_INTERNAL = "internal",
+  RECEIVE_EXTERNAL = "external",
 }
 
 enum ReceiveStep {
@@ -492,7 +492,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                         Receive{" "}
                         <strong>
                           {!!amount && <Formatter value={amount} />}{" "}
-                          {selectedToken?.name}
+                          {selectedToken?.name} {selectedMethod}
                         </strong>
                       </Text>
                       {/* <Text
@@ -609,7 +609,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                                   internal transfer. You can not use it for
                                   blockchain transaction. If you want to receive
                                   token by blockchain, please select the{" "}
-                                  <strong>Receive Internal</strong> method
+                                  <strong>Receive External</strong> method
                                   instead.
                                 </Text>
                               }
