@@ -25,6 +25,8 @@ export interface FeeDetail {
   feeInCurrency: number;
   feePercent: number;
   feeFixed: number;
+  currencySlug: string;
+  isEnoughBalance?: boolean;
 }
 
 export interface FeeType {

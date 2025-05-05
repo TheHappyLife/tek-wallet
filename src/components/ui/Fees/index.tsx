@@ -13,14 +13,45 @@ import Formatter from "../Formatter";
 import { Fragment } from "react/jsx-runtime";
 import { FeesDataType } from "../../../services/axios/get-est-fee-service/type";
 import parsePropsData from "../../../utils/parsePropsData";
+import useWalletData from "../../../hooks/useWalletData";
+import { useMemo } from "react";
+import ReceiveFunction from "../ReceiveFunction";
 export interface FeesProps extends Omit<AccordionProps, "children"> {
   feesData: string;
+  onEnoughBalanceToPayFee?: () => void;
+  onNotEnoughBalanceToPayFee?: () => void;
 }
 
 function Fees(props: FeesProps) {
   const { sx, ...rest } = props;
   const theme = useTheme();
   const feesData = parsePropsData<FeesDataType>(props?.feesData);
+  const { tokens } = useWalletData();
+  const isEnoughBalanceToPayFee = useMemo(() => {
+    // const tokensFee: FeeDetail[] = [];
+    // feesData?.feeDetail?.forEach((fee) => {
+    //   const index = tokensFee?.findIndex(
+    //     (token) => token.currencySlug === fee?.currencySlug
+    //   );
+    //   if (index === -1) {
+    //     tokensFee.push(fee);
+    //   } else {
+    //     if (+tokensFee[index]?.feeFixed < fee?.feeInCurrency) {
+    //       tokensFee[index] = { ...fee, isEnoughBalance: false };
+    //     }
+    //   }
+    // });
+    // for (let i = 0; i < length; i++) {
+    //   const fee = feesData?.feeDetail[i] as FeeDetail;
+    //   const token = tokens?.find(
+    //     (token) => token.currency_slug === fee?.currencySlug
+    //   );
+    //   if (!token || +token?.current_value < (fee?.feeInCurrency ?? 0)) {
+    //     tokensFee.push({ ...fee, isEnoughBalance: false });
+    //   }
+    // }
+    return true;
+  }, [tokens]);
 
   return (
     <Accordion
@@ -66,42 +97,64 @@ function Fees(props: FeesProps) {
       </AccordionSummary>
 
       <AccordionDetails>
-        <Box sx={{ ...theme.mixins.row, alignItems: "stretch" }}>
-          <Box
-            sx={{
-              ...theme.mixins.column,
-              width: "fit-content",
-              gap: theme.mixins.gaps.g8,
-              alignItems: "center",
-            }}
-          >
-            {feesData?.feeDetail?.map((item, index) => (
-              <Fragment key={item.feeType?.name}>
-                {index !== 0 && (
-                  <Box
-                    sx={{
-                      borderRight: `1px dashed ${theme.palette.border.white24}`,
-                      flex: 1,
-                    }}
-                  />
-                )}
-                {<Icon src={getIcon("timeline_dot")} width={16} />}
-              </Fragment>
-            ))}
+        <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g8 }}>
+          <Box sx={{ ...theme.mixins.row, alignItems: "stretch" }}>
+            <Box
+              sx={{
+                ...theme.mixins.column,
+                width: "fit-content",
+                gap: theme.mixins.gaps.g8,
+                alignItems: "center",
+              }}
+            >
+              {feesData?.feeDetail?.map((item, index) => (
+                <Fragment key={item.feeType?.name}>
+                  {index !== 0 && (
+                    <Box
+                      sx={{
+                        borderRight: `1px dashed ${theme.palette.border.white24}`,
+                        flex: 1,
+                      }}
+                    />
+                  )}
+                  {<Icon src={getIcon("timeline_dot")} width={16} />}
+                </Fragment>
+              ))}
+            </Box>
+            <Box
+              sx={{
+                ...theme.mixins.column,
+                flex: 1,
+                gap: theme.mixins.gaps.g8,
+              }}
+            >
+              {feesData?.feeDetail?.map((item) => (
+                <FeeDetail
+                  feeName={item.feeType?.name}
+                  feeInCurrency={item.feeInCurrency}
+                  feeInUSD={item.feeInUSD}
+                  currencyName={"USDT"}
+                  key={item.feeType?.name}
+                />
+              ))}
+            </Box>
           </Box>
-          <Box
-            sx={{ ...theme.mixins.column, flex: 1, gap: theme.mixins.gaps.g8 }}
-          >
-            {feesData?.feeDetail?.map((item) => (
-              <FeeDetail
-                feeName={item.feeType?.name}
-                feeInCurrency={item.feeInCurrency}
-                feeInUSD={item.feeInUSD}
-                currencyName={"USDT"}
-                key={item.feeType?.name}
-              />
-            ))}
-          </Box>
+          {isEnoughBalanceToPayFee && (
+            <Text sx={{ ...theme.mixins.validationError }}>
+              {"You don't have enough balance to pay the fee, please "}{" "}
+              <ReceiveFunction>
+                {" "}
+                <Text
+                  sx={{
+                    textDecoration: "underline",
+                  }}
+                >
+                  Topup more
+                </Text>
+              </ReceiveFunction>{" "}
+              to continue
+            </Text>
+          )}
         </Box>
       </AccordionDetails>
     </Accordion>
@@ -125,9 +178,11 @@ const FeeDetail = ({
 
   return (
     <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
-      <Text sx={{ ...theme.mixins.fieldTitle, whiteSpace: "nowrap" }}>
-        {feeName}
-      </Text>
+      <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g4 }}>
+        <Text sx={{ ...theme.mixins.fieldTitle, whiteSpace: "nowrap" }}>
+          {feeName}
+        </Text>
+      </Box>
       <Box
         sx={{
           ...theme.mixins.column,

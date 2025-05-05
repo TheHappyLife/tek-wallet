@@ -814,27 +814,21 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     </Box>
                   )}
 
-                  <Fees feesData={JSON.stringify(estimateFee)} />
+                  {estimateFee?.feeDetail?.length && !!amount && (
+                    <Fees feesData={JSON.stringify(estimateFee)} />
+                  )}
 
-                  <Box sx={{ ...theme.mixins.row }}>
-                    <Text sx={{ ...theme.mixins.fieldTitle }}>
-                      Estimate receive
-                    </Text>
+                  {estimateReceive !== undefined && (
+                    <Box sx={{ ...theme.mixins.row }}>
+                      <Text sx={{ ...theme.mixins.fieldTitle }}>
+                        Estimate receive
+                      </Text>
 
-                    <Box
-                      onClick={handleReSelectNetwork}
-                      sx={{
-                        ...theme.mixins.row,
-                        gap: theme.mixins.gaps.g6,
-                        ml: "auto",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Text sx={{ ...theme.mixins.value }}>
+                      <Text sx={{ ...theme.mixins.value, ml: "auto" }}>
                         <Formatter value={estimateReceive} />
                       </Text>
                     </Box>
-                  </Box>
+                  )}
 
                   <Button.Primary
                     sx={{ width: "100%" }}
