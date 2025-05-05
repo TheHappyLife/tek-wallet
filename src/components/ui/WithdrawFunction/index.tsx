@@ -161,7 +161,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     }, [estimateFee, amount]);
 
     useEffect(() => {
-      swiperRef.current?.update();
+      setTimeout(() => {
+        swiperRef.current?.update();
+      }, 50);
     }, [estimateFee, amountError, recipientAddressError]);
 
     const clearValues = () => {
@@ -309,7 +311,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       if (onlyChangeAddress.current) {
         return;
       }
-      const tokenSet = findWithdrawToken(data?.jetton || "");
+      const tokenSet = data?.jetton
+        ? findWithdrawToken(data?.jetton)
+        : selectedToken;
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
