@@ -7,6 +7,7 @@ import {
 
 export enum BUTTON_STATUS {
   LOADING = "loading",
+  ERROR = "error",
   DISABLED = "disabled",
   ENABLED = "enabled",
 }

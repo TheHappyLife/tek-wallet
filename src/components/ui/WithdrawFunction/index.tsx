@@ -55,6 +55,7 @@ import sendExternalService from "../../../services/axios/send-external-service";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
+  onSendSuccess?: (response: any) => void;
 }
 
 type WithdrawFunctionRef = {
@@ -94,6 +95,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   (props, ref) => {
     const drawerRef = useRef<DrawerComponentRef>(null);
     const swiperRef = useRef<SwiperControlledRef>(null);
+    const confirmLayoutDrawerRef = useRef<DrawerComponentRef>(null);
     const theme = useTheme();
     const [currentStep, setCurrentStep] = useState<WithdrawStep>(
       WithdrawStep.SELECT_METHOD
@@ -540,7 +542,16 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         memo: memo || "",
       });
       console.warn("🚀 ~ handleSendExternal ~ response:", response);
-      setSendButtonStatus(BUTTON_STATUS.ENABLED);
+
+      if (response.success) {
+        confirmLayoutDrawerRef.current?.close();
+        props.onSendSuccess?.(response);
+      } else {
+        setSendButtonStatus(BUTTON_STATUS.ERROR);
+        setTimeout(() => {
+          setSendButtonStatus(BUTTON_STATUS.ENABLED);
+        }, 1200);
+      }
     };
 
     const handleSend = (passcode: string) => {
@@ -855,7 +866,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     </Box>
                   )}
                   <ConfirmLayout
-                    // ref={confirmByPasscodeDrawerRef}
+                    ref={confirmLayoutDrawerRef}
                     action={ActionConfirm.SEND}
                     trigger={
                       <Button.Primary
@@ -890,7 +901,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         <LineValue
                           field="Recipient address"
                           value={
-                            <Text sx={{ wordBreak: "break-all" }}>
+                            <Text
+                              sx={{
+                                wordBreak: "break-all",
+                              }}
+                            >
                               {recipientAddress}
                             </Text>
                           }

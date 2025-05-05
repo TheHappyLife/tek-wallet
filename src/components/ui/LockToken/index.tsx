@@ -45,7 +45,7 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
   const theme = useTheme();
   const { lockTokens } = useLockTokenData();
   const { isAuthenticated } = useWalletData();
-  const confirmByPasscodeDrawerRef = useRef<DrawerComponentRef>(null);
+  const confirmLayoutDrawerRef = useRef<DrawerComponentRef>(null);
   const [token, setToken] = useState<LockCurrency | undefined>(undefined);
   const [error, setError] = useState<LockTokenError | undefined>(undefined);
   const [errorAmount, setErrorAmount] = useState<string | number | undefined>(
@@ -113,7 +113,7 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
     });
     console.warn("🚀 ~ handleLockToken ~ response:", response);
     if (response.success) {
-      confirmByPasscodeDrawerRef.current?.close();
+      confirmLayoutDrawerRef.current?.close();
       props.onLockSuccess?.(response);
     } else {
       setError(LockTokenError.FAILED);
@@ -123,12 +123,12 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
 
   const handleOpen = () => {
     if (!isAuthenticated) throw new Error("Please connect your wallet");
-    confirmByPasscodeDrawerRef.current?.open();
+    confirmLayoutDrawerRef.current?.open();
   };
 
   const handleClose = () => {
     if (!isAuthenticated) throw new Error("Please connect your wallet");
-    confirmByPasscodeDrawerRef.current?.close();
+    confirmLayoutDrawerRef.current?.close();
   };
 
   useImperativeHandle(ref, () => ({
@@ -143,7 +143,7 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
   return (
     <RequireConnect>
       <ConfirmLayout
-        ref={confirmByPasscodeDrawerRef}
+        ref={confirmLayoutDrawerRef}
         action={ActionConfirm.LOCK}
         trigger={props.children}
       >

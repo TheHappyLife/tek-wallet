@@ -46,6 +46,7 @@ const LineValue = (props: LineValueProps) => {
             <Text
               sx={{
                 ...theme.mixins.value,
+                textAlign: "right",
               }}
             >
               {value}
@@ -55,6 +56,7 @@ const LineValue = (props: LineValueProps) => {
             <Text
               sx={{
                 ...theme.mixins.valueDescription,
+                textAlign: "right",
               }}
             >
               {valueDescription}
