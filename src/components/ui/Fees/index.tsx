@@ -42,13 +42,16 @@ function Fees(props: FeesProps) {
       if (index === -1) {
         result.push(fee);
       } else {
-        // const rate = fee.feeInUSD / fee.feeInCurrency;
+        const rate = fee.feeInUSD / fee.feeInCurrency;
         result[index].feeFixed += fee.feeFixed;
         result[index].feeInCurrency += fee.feeInCurrency;
         result[index].feeInUSD += fee.feeInUSD;
         result[index].feePercent += fee.feePercent;
         result[index].feePercentInCurrency =
           (result[index].feeInCurrency ?? 0) + amount * (fee.feePercent / 100);
+        result[index].feePercentInUSD =
+          (result[index].feeInUSD ?? 0) +
+          amount * (fee.feePercent / 100) * rate;
         const totalFeeInCurrency =
           (result[index].feeInCurrency ?? 0) +
           (result[index].feePercentInCurrency ?? 0);
@@ -84,6 +87,13 @@ function Fees(props: FeesProps) {
   const isEnoughBalanceToPayFee = useMemo(() => {
     return feeCheckedBalance?.some((fee) => !fee.isEnoughBalanceToPay);
   }, [feeCheckedBalance]);
+
+  const totalFeeInUSD = useMemo(() => {
+    return tokensFee?.reduce(
+      (acc, fee) => acc + (fee.feeInUSD ?? 0) + (fee.feePercentInUSD ?? 0),
+      0
+    );
+  }, [tokensFee]);
 
   return (
     <Accordion
@@ -123,7 +133,7 @@ function Fees(props: FeesProps) {
         <Box sx={{ ...theme.mixins.row, width: "100%" }}>
           <Text sx={{ ...theme.mixins.fieldTitle }}>Total fees</Text>
           <Text sx={{ ...theme.mixins.value, ml: "auto" }}>
-            <Formatter value={1000} />
+            <Formatter value={totalFeeInUSD} start={"~ $"} />
           </Text>
         </Box>
       </AccordionSummary>
