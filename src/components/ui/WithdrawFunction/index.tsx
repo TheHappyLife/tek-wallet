@@ -307,12 +307,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       console.warn("🚀 ~ data handleSelectContinueTransferExternal:", data);
       suggestUseTransferInternalDialogRef.current?.close();
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
-      setRecipientAddress(data?.address);
+      !!data?.address && setRecipientAddress(data?.address);
       if (onlyChangeAddress.current) {
         return;
       }
       const tokenSet = data?.jetton
-        ? findWithdrawToken(data?.jetton)
+        ? findWithdrawToken(data?.jetton || "")
         : selectedToken;
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
@@ -321,10 +321,11 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
         setSelectedNetwork(tokenSet?.network_data);
         gotoStep(WithdrawStep.FORM);
       }
-      setAmount(
-        getAmountAfterDecimal(data?.amount || 0, tokenSet?.decimal || 0)
-      );
-      setMemo(data?.text);
+      !!data?.amount &&
+        setAmount(
+          getAmountAfterDecimal(data?.amount || 0, tokenSet?.decimal || 0)
+        );
+      !!data?.text && setMemo(data?.text);
     };
 
     const handleSelectMethod = (method: SendMethods) => {
