@@ -341,7 +341,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     const handleGetEstimateFee = useCallback(async () => {
-      if (!selectedToken) return;
+      if (!selectedToken || !!amountError) return;
       setIsLoadingEstimateFee(true);
       const response = await getEstimateFeeService({
         amount: `${amount}`,
@@ -822,7 +822,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     />
                   )}
 
-                  {estimateReceive !== undefined && (
+                  {estimateReceive !== undefined && !amountError && (
                     <Box sx={{ ...theme.mixins.row }}>
                       <Text sx={{ ...theme.mixins.fieldTitle }}>
                         Estimate receive
