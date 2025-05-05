@@ -16,20 +16,24 @@ export interface FeesDataType {
   originalAmountInUSD: number;
   originalAmountInCurrency: number;
   originalCurrency: string;
-  feeDetail: FeeDetail[];
+  feeDetail: FeeDetailType[];
 }
 
-export interface FeeDetail {
+export interface FeeDetailType {
   feeType: FeeType;
   feeInUSD: number;
   feeInCurrency: number;
   feePercent: number;
   currency: Currency;
   feeFixed: number;
+  feePercentInUSD?: number;
+  feePercentInCurrency?: number;
+  isEnoughBalanceToPay?: boolean;
 }
 
 export interface Currency {
   id: number;
+  name: string;
   slug: string;
   full_name: string;
   icon: string;

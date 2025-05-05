@@ -11,47 +11,75 @@ import getIcon from "../../../utils/getIcon";
 import Text from "../Text";
 import Formatter from "../Formatter";
 import { Fragment } from "react/jsx-runtime";
-import { FeesDataType } from "../../../services/axios/get-est-fee-service/type";
+import {
+  FeeDetailType,
+  FeesDataType,
+} from "../../../services/axios/get-est-fee-service/type";
 import parsePropsData from "../../../utils/parsePropsData";
 import useWalletData from "../../../hooks/useWalletData";
 import { useMemo } from "react";
 import ReceiveFunction from "../ReceiveFunction";
 export interface FeesProps extends Omit<AccordionProps, "children"> {
   feesData: string;
+  amount: number;
+  // currency: string;
   onEnoughBalanceToPayFee?: () => void;
   onNotEnoughBalanceToPayFee?: () => void;
 }
 
 function Fees(props: FeesProps) {
-  const { sx, ...rest } = props;
+  const { sx, amount, ...rest } = props;
   const theme = useTheme();
   const feesData = parsePropsData<FeesDataType>(props?.feesData);
   const { tokens } = useWalletData();
+  const tokensFee: FeeDetailType[] = useMemo(() => {
+    const result: FeeDetailType[] = [];
+
+    feesData?.feeDetail?.forEach((fee) => {
+      const index = result?.findIndex(
+        (feeDetail) => feeDetail.currency?.slug === fee?.currency?.slug
+      );
+      if (index === -1) {
+        result.push(fee);
+      } else {
+        // const rate = fee.feeInUSD / fee.feeInCurrency;
+        result[index].feeFixed += fee.feeFixed;
+        result[index].feeInCurrency += fee.feeInCurrency;
+        result[index].feeInUSD += fee.feeInUSD;
+        result[index].feePercent += fee.feePercent;
+        result[index].feePercentInCurrency =
+          (result[index].feeInCurrency ?? 0) + amount * (fee.feePercent / 100);
+        const totalFeeInCurrency =
+          (result[index].feeInCurrency ?? 0) +
+          (result[index].feePercentInCurrency ?? 0);
+        const token = tokens?.find(
+          (token) => token.currency_slug === fee?.currency?.slug
+        );
+        result[index].isEnoughBalanceToPay =
+          +(token?.current_value ?? 0) >= totalFeeInCurrency;
+      }
+    });
+
+    return result;
+  }, [tokens, feesData?.feeDetail, amount]);
+
+  const feeCheckedBalance: FeeDetailType[] = useMemo(() => {
+    return (
+      feesData?.feeDetail?.map((fee) => {
+        const theFee = tokensFee?.find(
+          (feeDetail) => feeDetail.currency?.slug === fee?.currency?.slug
+        );
+
+        return {
+          ...fee,
+          isEnoughBalanceToPay: theFee?.isEnoughBalanceToPay,
+        };
+      }) ?? []
+    );
+  }, [tokensFee, feesData?.feeDetail]);
   const isEnoughBalanceToPayFee = useMemo(() => {
-    // const tokensFee: FeeDetail[] = [];
-    // feesData?.feeDetail?.forEach((fee) => {
-    //   const index = tokensFee?.findIndex(
-    //     (token) => token.currencySlug === fee?.currencySlug
-    //   );
-    //   if (index === -1) {
-    //     tokensFee.push(fee);
-    //   } else {
-    //     if (+tokensFee[index]?.feeFixed < fee?.feeInCurrency) {
-    //       tokensFee[index] = { ...fee, isEnoughBalance: false };
-    //     }
-    //   }
-    // });
-    // for (let i = 0; i < length; i++) {
-    //   const fee = feesData?.feeDetail[i] as FeeDetail;
-    //   const token = tokens?.find(
-    //     (token) => token.currency_slug === fee?.currencySlug
-    //   );
-    //   if (!token || +token?.current_value < (fee?.feeInCurrency ?? 0)) {
-    //     tokensFee.push({ ...fee, isEnoughBalance: false });
-    //   }
-    // }
-    return true;
-  }, [tokens]);
+    return feeCheckedBalance?.some((fee) => !fee.isEnoughBalanceToPay);
+  }, [feeCheckedBalance]);
 
   return (
     <Accordion
@@ -107,7 +135,7 @@ function Fees(props: FeesProps) {
                 alignItems: "center",
               }}
             >
-              {feesData?.feeDetail?.map((item, index) => (
+              {feeCheckedBalance?.map((item, index) => (
                 <Fragment key={item.feeType?.name}>
                   {index !== 0 && (
                     <Box
@@ -128,12 +156,12 @@ function Fees(props: FeesProps) {
                 gap: theme.mixins.gaps.g8,
               }}
             >
-              {feesData?.feeDetail?.map((item) => (
+              {feeCheckedBalance?.map((item) => (
                 <FeeDetail
                   feeName={item.feeType?.name}
                   feeInCurrency={item.feeInCurrency}
                   feeInUSD={item.feeInUSD}
-                  currencyName={"USDT"}
+                  currencyName={item.currency?.name}
                   key={item.feeType?.name}
                 />
               ))}

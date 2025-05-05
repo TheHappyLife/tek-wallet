@@ -113,6 +113,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [amountErrorMessage, setAmountErrorMessage] = useState<
       AmountError | undefined
     >();
+
     const [hiddenError, setHiddenError] = useState<boolean>(true);
     const [amountError, setAmountError] = useState<number>();
     const scannerAllQrCodeRef = useRef<QrCodeReaderRef>(null);
@@ -816,7 +817,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   )}
 
                   {estimateFee?.feeDetail?.length && !!amount && (
-                    <Fees feesData={JSON.stringify(estimateFee)} />
+                    <Fees
+                      feesData={JSON.stringify(estimateFee)}
+                      amount={+amount}
+                    />
                   )}
 
                   {estimateReceive !== undefined && (
