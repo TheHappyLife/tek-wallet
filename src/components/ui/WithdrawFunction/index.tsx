@@ -6,7 +6,6 @@ import {
   ReactNode,
   useCallback,
   useEffect,
-  useId,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -88,8 +87,6 @@ export enum AmountError {
 
 const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   (props, ref) => {
-    const swiperKey = useId();
-    console.warn("🚀 ~ swiperKey:", swiperKey);
     const drawerRef = useRef<DrawerComponentRef>(null);
     const swiperRef = useRef<SwiperControlledRef>(null);
     const theme = useTheme();
@@ -159,6 +156,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
       return +amount - +estimateFee?.feeInCurrency;
     }, [estimateFee, amount]);
+
+    const swiperKey = useMemo(() => {
+      return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
+    }, [estimateFee, amountError, recipientAddressError]);
 
     const clearValues = () => {
       setSelectedToken(undefined);

@@ -24,9 +24,16 @@ export interface FeeDetail {
   feeInUSD: number;
   feeInCurrency: number;
   feePercent: number;
+  currency: Currency;
   feeFixed: number;
-  currencySlug: string;
-  isEnoughBalance?: boolean;
+}
+
+export interface Currency {
+  id: number;
+  slug: string;
+  full_name: string;
+  icon: string;
+  link: string;
 }
 
 export interface FeeType {
