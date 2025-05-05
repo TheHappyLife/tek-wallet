@@ -159,7 +159,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     }, [estimateFee, amount]);
 
     const swiperKey = useMemo(() => {
-      return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
+      // return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
+      return "fhwefhwe";
     }, [estimateFee, amountError, recipientAddressError]);
 
     const clearValues = () => {
