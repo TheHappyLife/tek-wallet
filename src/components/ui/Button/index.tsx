@@ -63,6 +63,7 @@ Button.Primary = (props: ButtonProps) => {
       {...rest}
       variant="contained"
       color="primary"
+      status={status}
       sx={{
         borderRadius: theme.mixins.theBorderRadius.full,
         "&.Mui-disabled": {
