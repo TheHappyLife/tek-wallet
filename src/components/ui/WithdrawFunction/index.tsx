@@ -357,7 +357,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       }
     };
 
-    const handleGetEstimateFee = useCallback(async () => {
+    const getEstimateFee = useCallback(async () => {
       if (!selectedToken || !!amountError) return;
       setIsLoadingEstimateFee(true);
       const response = await getEstimateFeeService({
@@ -368,7 +368,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       console.warn("🚀 ~ handleGetEstimateFee ~ response:", response);
       setIsLoadingEstimateFee(false);
       setEstimateFee(response?.data);
-    }, [amount, selectedToken?.slug]);
+    }, [amount, selectedToken, amountError]);
 
     const openScannerAddressQrCode = () => {
       scannerAddressQrCodeRef.current?.open();
@@ -582,8 +582,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     }, [validateAmount]);
 
     useEffect(() => {
-      handleGetEstimateFee();
-    }, [handleGetEstimateFee]);
+      getEstimateFee();
+    }, [getEstimateFee]);
 
     return (
       <RequireConnect>
