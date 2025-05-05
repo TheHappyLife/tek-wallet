@@ -589,9 +589,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 spaceBetween: 32,
               }}
               disableSwipe
-              initialActiveTab={currentStep}
             >
-              <SwiperSlide>
+              <SwiperSlide key={WithdrawStep.SELECT_METHOD}>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -618,7 +617,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide>
+              <SwiperSlide key={WithdrawStep.SELECT_TOKEN}>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -641,7 +640,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide>
+              <SwiperSlide key={WithdrawStep.SELECT_NETWORK}>
                 <Box
                   sx={{
                     ...theme.mixins.column,

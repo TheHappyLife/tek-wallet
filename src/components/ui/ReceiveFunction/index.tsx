@@ -666,8 +666,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                         }}
                       >
                         <Text sx={{ ...theme.mixins.fieldTitle }}>
-                          {amount ? "Edit" : "+ Set"} {selectedToken?.name}{" "}
-                          amount
+                          {amount ? "Edit" : "Set"} {selectedToken?.name} amount
                         </Text>
                         <Input
                           placeholder={`${selectedToken?.min_value} - ${selectedToken?.max_value}`}
