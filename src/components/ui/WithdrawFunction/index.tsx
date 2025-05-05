@@ -158,9 +158,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       return +amount - +estimateFee?.feeInCurrency;
     }, [estimateFee, amount]);
 
-    const swiperKey = useMemo(() => {
-      return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
-    }, [estimateFee, amountError, recipientAddressError]);
+    // const swiperKey = useMemo(() => {
+    //   return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
+    // }, [estimateFee, amountError, recipientAddressError]);
 
     const clearValues = () => {
       setSelectedToken(undefined);
@@ -589,10 +589,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                 spaceBetween: 32,
               }}
               disableSwipe
-              key={swiperKey}
               initialActiveTab={currentStep}
             >
-              <SwiperSlide key={WithdrawStep.SELECT_METHOD}>
+              <SwiperSlide>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -619,7 +618,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={WithdrawStep.SELECT_TOKEN}>
+              <SwiperSlide>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -642,7 +641,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={WithdrawStep.SELECT_NETWORK}>
+              <SwiperSlide>
                 <Box
                   sx={{
                     ...theme.mixins.column,
@@ -663,7 +662,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={WithdrawStep.FORM}>
+              <SwiperSlide>
                 <Box
                   sx={{
                     ...theme.mixins.column,
