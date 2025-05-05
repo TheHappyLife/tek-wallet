@@ -40,6 +40,8 @@ const background = {
   black16: "rgba(0, 0, 0, 0.16)",
   secondary: "#01FFFF",
   secondary16: "rgba(1, 255, 255, 0.16)",
+  error: "#FE6565",
+  error16: "rgba(254, 101, 101, 0.16)",
 };
 
 const border = {

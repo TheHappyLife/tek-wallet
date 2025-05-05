@@ -2,6 +2,7 @@
 import {
   Button as MuiButton,
   ButtonProps as MuiButtonProps,
+  SxProps,
   useTheme,
 } from "@mui/material";
 
@@ -39,8 +40,23 @@ const Button: React.FC<ButtonProps> & {
 Button.displayName = "Button";
 
 Button.Primary = (props: ButtonProps) => {
-  const { sx, children, ...rest } = props;
+  const { sx, children, status = BUTTON_STATUS.ENABLED, ...rest } = props;
   const theme = useTheme();
+
+  const disabledStyles: Record<string, SxProps> = {
+    [BUTTON_STATUS.LOADING]: {
+      backgroundColor: theme.palette.background.secondary16,
+      color: theme.palette.background.secondary,
+    },
+    [BUTTON_STATUS.ERROR]: {
+      backgroundColor: theme.palette.background.error16,
+      color: theme.palette.background.error,
+    },
+    [BUTTON_STATUS.DISABLED]: {
+      backgroundColor: theme.palette.background.white16,
+      color: theme.palette.text.white24,
+    },
+  };
 
   return (
     <Button
@@ -50,8 +66,7 @@ Button.Primary = (props: ButtonProps) => {
       sx={{
         borderRadius: theme.mixins.theBorderRadius.full,
         "&.Mui-disabled": {
-          backgroundColor: theme.palette.background.white16,
-          color: theme.palette.text.white24,
+          ...(disabledStyles[status] as any),
         },
         ...sx,
       }}

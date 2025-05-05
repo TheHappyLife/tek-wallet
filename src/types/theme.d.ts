@@ -75,6 +75,8 @@ declare module "@mui/material/styles" {
     black16: string;
     secondary: string;
     secondary16: string;
+    error: string;
+    error16: string;
   }
 
   interface TypographyVariants {
