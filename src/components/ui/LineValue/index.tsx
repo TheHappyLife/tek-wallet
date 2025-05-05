@@ -19,7 +19,7 @@ const LineValue = (props: LineValueProps) => {
       sx={{
         ...theme.mixins.row,
         alignItems: "start",
-        gap: theme.mixins.gaps.g16,
+        gap: theme.mixins.gaps.g32,
         ...props.sx,
       }}
     >
@@ -27,6 +27,7 @@ const LineValue = (props: LineValueProps) => {
         <Text
           sx={{
             ...theme.mixins.valueDescription,
+            whiteSpace: "nowrap",
           }}
         >
           {field}
@@ -36,6 +37,7 @@ const LineValue = (props: LineValueProps) => {
         <Box
           sx={{
             ...theme.mixins.column,
+            flex: 1,
             alignItems: "end",
             gap: theme.mixins.gaps.g2,
           }}
