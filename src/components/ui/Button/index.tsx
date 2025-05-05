@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
+  CircularProgress,
   Button as MuiButton,
   ButtonProps as MuiButtonProps,
   SxProps,
@@ -72,7 +73,9 @@ Button.Primary = (props: ButtonProps) => {
         ...sx,
       }}
     >
-      {children}
+      {status === BUTTON_STATUS.LOADING && <CircularProgress size={20} />}
+      {status === BUTTON_STATUS.ERROR && <>{"Error"}</>}
+      {status === BUTTON_STATUS.ENABLED && <>{children}</>}
     </Button>
   );
 };
