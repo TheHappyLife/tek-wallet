@@ -158,9 +158,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       return +amount - +estimateFee?.feeInCurrency;
     }, [estimateFee, amount]);
 
-    // const swiperKey = useMemo(() => {
-    //   return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
-    // }, [estimateFee, amountError, recipientAddressError]);
+    const swiperKey = useMemo(() => {
+      return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
+    }, [estimateFee, amountError, recipientAddressError]);
 
     const clearValues = () => {
       setSelectedToken(undefined);
@@ -662,7 +662,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide>
+              <SwiperSlide key={swiperKey}>
                 <Box
                   sx={{
                     ...theme.mixins.column,
