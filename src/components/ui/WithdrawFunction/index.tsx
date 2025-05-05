@@ -544,6 +544,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       console.warn("🚀 ~ handleSendExternal ~ response:", response);
 
       if (response.success) {
+        close();
         confirmLayoutDrawerRef.current?.close();
         props.onSendSuccess?.(response);
       } else {
