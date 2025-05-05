@@ -48,7 +48,7 @@ Button.Primary = (props: ButtonProps) => {
       color="primary"
       sx={{
         borderRadius: theme.mixins.theBorderRadius.full,
-        "&::disabled": {
+        "& .Mui-disabled": {
           backgroundColor: theme.palette.background.white16,
           color: theme.palette.text.white24,
         },

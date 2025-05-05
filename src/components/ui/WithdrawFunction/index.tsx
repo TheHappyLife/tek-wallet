@@ -125,6 +125,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [sendInfoGet, setSendInfoGet] = useState<TonTransferUrlParams>();
     const [isLoadingEstimateFee, setIsLoadingEstimateFee] =
       useState<boolean>(false);
+    const [isValidatingAddress, setIsValidatingAddress] =
+      useState<boolean>(false);
     const [estimateFee, setEstimateFee] = useState<FeesDataType>();
     const [recipientAddressError, setRecipientAddressError] =
       useState<string>();
@@ -401,11 +403,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       address: string,
       network: string
     ) => {
-      setRecipientAddressError(undefined);
+      setIsValidatingAddress(true);
       const validateWalletAddress = await validateWalletAddressService({
         address,
         network,
       });
+      setIsValidatingAddress(false);
       if (!!validateWalletAddress?.valid) {
         setRecipientAddressError(undefined);
       }
@@ -843,7 +846,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       !recipientAddress ||
                       !amount ||
                       !selectedToken ||
-                      isLoadingEstimateFee
+                      isLoadingEstimateFee ||
+                      isValidatingAddress
                         ? BUTTON_STATUS.DISABLED
                         : BUTTON_STATUS.ENABLED
                     }
