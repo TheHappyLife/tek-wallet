@@ -80,8 +80,9 @@ Button.Primary = (props: ButtonProps) => {
           Processing
         </Box>
       )}
-      {status === BUTTON_STATUS.ERROR && <>{"Error"}</>}
+      {status === BUTTON_STATUS.ERROR && <>Error</>}
       {status === BUTTON_STATUS.ENABLED && <>{children}</>}
+      {status === BUTTON_STATUS.DISABLED && <>{children}</>}
     </Button>
   );
 };
