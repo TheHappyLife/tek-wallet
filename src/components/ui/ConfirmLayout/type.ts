@@ -1,5 +1,4 @@
 export enum ActionConfirm {
-  WITHDRAW = "withdraw",
-  TRANSFER = "transfer",
+  SEND = "send",
   LOCK = "lock token",
 }

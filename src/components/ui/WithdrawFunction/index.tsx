@@ -837,7 +837,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   {estimateReceive !== undefined && !amountError && (
                     <Box sx={{ ...theme.mixins.row }}>
                       <Text sx={{ ...theme.mixins.fieldTitle }}>
-                        Estimate receive
+                        Receive amount estimated
                       </Text>
 
                       <Text sx={{ ...theme.mixins.value, ml: "auto" }}>
@@ -847,7 +847,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   )}
                   <ConfirmLayout
                     // ref={confirmByPasscodeDrawerRef}
-                    action={ActionConfirm.LOCK}
+                    action={ActionConfirm.SEND}
                     trigger={
                       <Button.Primary
                         sx={{ width: "100%" }}
@@ -880,6 +880,31 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         }}
                       >
                         <LineValue
+                          field="Recipient address"
+                          value={recipientAddress}
+                        />
+                        {selectedMethod === SendMethods.TRANSFER_EXTERNAL && (
+                          <Box sx={{ ...theme.mixins.row }}>
+                            <Text sx={{ ...theme.mixins.fieldTitle }}>
+                              Network
+                            </Text>
+
+                            <Box
+                              sx={{
+                                ...theme.mixins.row,
+                                gap: theme.mixins.gaps.g6,
+                                ml: "auto",
+                              }}
+                            >
+                              <Icon width={20} src={selectedNetwork?.icon} />
+                              <Text sx={{ ...theme.mixins.value }}>
+                                {selectedNetwork?.name}
+                              </Text>
+                              <Icon width={10} src={getIcon("right_arrow")} />
+                            </Box>
+                          </Box>
+                        )}
+                        <LineValue
                           field="Amount"
                           value={
                             <Formatter
@@ -888,6 +913,23 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                             />
                           }
                         />
+                        {!!memo &&
+                          selectedMethod === SendMethods.TRANSFER_EXTERNAL && (
+                            <LineValue field="Memo" value={memo} />
+                          )}
+                        <Fees
+                          feesData={JSON.stringify(estimateFee)}
+                          amount={+amount}
+                        />
+                        <Box sx={{ ...theme.mixins.row }}>
+                          <Text sx={{ ...theme.mixins.fieldTitle }}>
+                            Receive amount estimated
+                          </Text>
+
+                          <Text sx={{ ...theme.mixins.value, ml: "auto" }}>
+                            <Formatter value={estimateReceive} />
+                          </Text>
+                        </Box>
                       </Box>
                       <Text
                         sx={{
@@ -898,7 +940,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       </Text>
 
                       <ConfirmByPasscode
-                        action={ActionConfirm.LOCK}
+                        action={ActionConfirm.SEND}
                         onConfirmSuccess={() => console.warn("confirm success")}
                       >
                         <Button.Primary
