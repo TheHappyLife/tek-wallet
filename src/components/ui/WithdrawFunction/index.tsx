@@ -47,6 +47,10 @@ import getEstimateFeeService from "../../../services/axios/get-est-fee-service";
 import Fees from "../Fees";
 import { ReceiveInternalParams } from "../ReceiveFunction";
 import { FeesDataType } from "../../../services/axios/get-est-fee-service/type";
+import ConfirmLayout from "../ConfirmLayout";
+import { ActionConfirm } from "../ConfirmLayout/type";
+import ConfirmByPasscode from "../ConfirmByPasscode";
+import LineValue from "../LineValue";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -841,24 +845,71 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       </Text>
                     </Box>
                   )}
-
-                  <Button.Primary
-                    sx={{ width: "100%" }}
-                    onClick={handleSend}
-                    status={
-                      !!amountError ||
-                      !!recipientAddressError ||
-                      !recipientAddress ||
-                      !amount ||
-                      !selectedToken ||
-                      isLoadingEstimateFee ||
-                      isValidatingAddress
-                        ? BUTTON_STATUS.DISABLED
-                        : BUTTON_STATUS.ENABLED
+                  <ConfirmLayout
+                    // ref={confirmByPasscodeDrawerRef}
+                    action={ActionConfirm.LOCK}
+                    trigger={
+                      <Button.Primary
+                        sx={{ width: "100%" }}
+                        onClick={handleSend}
+                        status={
+                          !!amountError ||
+                          !!recipientAddressError ||
+                          !recipientAddress ||
+                          !amount ||
+                          !selectedToken ||
+                          isLoadingEstimateFee ||
+                          isValidatingAddress
+                            ? BUTTON_STATUS.DISABLED
+                            : BUTTON_STATUS.ENABLED
+                        }
+                      >
+                        Continue
+                      </Button.Primary>
                     }
                   >
-                    Continue
-                  </Button.Primary>
+                    <Box
+                      sx={{
+                        ...theme.mixins.column,
+                        gap: theme.mixins.gaps.g12,
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          ...theme.mixins.paper,
+                        }}
+                      >
+                        <LineValue
+                          field="Amount"
+                          value={
+                            <Formatter
+                              value={amount}
+                              unit={selectedToken?.name}
+                            />
+                          }
+                        />
+                      </Box>
+                      <Text
+                        sx={{
+                          ...theme.mixins.value,
+                        }}
+                      >
+                        Your balance is{" "}
+                      </Text>
+
+                      <ConfirmByPasscode
+                        action={ActionConfirm.LOCK}
+                        onConfirmSuccess={() => console.warn("confirm success")}
+                      >
+                        <Button.Primary
+                          status={BUTTON_STATUS.ENABLED}
+                          sx={{ width: "100%" }}
+                        >
+                          Confirm
+                        </Button.Primary>
+                      </ConfirmByPasscode>
+                    </Box>
+                  </ConfirmLayout>
                 </Box>
               </SwiperSlide>
             </SwiperControlled>
