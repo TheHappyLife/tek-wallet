@@ -841,6 +841,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     </Box>
                   )}
 
+                  <Box
+                    sx={{
+                      color: "#f00",
+                    }}
+                  >
+                    {`${isValidatingAddress} - ${recipientAddressError} - ${amountError} - ${recipientAddress} - ${amount} - ${selectedToken} - ${selectedNetwork} - ${selectedMethod} - ${sendInfoGet}`}
+                  </Box>
+
                   <Button.Primary
                     sx={{ width: "100%" }}
                     onClick={handleSend}
