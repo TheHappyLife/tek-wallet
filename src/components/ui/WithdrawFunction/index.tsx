@@ -158,8 +158,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       return +amount - +estimateFee?.feeInCurrency;
     }, [estimateFee, amount]);
 
-    const swiperKey = useMemo(() => {
-      return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
+    useEffect(() => {
+      swiperRef.current?.update();
     }, [estimateFee, amountError, recipientAddressError]);
 
     const clearValues = () => {
@@ -661,7 +661,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   })}
                 </Box>
               </SwiperSlide>
-              <SwiperSlide key={swiperKey}>
+              <SwiperSlide key={WithdrawStep.FORM}>
                 <Box
                   sx={{
                     ...theme.mixins.column,

@@ -16,6 +16,7 @@ export interface SwiperControlledRef {
   slideTo: (index: number) => void;
   next: () => void;
   prev: () => void;
+  update: () => void;
 }
 
 const SwiperControlled = forwardRef<SwiperControlledRef, SwiperControlledProps>(
@@ -32,10 +33,14 @@ const SwiperControlled = forwardRef<SwiperControlledRef, SwiperControlledProps>(
     const prev = () => {
       swiperRef.current?.swiper?.slidePrev();
     };
+    const update = () => {
+      swiperRef.current?.swiper?.update();
+    };
     useImperativeHandle(ref, () => ({
       slideTo,
       next,
       prev,
+      update,
     }));
     const handleSlideChange = (swiper: SwiperType) => {
       setActiveTab(swiper.activeIndex);
