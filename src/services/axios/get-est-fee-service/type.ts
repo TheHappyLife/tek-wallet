@@ -6,11 +6,11 @@ export interface GetEstimateFeeServiceQuery {
 export interface GetEstimateFeeServiceResponse {
   success: boolean;
   message: string;
-  data: Data;
+  data: FeesDataType;
   timestamp: string;
 }
 
-interface Data {
+export interface FeesDataType {
   feeInUSD: number;
   feeInCurrency: number;
   originalAmountInUSD: number;
@@ -19,7 +19,7 @@ interface Data {
   feeDetail: FeeDetail[];
 }
 
-interface FeeDetail {
+export interface FeeDetail {
   feeType: FeeType;
   feeInUSD: number;
   feeInCurrency: number;
@@ -27,7 +27,7 @@ interface FeeDetail {
   feeFixed: number;
 }
 
-interface FeeType {
+export interface FeeType {
   name: string;
   slug: string;
 }

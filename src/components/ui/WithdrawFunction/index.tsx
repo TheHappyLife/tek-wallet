@@ -47,6 +47,7 @@ import sendInternalService from "../../../services/axios/send-internal-service";
 import getEstimateFeeService from "../../../services/axios/get-est-fee-service";
 import Fees from "../Fees";
 import { ReceiveInternalParams } from "../ReceiveFunction";
+import { FeesDataType } from "../../../services/axios/get-est-fee-service/type";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -88,6 +89,7 @@ export enum AmountError {
 const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   (props, ref) => {
     const swiperKey = useId();
+    console.warn("🚀 ~ swiperKey:", swiperKey);
     const drawerRef = useRef<DrawerComponentRef>(null);
     const swiperRef = useRef<SwiperControlledRef>(null);
     const theme = useTheme();
@@ -125,7 +127,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [sendInfoGet, setSendInfoGet] = useState<TonTransferUrlParams>();
     const [isLoadingEstimateFee, setIsLoadingEstimateFee] =
       useState<boolean>(false);
-    // const [estimateFee, setEstimateFee] = useState<number>();
+    const [estimateFee, setEstimateFee] = useState<FeesDataType>();
     const [recipientAddressError, setRecipientAddressError] =
       useState<string>();
     const onlyChangeAddress = useRef<boolean>(false);
@@ -292,12 +294,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       const data = dataPromptly ?? sendInfoGet;
       console.warn("🚀 ~ data handleSelectContinueTransferExternal:", data);
       suggestUseTransferInternalDialogRef.current?.close();
-      const tokenSet = findWithdrawToken(data?.jetton || "");
       setSelectedMethod(SendMethods.TRANSFER_EXTERNAL);
       setRecipientAddress(data?.address);
       if (onlyChangeAddress.current) {
         return;
       }
+      const tokenSet = findWithdrawToken(data?.jetton || "");
       if (!tokenSet) {
         gotoStep(WithdrawStep.SELECT_TOKEN);
       } else {
@@ -340,6 +342,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       });
       console.warn("🚀 ~ handleGetEstimateFee ~ response:", response);
       setIsLoadingEstimateFee(false);
+      setEstimateFee(response?.data);
     }, [amount, selectedToken?.slug]);
 
     const openScannerAddressQrCode = () => {
@@ -805,7 +808,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     </Box>
                   )}
 
-                  <Fees />
+                  <Fees feesData={JSON.stringify(estimateFee)} />
 
                   <Button.Primary
                     sx={{ width: "100%" }}

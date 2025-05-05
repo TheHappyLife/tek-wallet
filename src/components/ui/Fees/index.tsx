@@ -11,9 +11,23 @@ import getIcon from "../../../utils/getIcon";
 import Text from "../Text";
 import Formatter from "../Formatter";
 import { Fragment } from "react/jsx-runtime";
-export interface FeesProps extends Omit<AccordionProps, "children"> {}
+import { FeesDataType } from "../../../services/axios/get-est-fee-service/type";
+import parsePropsData from "../../../utils/parsePropsData";
+export interface FeesProps extends Omit<AccordionProps, "children"> {
+  feesData: string;
+}
 
-const FeeDetail = ({ feeName, value }: { feeName: string; value: number }) => {
+const FeeDetail = ({
+  feeName,
+  feeInCurrency,
+  feeInUSD,
+  currencyName,
+}: {
+  feeName: string;
+  feeInCurrency: number;
+  feeInUSD: number;
+  currencyName: string;
+}) => {
   const theme = useTheme();
 
   return (
@@ -30,10 +44,10 @@ const FeeDetail = ({ feeName, value }: { feeName: string; value: number }) => {
         }}
       >
         <Text sx={{ ...theme.mixins.value }}>
-          <Formatter value={value} />
+          <Formatter value={feeInCurrency} unit={currencyName} />
         </Text>
         <Text sx={{ ...theme.mixins.valueDescription }}>
-          <Formatter value={value} start={"~ "} />
+          <Formatter value={feeInUSD} start={"~ $"} />
         </Text>
       </Box>
     </Box>
@@ -43,6 +57,7 @@ const FeeDetail = ({ feeName, value }: { feeName: string; value: number }) => {
 function Fees(props: FeesProps) {
   const { sx, ...rest } = props;
   const theme = useTheme();
+  const feesData = parsePropsData<FeesDataType>(props?.feesData);
 
   return (
     <Accordion
@@ -97,8 +112,8 @@ function Fees(props: FeesProps) {
               alignItems: "center",
             }}
           >
-            {[1, 2, 3].map((item, index) => (
-              <Fragment key={item}>
+            {feesData?.feeDetail?.map((item, index) => (
+              <Fragment key={item.feeType?.name}>
                 {index !== 0 && (
                   <Box
                     sx={{
@@ -111,10 +126,18 @@ function Fees(props: FeesProps) {
               </Fragment>
             ))}
           </Box>
-          <Box sx={{ ...theme.mixins.column, flex: 1 }}>
-            <FeeDetail feeName="Fee 1" value={1000} />
-            <FeeDetail feeName="Fee 2" value={1000} />
-            <FeeDetail feeName="Fee 3" value={1000} />
+          <Box
+            sx={{ ...theme.mixins.column, flex: 1, gap: theme.mixins.gaps.g8 }}
+          >
+            {feesData?.feeDetail?.map((item) => (
+              <FeeDetail
+                feeName={item.feeType?.name}
+                feeInCurrency={item.feeInCurrency}
+                feeInUSD={item.feeInUSD}
+                currencyName={"USDT"}
+                key={item.feeType?.name}
+              />
+            ))}
           </Box>
         </Box>
       </AccordionDetails>
