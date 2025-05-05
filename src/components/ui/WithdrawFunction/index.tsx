@@ -159,8 +159,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     }, [estimateFee, amount]);
 
     const swiperKey = useMemo(() => {
-      // return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
-      return "fhwefhwe";
+      return `${estimateFee?.feeDetail?.length}-${amountError}-${recipientAddressError}`;
     }, [estimateFee, amountError, recipientAddressError]);
 
     const clearValues = () => {
@@ -591,6 +590,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
               }}
               disableSwipe
               key={swiperKey}
+              initialActiveTab={currentStep}
             >
               <SwiperSlide key={WithdrawStep.SELECT_METHOD}>
                 <Box
