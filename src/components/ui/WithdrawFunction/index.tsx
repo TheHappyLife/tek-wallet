@@ -531,23 +531,28 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     const handleSendExternal = async (passcode: string) => {
-      console.warn("withdraw external");
-      setSendButtonStatus(BUTTON_STATUS.LOADING);
-      const response = await sendExternalService({
-        amount: `${amount}`,
-        to_address: recipientAddress || "",
-        currency_slug: selectedToken?.slug || "",
-        passcode,
-        network: selectedNetwork?.slug || "",
-        memo: memo || "",
-      });
-      console.warn("🚀 ~ handleSendExternal ~ response:", response);
+      try {
+        console.warn("withdraw external");
+        setSendButtonStatus(BUTTON_STATUS.LOADING);
+        const response = await sendExternalService({
+          amount: `${amount}`,
+          to_address: recipientAddress || "",
+          currency_slug: selectedToken?.slug || "",
+          passcode,
+          network: selectedNetwork?.slug || "",
+          memo: memo || "",
+        });
+        console.warn("🚀 ~ handleSendExternal ~ response:", response);
 
-      if (response.success) {
-        close();
-        confirmLayoutDrawerRef.current?.close();
-        props.onSendSuccess?.(response);
-      } else {
+        if (response.success) {
+          close();
+          confirmLayoutDrawerRef.current?.close();
+          props.onSendSuccess?.(response);
+        } else {
+          throw new Error("Send external failed");
+        }
+      } catch (err) {
+        console.error(err);
         setSendButtonStatus(BUTTON_STATUS.ERROR);
         setTimeout(() => {
           setSendButtonStatus(BUTTON_STATUS.ENABLED);
