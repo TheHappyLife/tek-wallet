@@ -51,6 +51,7 @@ import ConfirmLayout from "../ConfirmLayout";
 import { ActionConfirm } from "../ConfirmLayout/type";
 import ConfirmByPasscode from "../ConfirmByPasscode";
 import LineValue from "../LineValue";
+import sendExternalService from "../../../services/axios/send-external-service";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -135,6 +136,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     const [recipientAddressError, setRecipientAddressError] =
       useState<string>();
     const onlyChangeAddress = useRef<boolean>(false);
+    const [sendButtonStatus, setSendButtonStatus] = useState<BUTTON_STATUS>(
+      BUTTON_STATUS.ENABLED
+    );
     const withdrawToken = useMemo(() => {
       return selectedMethod === SendMethods.TRANSFER_EXTERNAL
         ? withdrawTokens
@@ -513,34 +517,39 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       handleScanAllQrCode(result);
     };
 
-    const handleSendInternal = async () => {
+    const handleSendInternal = async (passcode: string) => {
       console.warn("withdraw internal");
       const response = await sendInternalService({
         amount: `${amount}`,
         to_address: recipientAddress || "",
         currency_slug: selectedToken?.slug || "",
-        passcode: "111111",
+        passcode,
       });
       console.warn("🚀 ~ handleSendInternal ~ response:", response);
     };
 
-    const handleSendExternal = async () => {
+    const handleSendExternal = async (passcode: string) => {
       console.warn("withdraw external");
-      // const response = await getEstimateFeeService({
-      //   amount: `${amount}`,
-      //   transaction_type: "withdrawn",
-      //   currency: selectedToken?.slug || "",
-      // });
-      // console.warn("🚀 ~ handleSendExternal ~ response:", response);
+      setSendButtonStatus(BUTTON_STATUS.LOADING);
+      const response = await sendExternalService({
+        amount: `${amount}`,
+        to_address: recipientAddress || "",
+        currency_slug: selectedToken?.slug || "",
+        passcode,
+        network: selectedNetwork?.slug || "",
+        memo: memo || "",
+      });
+      console.warn("🚀 ~ handleSendExternal ~ response:", response);
+      setSendButtonStatus(BUTTON_STATUS.ENABLED);
     };
 
-    const handleSend = () => {
+    const handleSend = (passcode: string) => {
       switch (selectedMethod) {
         case SendMethods.TRANSFER_INTERNAL:
-          handleSendInternal();
+          handleSendInternal(passcode);
           break;
         case SendMethods.TRANSFER_EXTERNAL:
-          handleSendExternal();
+          handleSendExternal(passcode);
           break;
         default:
           break;
@@ -851,7 +860,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     trigger={
                       <Button.Primary
                         sx={{ width: "100%" }}
-                        onClick={handleSend}
                         status={
                           !!amountError ||
                           !!recipientAddressError ||
@@ -910,17 +918,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                         <LineValue
                           field="Amount"
                           value={
-                            <Text
-                              sx={{
-                                fontWeight: theme.typography.fontWeight600,
-                                fontSize: theme.typography.fontSize16,
-                              }}
-                            >
-                              <Formatter
-                                value={amount}
-                                unit={` ${selectedToken?.name}`}
-                              />
-                            </Text>
+                            <Formatter
+                              value={amount}
+                              unit={` ${selectedToken?.name}`}
+                            />
                           }
                         />
                         {!!memo &&
@@ -953,10 +954,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
                       <ConfirmByPasscode
                         action={ActionConfirm.SEND}
-                        onConfirmSuccess={() => console.warn("confirm success")}
+                        onConfirmSuccess={handleSend}
                       >
                         <Button.Primary
-                          status={BUTTON_STATUS.ENABLED}
+                          status={sendButtonStatus}
                           sx={{ width: "100%" }}
                         >
                           Confirm

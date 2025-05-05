@@ -31,7 +31,7 @@ interface ConfirmByPasscodeProps
   extends Omit<GeneralProps, "onclick" | "sx" | "onClick">,
     DrawerComponentProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onConfirmSuccess?: (value: string) => any;
+  onConfirmSuccess?: (passcode: string) => any;
   action: ActionConfirm;
 }
 
