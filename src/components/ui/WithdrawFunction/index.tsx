@@ -154,6 +154,12 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       return newNetWorks;
     }, [selectedToken, selectedNetwork]);
 
+    const estimateReceive = useMemo(() => {
+      if (!estimateFee || !amount) return undefined;
+
+      return +amount - +estimateFee?.feeInCurrency;
+    }, [estimateFee, amount]);
+
     const clearValues = () => {
       setSelectedToken(undefined);
       setSelectedNetwork(undefined);
@@ -810,15 +816,35 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
                   <Fees feesData={JSON.stringify(estimateFee)} />
 
+                  <Box sx={{ ...theme.mixins.row }}>
+                    <Text sx={{ ...theme.mixins.fieldTitle }}>
+                      Estimate receive
+                    </Text>
+
+                    <Box
+                      onClick={handleReSelectNetwork}
+                      sx={{
+                        ...theme.mixins.row,
+                        gap: theme.mixins.gaps.g6,
+                        ml: "auto",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Text sx={{ ...theme.mixins.value }}>
+                        <Formatter value={estimateReceive} />
+                      </Text>
+                    </Box>
+                  </Box>
+
                   <Button.Primary
                     sx={{ width: "100%" }}
                     onClick={handleSend}
                     status={
                       !!amountError ||
+                      !!recipientAddressError ||
                       !recipientAddress ||
                       !amount ||
                       !selectedToken ||
-                      !!recipientAddressError ||
                       isLoadingEstimateFee
                         ? BUTTON_STATUS.DISABLED
                         : BUTTON_STATUS.ENABLED

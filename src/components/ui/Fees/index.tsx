@@ -17,43 +17,6 @@ export interface FeesProps extends Omit<AccordionProps, "children"> {
   feesData: string;
 }
 
-const FeeDetail = ({
-  feeName,
-  feeInCurrency,
-  feeInUSD,
-  currencyName,
-}: {
-  feeName: string;
-  feeInCurrency: number;
-  feeInUSD: number;
-  currencyName: string;
-}) => {
-  const theme = useTheme();
-
-  return (
-    <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
-      <Text sx={{ ...theme.mixins.fieldTitle, whiteSpace: "nowrap" }}>
-        {feeName}
-      </Text>
-      <Box
-        sx={{
-          ...theme.mixins.column,
-          flex: 1,
-          width: "fit-content",
-          alignItems: "flex-end",
-        }}
-      >
-        <Text sx={{ ...theme.mixins.value }}>
-          <Formatter value={feeInCurrency} unit={currencyName} />
-        </Text>
-        <Text sx={{ ...theme.mixins.valueDescription }}>
-          <Formatter value={feeInUSD} start={"~ $"} />
-        </Text>
-      </Box>
-    </Box>
-  );
-};
-
 function Fees(props: FeesProps) {
   const { sx, ...rest } = props;
   const theme = useTheme();
@@ -146,3 +109,40 @@ function Fees(props: FeesProps) {
 }
 
 export default Fees;
+
+const FeeDetail = ({
+  feeName,
+  feeInCurrency,
+  feeInUSD,
+  currencyName,
+}: {
+  feeName: string;
+  feeInCurrency: number;
+  feeInUSD: number;
+  currencyName: string;
+}) => {
+  const theme = useTheme();
+
+  return (
+    <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
+      <Text sx={{ ...theme.mixins.fieldTitle, whiteSpace: "nowrap" }}>
+        {feeName}
+      </Text>
+      <Box
+        sx={{
+          ...theme.mixins.column,
+          flex: 1,
+          width: "fit-content",
+          alignItems: "flex-end",
+        }}
+      >
+        <Text sx={{ ...theme.mixins.value }}>
+          <Formatter value={feeInCurrency} unit={` ${currencyName}`} />
+        </Text>
+        <Text sx={{ ...theme.mixins.valueDescription }}>
+          <Formatter value={feeInUSD} start={"~ $"} />
+        </Text>
+      </Box>
+    </Box>
+  );
+};
