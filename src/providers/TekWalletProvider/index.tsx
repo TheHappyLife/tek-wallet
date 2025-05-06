@@ -13,15 +13,15 @@ export interface TekWalletProviderProps {
 function TekWalletProvider({ children }: TekWalletProviderProps) {
   return (
     <WalletDataProvider>
-      <RealtimeProvider>
-        <ReceiveProvider>
-          <LockTokensProvider>
-            <WithdrawProvider>
-              <MuiThemeProvider>{children}</MuiThemeProvider>
-            </WithdrawProvider>
-          </LockTokensProvider>
-        </ReceiveProvider>
-      </RealtimeProvider>
+      <MuiThemeProvider>
+        <RealtimeProvider>
+          <ReceiveProvider>
+            <LockTokensProvider>
+              <WithdrawProvider>{children}</WithdrawProvider>
+            </LockTokensProvider>
+          </ReceiveProvider>
+        </RealtimeProvider>
+      </MuiThemeProvider>
     </WalletDataProvider>
   );
 }
