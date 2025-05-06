@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import useWalletData from "../../hooks/useWalletData";
 import { NotificationType, RealtimeProviderDataType } from "./type";
 import { AblyService } from "../../services/ably/ably.service";
-import { Snackbar } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 import { SnackbarProvider } from "notistack";
 
 import Slide, { SlideProps } from "@mui/material/Slide";
@@ -77,10 +77,20 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
               closeNotification(notification.id);
             }}
             slots={{ transition: GrowTransition }}
-            message={notification.message}
             key={notification.id}
             autoHideDuration={notification.duration ?? 2000}
-          />
+          >
+            <Alert
+              onClose={() => {
+                closeNotification(notification.id);
+              }}
+              severity={notification.type}
+              variant="outlined"
+              sx={{ width: "100%" }}
+            >
+              {notification.message}
+            </Alert>
+          </Snackbar>
         ))}
       </SnackbarProvider>
     </RealtimeContext.Provider>
