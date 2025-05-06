@@ -88,13 +88,13 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
           >
             <Alert
               icon={false}
-              onClose={() => {
-                closeNotification(notification.id);
-              }}
               severity={notification.type}
               sx={{
                 width: "fit-content",
                 borderRadius: theme.mixins.customRadius.r16,
+                mx: "auto",
+                backgroundColor: theme.palette.background.black,
+                padding: `${theme.mixins.customPadding.p0} ${theme.mixins.customPadding.p12}`,
               }}
             >
               {notification.message}
