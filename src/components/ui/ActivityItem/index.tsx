@@ -77,6 +77,7 @@ function ActivityItem(props: ActivityItemProps) {
         backgroundColor: theme.palette.background.white16,
         borderRadius: theme.mixins.customRadius.r16,
         p: theme.mixins.customPadding.p12,
+        height: "fit-content",
         ...sx,
       }}
       {...rest}
