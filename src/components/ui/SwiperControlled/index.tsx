@@ -2,11 +2,11 @@ import { Swiper, SwiperProps, SwiperRef } from "swiper/react";
 import { Swiper as SwiperType } from "swiper/types";
 import { GeneralProps } from "../../../types/ui";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { Box, Tabs } from "@mui/material";
+import { Box, Tabs, SxProps } from "@mui/material";
 interface SwiperControlledProps extends GeneralProps {
   tabs?: React.ReactNode[];
   initialActiveTab?: number;
-  tabsClassName?: string;
+  tabsSx?: SxProps;
   swiperProps?: SwiperProps;
   disableSwipe?: boolean;
   swiperStyle?: Record<string, string | number>;
@@ -70,6 +70,9 @@ const SwiperControlled = forwardRef<SwiperControlledRef, SwiperControlledProps>(
               onChange={handleTabChange}
               variant="scrollable"
               scrollButtons="auto"
+              sx={{
+                ...props.tabsSx,
+              }}
             >
               {...props.tabs}
             </Tabs>

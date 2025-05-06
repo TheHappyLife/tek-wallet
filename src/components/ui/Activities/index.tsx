@@ -8,7 +8,7 @@ import ChildPageLayout from "../../layouts/ChildPageLayout";
 import PageHeader from "../PageHeader";
 import SwiperControlled from "../SwiperControlled";
 import useActivities from "../../../hooks/useActivities";
-import { Tab } from "@mui/material";
+import { Tab, useTheme } from "@mui/material";
 import { SwiperSlide } from "swiper/react";
 import Text from "../Text";
 
@@ -24,6 +24,7 @@ type ActivitiesRef = {
 
 const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
   const drawerRef = useRef<DrawerComponentRef>(null);
+  const theme = useTheme();
   const { activityTypes, activities } = useActivities();
   const open = () => {
     drawerRef.current?.open();
@@ -71,6 +72,17 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                     label={type.name}
                     value={index}
                     data-index={index}
+                    sx={{
+                      padding: `0 ${theme.mixins.customPadding.p16} ${theme.mixins.customPadding.p8}`,
+                      minHeight: "unset",
+                      minWidth: "unset",
+                      textTransform: "capitalize",
+                      color: theme.palette.text.white64,
+                      borderColor: "currentcolor",
+                      "&.Mui-selected": {
+                        color: theme.palette.text.white,
+                      },
+                    }}
                   />
                 );
               })}

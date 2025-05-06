@@ -43,8 +43,8 @@ function ActivitiesProvider({ children }: { children: React.ReactNode }) {
         const response = await getActivitiesServices(query);
         console.warn("🚀 ~ getBalance ~ response:", response);
         setActivityTypes([
-          ...(response?.data?.transaction_types ?? []),
           ACTIVITIES_TYPE_ALL,
+          ...(response?.data?.transaction_types ?? []),
         ]);
         setActivities((prev) => {
           return {
