@@ -11,13 +11,10 @@ import ChildPageLayout from "../../layouts/ChildPageLayout";
 import PageHeader from "../PageHeader";
 import SwiperControlled from "../SwiperControlled";
 import useActivities from "../../../hooks/useActivities";
-import { Box, Tab, useTheme } from "@mui/material";
+import { Tab, useTheme } from "@mui/material";
 import { SwiperSlide } from "swiper/react";
-import ActivityItem from "../ActivityItem";
-import EmptyData from "../EmptyData";
-import getIcon from "../../../utils/getIcon";
+import ActivitiesTypeSlice from "../ActivitiesTypeSlice";
 
-const prefix = "activities_";
 interface ActivitiesProps extends GeneralProps {
   onClose?: UnknownFunction;
   onOpen?: UnknownFunction;
@@ -31,7 +28,7 @@ type ActivitiesRef = {
 const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
   const drawerRef = useRef<DrawerComponentRef>(null);
   const theme = useTheme();
-  const { activityTypes, activities } = useActivities();
+  const { activityTypes } = useActivities();
   const open = () => {
     drawerRef.current?.open();
   };
@@ -84,7 +81,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                     value={index}
                     data-index={index}
                     sx={{
-                      padding: `0 ${theme.mixins.customPadding.p16} ${theme.mixins.customPadding.p8}`,
+                      padding: `${theme.mixins.customPadding.p16} ${theme.mixins.customPadding.p8}`,
                       minHeight: "unset",
                       minWidth: "unset",
                       textTransform: "capitalize",
@@ -106,9 +103,6 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
               }}
             >
               {activityTypes?.map((type, index) => {
-                const activitiesByType = activities?.[type.slug];
-                const isEmpty = !activitiesByType?.length;
-
                 return (
                   <SwiperSlide
                     key={index}
@@ -116,28 +110,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                       display: "flex",
                     }}
                   >
-                    {isEmpty && (
-                      <EmptyData
-                        icon={getIcon(prefix + "empty_" + type.slug)}
-                        description={`No ${type.name?.toLowerCase()} activity`}
-                      />
-                    )}
-                    {!isEmpty && (
-                      <Box
-                        sx={{
-                          ...theme.mixins.column,
-                          gap: theme.mixins.gaps.g12,
-                          paddingTop: theme.mixins.customPadding.p16,
-                        }}
-                      >
-                        {activitiesByType?.map((activity, index) => {
-                          if (!activity) return null;
-                          const dataAsJson = JSON.stringify(activity);
-
-                          return <ActivityItem key={index} data={dataAsJson} />;
-                        })}
-                      </Box>
-                    )}
+                    <ActivitiesTypeSlice type={type} isActive={true} />
                   </SwiperSlide>
                 );
               })}

@@ -1,4 +1,5 @@
 import {
+  GetActivitiesServiceQuery,
   Transaction,
   TransactionSlug,
   TransactionType,
@@ -7,7 +8,7 @@ import {
 export interface ActivitiesProviderDataType {
   isLoadingActivities: boolean;
   activities: Activities | undefined;
-  updateActivities: () => void;
+  updateActivities: (query?: GetActivitiesServiceQuery) => void;
   activityTypes: ActivityTypes[] | undefined;
   page: number;
   gotoPage: (page: number) => void;
