@@ -50,6 +50,10 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [masterWallet]);
 
+  const closeNotification = (id: string) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  };
+
   return (
     <RealtimeContext.Provider
       value={{
@@ -67,7 +71,9 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
               vertical: notification?.anchorOrigin?.vertical ?? "top",
               horizontal: notification?.anchorOrigin?.horizontal ?? "right",
             }}
-            // onClose={() => {}}
+            onClose={() => {
+              closeNotification(notification.id);
+            }}
             slots={{ transition: SlideTransition }}
             message={notification.message}
             key={notification.id}
