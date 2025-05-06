@@ -9,4 +9,8 @@ export interface NotificationType {
   type: "success" | "error" | "warning" | "info";
   duration?: number;
   id: string;
+  anchorOrigin?: {
+    vertical: "top" | "bottom";
+    horizontal: "left" | "center" | "right";
+  };
 }

@@ -4,7 +4,7 @@ import useWalletData from "../../hooks/useWalletData";
 import { NotificationType, RealtimeProviderDataType } from "./type";
 import { AblyService } from "../../services/ably/ably.service";
 import { Snackbar } from "@mui/material";
-import { SnackbarProvider, VariantType } from "notistack";
+import { SnackbarProvider } from "notistack";
 
 import Slide, { SlideProps } from "@mui/material/Slide";
 export const initialRealtime: RealtimeProviderDataType = {
@@ -12,11 +12,6 @@ export const initialRealtime: RealtimeProviderDataType = {
   isConnected: false,
   pushNotification: () => {},
 };
-
-export interface Notification {
-  message: string;
-  variant: VariantType;
-}
 
 function SlideTransition(props: SlideProps) {
   return <Slide {...props} direction="up" />;
@@ -68,7 +63,11 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
         {notifications.map((notification) => (
           <Snackbar
             open={true}
-            onClose={() => {}}
+            anchorOrigin={{
+              vertical: notification?.anchorOrigin?.vertical ?? "top",
+              horizontal: notification?.anchorOrigin?.horizontal ?? "right",
+            }}
+            // onClose={() => {}}
             slots={{ transition: SlideTransition }}
             message={notification.message}
             key={notification.id}
