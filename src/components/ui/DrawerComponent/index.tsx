@@ -26,6 +26,7 @@ export interface DrawerComponentProps
   trigger?: React.ReactNode;
   onToggle?: (status?: boolean) => unknown;
   direction?: DRAWER_DIRECTION;
+  disableSwipe?: boolean;
 }
 
 export interface DrawerComponentRef {
@@ -45,13 +46,14 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
       trigger,
       direction,
       children,
+      disableSwipe,
       ...rest
     } = props;
     const [isShowDrawerComponent, setIsShowDrawerComponent] = useState(false);
     const [isOpen, setIsOpen] = useState<boolean | undefined>(undefined);
     const DrawerComponent = useMemo(
-      () => (isOpen !== undefined ? Drawer : SwipeableDrawer),
-      [isOpen]
+      () => (isOpen !== undefined || disableSwipe ? Drawer : SwipeableDrawer),
+      [isOpen, disableSwipe]
     );
     const lockStatus = () => {
       setIsOpen(isShowDrawerComponent);

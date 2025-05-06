@@ -49,6 +49,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
   return (
     <RequireConnect>
       <DrawerComponent
+        disableSwipe
         ref={drawerRef}
         trigger={props.children}
         onOpen={props.onOpen}
