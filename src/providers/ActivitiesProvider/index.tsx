@@ -70,7 +70,6 @@ function ActivitiesProvider({ children }: { children: React.ReactNode }) {
       updateActivities({
         page,
         take: ACTIVITIES_PAGE_SIZE,
-        transaction_type: ACTIVITIES_TYPE_ALL.slug,
       });
     }
   }, [isAuthenticated, activities]);
