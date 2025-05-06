@@ -79,6 +79,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                       minWidth: "unset",
                       textTransform: "capitalize",
                       color: theme.palette.text.white64,
+                      transition: "all 0.3s linear",
                       borderColor: "currentcolor",
                       "&.Mui-selected": {
                         color: theme.palette.text.white,
@@ -87,8 +88,8 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                   />
                 );
               })}
-              sx={{
-                height: "100%",
+              swiperStyle={{
+                flex: 1,
               }}
             >
               {activityTypes?.map((type, index) => {
