@@ -13,8 +13,8 @@ export const initialRealtime: RealtimeProviderDataType = {
   pushNotification: () => {},
 };
 
-function SlideTransition(props: SlideProps) {
-  return <Slide {...props} direction="up" />;
+function GrowTransition(props: SlideProps) {
+  return <Slide {...props} direction="down" />;
 }
 
 export const RealtimeContext =
@@ -74,7 +74,7 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
             onClose={() => {
               closeNotification(notification.id);
             }}
-            slots={{ transition: SlideTransition }}
+            slots={{ transition: GrowTransition }}
             message={notification.message}
             key={notification.id}
             autoHideDuration={notification.duration ?? 2000}
