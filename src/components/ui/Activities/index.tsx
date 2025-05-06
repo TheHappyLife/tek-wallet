@@ -1,7 +1,10 @@
 "use client";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { GeneralProps, UnknownFunction } from "../../../types/ui";
-import DrawerComponent, { DrawerComponentRef } from "../DrawerComponent";
+import DrawerComponent, {
+  DRAWER_DIRECTION,
+  DrawerComponentRef,
+} from "../DrawerComponent";
 import RequireConnect from "../RequireConnect";
 import DefaultPageLayout from "../../layouts/DefaultPageLayout";
 import ChildPageLayout from "../../layouts/ChildPageLayout";
@@ -11,6 +14,7 @@ import useActivities from "../../../hooks/useActivities";
 import { Tab, useTheme } from "@mui/material";
 import { SwiperSlide } from "swiper/react";
 import Text from "../Text";
+import ActivityItem from "../ActivityItem";
 
 interface ActivitiesProps extends GeneralProps {
   onClose?: UnknownFunction;
@@ -49,7 +53,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
   return (
     <RequireConnect>
       <DrawerComponent
-        disableSwipe
+        direction={DRAWER_DIRECTION.RIGHT}
         ref={drawerRef}
         trigger={props.children}
         onOpen={props.onOpen}
@@ -65,6 +69,10 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
         >
           <DefaultPageLayout sx={{ height: "100%" }}>
             <SwiperControlled
+              swiperProps={{
+                slidesPerView: 1,
+                spaceBetween: 40,
+              }}
               tabs={activityTypes?.map((type, index) => {
                 return (
                   <Tab
@@ -96,14 +104,21 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
               }}
             >
               {activityTypes?.map((type, index) => {
+                const activitiesByType = activities?.[type.slug];
+
                 return (
-                  <SwiperSlide key={index} style={{ border: "2px red solid" }}>
+                  <SwiperSlide key={index}>
                     <Text
                       onClick={() => {
                         console.warn(activities);
                       }}
                     >
-                      {type.name}
+                      {activitiesByType?.map((activity, index) => {
+                        if (!activity) return null;
+                        const dataAsJson = JSON.stringify(activity);
+
+                        return <ActivityItem key={index} data={dataAsJson} />;
+                      })}
                     </Text>
                   </SwiperSlide>
                 );

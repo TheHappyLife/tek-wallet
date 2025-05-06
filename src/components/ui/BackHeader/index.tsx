@@ -50,7 +50,14 @@ const BackHeader = (props: BackHeaderProps) => {
           onClick={back as UnknownFunction}
         >
           <BackArrow />{" "}
-          <Text sx={{ color: theme.palette.text.white }}>Back</Text>
+          <Text
+            sx={{
+              color: theme.palette.text.white,
+              fontSize: theme.typography.fontSize12,
+            }}
+          >
+            Back
+          </Text>
         </Box>
       )}
       {!!center && (

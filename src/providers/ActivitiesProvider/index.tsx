@@ -47,11 +47,12 @@ function ActivitiesProvider({ children }: { children: React.ReactNode }) {
           ...(response?.data?.transaction_types ?? []),
         ]);
         setActivities((prev) => {
+          const slug = query?.transaction_type || ACTIVITIES_TYPE_ALL.slug;
+
           return {
-            ...prev,
-            [query?.transaction_type || ACTIVITIES_TYPE_ALL.slug]: [
-              ...(prev?.[query?.transaction_type || ACTIVITIES_TYPE_ALL.slug] ??
-                []),
+            ...(prev ?? {}),
+            [slug]: [
+              ...(prev?.[slug] ?? []),
               ...(response?.data?.transactions ?? []),
             ],
           };

@@ -1,5 +1,6 @@
 import {
   Transaction,
+  TransactionSlug,
   TransactionType,
 } from "../../services/axios/get-activities-service/type";
 
@@ -12,6 +13,6 @@ export interface ActivitiesProviderDataType {
   gotoPage: (page: number) => void;
 }
 
-export type Activities = Record<ActivityTypes["slug"], Transaction[]>;
+export type Activities = Partial<Record<TransactionSlug, Transaction[]>>;
 
 export interface ActivityTypes extends TransactionType {}

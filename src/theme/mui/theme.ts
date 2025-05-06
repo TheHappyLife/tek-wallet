@@ -302,6 +302,19 @@ const theme: ThemeOptions = createTheme({
       fontSize: typography.fontSize12,
       lineHeight: typography.leading140,
     },
+    activityTitle: {
+      color: text.white,
+      fontWeight: typography.fontWeight500,
+      fontSize: typography.fontSize14,
+      lineHeight: typography.leading140,
+      textTransform: "capitalize",
+    },
+    activityDescription: {
+      color: text.white64,
+      fontWeight: typography.fontWeight400,
+      fontSize: typography.fontSize12,
+      lineHeight: typography.leading140,
+    },
   },
 });
 

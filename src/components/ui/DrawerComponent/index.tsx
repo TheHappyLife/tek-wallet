@@ -16,6 +16,8 @@ import {
 export enum DRAWER_DIRECTION {
   LEFT = "left",
   RIGHT = "right",
+  TOP = "top",
+  BOTTOM = "bottom",
 }
 
 export interface DrawerComponentProps
@@ -127,7 +129,7 @@ const DrawerComponent = forwardRef<DrawerComponentRef, DrawerComponentProps>(
               boxShadow: "none",
             },
           }}
-          anchor={direction || "bottom"}
+          anchor={direction || DRAWER_DIRECTION.BOTTOM}
           open={isOpen ?? isShowDrawerComponent}
           onOpen={onDrawerOpen}
           onClose={onDrawerClose}

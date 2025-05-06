@@ -5,7 +5,7 @@ export interface GetActivitiesServiceQuery {
   take?: number;
   from_date?: string;
   to_date?: string;
-  transaction_type?: string;
+  transaction_type?: TransactionSlug;
 }
 
 export interface GetActivitiesServiceResponse {
@@ -23,12 +23,12 @@ export interface Data {
 
 export interface TransactionType {
   name: string;
-  slug: string;
+  slug: TransactionSlug;
 }
 
 export interface Transaction {
   id: number;
-  transaction_type: string;
+  transaction_type: TransactionSlug;
   from_address: string;
   to_address: string;
   network: string;
@@ -36,7 +36,7 @@ export interface Transaction {
   currency_slug: string;
   fee: string;
   amount: string;
-  transaction_status: string;
+  transaction_status: TransactionStatus;
   user_created: string;
   user_updated: string;
   date_created: string;
@@ -44,4 +44,24 @@ export interface Transaction {
   description: null | string;
   from_locked_balance: null;
   to_locked_balance: null;
+  icon: string;
+}
+
+export enum TransactionSlug {
+  All = "all",
+  Send = "send",
+  Receive = "receive",
+  Swap = "swap",
+  TransferInternal = "transfer-internal",
+  Deposit = "deposit",
+  Withdrawn = "withdrawn",
+  UpdateBalances = "update-balances",
+  LockedBalances = "locked_balance",
+  CapitalAdjustment = "capital-adjustment",
+}
+
+export enum TransactionStatus {
+  Processing = "processing",
+  Success = "success",
+  Failed = "failed",
 }

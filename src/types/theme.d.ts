@@ -61,6 +61,8 @@ declare module "@mui/material/styles" {
     dialogActionsOk: React.CSSProperties;
     dialogActionsCancel: React.CSSProperties;
     warning: React.CSSProperties;
+    activityTitle: React.CSSProperties;
+    activityDescription: React.CSSProperties;
   }
 
   interface TypeBackground {
