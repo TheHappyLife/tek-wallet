@@ -71,6 +71,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
         >
           <DefaultPageLayout sx={{ height: "100%" }}>
             <SwiperControlled
+              disableSwipe
               swiperProps={{
                 slidesPerView: 1,
                 spaceBetween: 40,
@@ -110,27 +111,34 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                 const isEmpty = !activitiesByType?.length;
 
                 return (
-                  <SwiperSlide key={index}>
-                    <Box
-                      sx={{
-                        ...theme.mixins.column,
-                        gap: theme.mixins.gaps.g12,
-                      }}
-                    >
-                      {isEmpty && (
-                        <EmptyData
-                          icon={getIcon(prefix + "empty_" + type.slug)}
-                          title={`No ${type.name} activities`}
-                        />
-                      )}
-                      {!isEmpty &&
-                        activitiesByType?.map((activity, index) => {
+                  <SwiperSlide
+                    key={index}
+                    style={{
+                      display: "flex",
+                    }}
+                  >
+                    {isEmpty && (
+                      <EmptyData
+                        icon={getIcon(prefix + "empty_" + type.slug)}
+                        description={`No ${type.name?.toLowerCase()} activity`}
+                      />
+                    )}
+                    {!isEmpty && (
+                      <Box
+                        sx={{
+                          ...theme.mixins.column,
+                          gap: theme.mixins.gaps.g12,
+                          paddingTop: theme.mixins.customPadding.p16,
+                        }}
+                      >
+                        {activitiesByType?.map((activity, index) => {
                           if (!activity) return null;
                           const dataAsJson = JSON.stringify(activity);
 
                           return <ActivityItem key={index} data={dataAsJson} />;
                         })}
-                    </Box>
+                      </Box>
+                    )}
                   </SwiperSlide>
                 );
               })}
