@@ -51,7 +51,9 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
   }, [masterWallet]);
 
   const closeNotification = (id: string) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, open: false } : n))
+    );
   };
 
   return (
@@ -66,7 +68,7 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
       <SnackbarProvider maxSnack={2}>
         {notifications.map((notification) => (
           <Snackbar
-            open={true}
+            open={notification.open ?? true}
             anchorOrigin={{
               vertical: notification?.anchorOrigin?.vertical ?? "top",
               horizontal: notification?.anchorOrigin?.horizontal ?? "right",
