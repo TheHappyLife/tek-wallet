@@ -11,11 +11,13 @@ import ChildPageLayout from "../../layouts/ChildPageLayout";
 import PageHeader from "../PageHeader";
 import SwiperControlled from "../SwiperControlled";
 import useActivities from "../../../hooks/useActivities";
-import { Tab, useTheme } from "@mui/material";
+import { Box, Tab, useTheme } from "@mui/material";
 import { SwiperSlide } from "swiper/react";
-import Text from "../Text";
 import ActivityItem from "../ActivityItem";
+import EmptyData from "../EmptyData";
+import getIcon from "../../../utils/getIcon";
 
+const prefix = "activities_";
 interface ActivitiesProps extends GeneralProps {
   onClose?: UnknownFunction;
   onOpen?: UnknownFunction;
@@ -105,21 +107,30 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
             >
               {activityTypes?.map((type, index) => {
                 const activitiesByType = activities?.[type.slug];
+                const isEmpty = !activitiesByType?.length;
 
                 return (
                   <SwiperSlide key={index}>
-                    <Text
-                      onClick={() => {
-                        console.warn(activities);
+                    <Box
+                      sx={{
+                        ...theme.mixins.column,
+                        gap: theme.mixins.gaps.g12,
                       }}
                     >
-                      {activitiesByType?.map((activity, index) => {
-                        if (!activity) return null;
-                        const dataAsJson = JSON.stringify(activity);
+                      {isEmpty && (
+                        <EmptyData
+                          icon={getIcon(prefix + "empty_" + type.slug)}
+                          title={`No ${type.name} activities`}
+                        />
+                      )}
+                      {!isEmpty &&
+                        activitiesByType?.map((activity, index) => {
+                          if (!activity) return null;
+                          const dataAsJson = JSON.stringify(activity);
 
-                        return <ActivityItem key={index} data={dataAsJson} />;
-                      })}
-                    </Text>
+                          return <ActivityItem key={index} data={dataAsJson} />;
+                        })}
+                    </Box>
                   </SwiperSlide>
                 );
               })}

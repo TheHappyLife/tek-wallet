@@ -1,5 +1,10 @@
-import { Box, CircularProgress, useTheme } from "@mui/material";
-import { GeneralProps } from "../../../types/ui";
+import {
+  Box,
+  CircularProgress,
+  ListItemButton,
+  ListItemButtonProps,
+  useTheme,
+} from "@mui/material";
 import { useCallback, useMemo } from "react";
 import parsePropsData from "../../../utils/parsePropsData";
 import {
@@ -11,8 +16,9 @@ import Icon from "../Icon";
 import Text from "../Text";
 import Formatter from "../Formatter";
 import formatDate from "../../../utils/formatDate";
+import compactWalletAddress from "../../../utils/compactWalletAddress";
 
-interface ActivityItemProps extends GeneralProps {
+interface ActivityItemProps extends ListItemButtonProps {
   data?: string;
 }
 
@@ -26,6 +32,23 @@ function ActivityItem(props: ActivityItemProps) {
   }, [data]);
   const type = activityData?.transaction_type;
   const status = activityData?.transaction_status;
+  const isIncrease = useMemo(() => {
+    return type === TransactionSlug.Deposit;
+  }, [type]);
+  const descriptionElement = useMemo(() => {
+    const isReceive =
+      type === TransactionSlug.Receive || type === TransactionSlug.Deposit;
+    if (isReceive) {
+      return <>From: {compactWalletAddress(activityData?.from_address)}</>;
+    }
+    const isSend =
+      type === TransactionSlug.Send || type === TransactionSlug.Withdrawn;
+    if (isSend) {
+      return <>To: {compactWalletAddress(activityData?.to_address)}</>;
+    }
+
+    return null;
+  }, [status]);
   const getStatusColor = useCallback(() => {
     switch (status) {
       case TransactionStatus.Processing:
@@ -39,16 +62,15 @@ function ActivityItem(props: ActivityItemProps) {
     }
   }, [status, theme]);
   const getAmountColor = useCallback(() => {
-    const isIncrease = type === TransactionSlug.Deposit;
     if (isIncrease) return theme.palette.text.successStatus;
 
     return theme.palette.text.white;
-  }, [type, theme]);
+  }, [isIncrease, theme]);
 
   if (!activityData) return null;
 
   return (
-    <Box
+    <ListItemButton
       sx={{
         ...theme.mixins.row,
         gap: theme.mixins.gaps.g8,
@@ -76,7 +98,7 @@ function ActivityItem(props: ActivityItemProps) {
         <Text sx={theme.mixins.activityTitle}>
           {activityData.transaction_type}
         </Text>
-        {/* <Text sx={theme.mixins.activityDescription}>{activityData.amount}</Text> */}
+        <Text sx={theme.mixins.activityDescription}>{descriptionElement}</Text>
         {status !== TransactionStatus.Success && (
           <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
             {status === TransactionStatus.Processing && (
@@ -98,20 +120,30 @@ function ActivityItem(props: ActivityItemProps) {
         sx={{
           ...theme.mixins.column,
           width: "fit-content",
+          alignItems: "flex-end",
           ml: "auto",
         }}
       >
-        <Text sx={{ ...theme.mixins.value, color: getAmountColor() }}>
+        <Text
+          sx={{
+            ...theme.mixins.value,
+            fontWeight: theme.typography.fontWeightBold,
+            color: getAmountColor(),
+            textAlign: "right",
+          }}
+        >
           <Formatter
+            start={isIncrease ? "+" : "-"}
             value={activityData.amount}
             unit={activityData.currency_slug}
           />
         </Text>
-        <Text sx={theme.mixins.valueDescription}>
+
+        <Text sx={{ ...theme.mixins.valueDescription, textAlign: "right" }}>
           {formatDate(activityData.date_created)}
         </Text>
       </Box>
-    </Box>
+    </ListItemButton>
   );
 }
 
