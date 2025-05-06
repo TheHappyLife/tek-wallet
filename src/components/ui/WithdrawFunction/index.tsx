@@ -176,7 +176,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       pushNotification({
         message: "Test notification",
         type: "success",
-        id: "test-notification",
+        id: new Date().getTime().toString(),
       });
     };
 
