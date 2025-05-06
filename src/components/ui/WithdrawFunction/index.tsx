@@ -52,6 +52,7 @@ import { ActionConfirm } from "../ConfirmLayout/type";
 import ConfirmByPasscode from "../ConfirmByPasscode";
 import LineValue from "../LineValue";
 import sendExternalService from "../../../services/axios/send-external-service";
+import useRealtime from "../../../hooks/useRealtime";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -93,6 +94,7 @@ export enum AmountError {
 
 const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   (props, ref) => {
+    const { pushNotification } = useRealtime();
     const drawerRef = useRef<DrawerComponentRef>(null);
     const swiperRef = useRef<SwiperControlledRef>(null);
     const confirmLayoutDrawerRef = useRef<DrawerComponentRef>(null);
@@ -169,6 +171,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
 
       return +amount - +estimateFee?.feeInCurrency;
     }, [estimateFee, amount]);
+
+    const testPushNotification = () => {
+      pushNotification({
+        message: "Test notification",
+        type: "success",
+        id: "test-notification",
+      });
+    };
 
     useEffect(() => {
       setTimeout(() => {
@@ -629,6 +639,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
               disableSwipe
             >
               <SwiperSlide key={WithdrawStep.SELECT_METHOD}>
+                <Button.Primary onClick={testPushNotification}>
+                  {" "}
+                  Push
+                </Button.Primary>
                 <Box
                   sx={{
                     ...theme.mixins.column,
