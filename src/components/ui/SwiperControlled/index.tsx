@@ -71,6 +71,7 @@ const SwiperControlled = forwardRef<SwiperControlledRef, SwiperControlledProps>(
               variant="scrollable"
               scrollButtons="auto"
               sx={{
+                minHeight: "unset",
                 ...props.tabsSx,
               }}
             >

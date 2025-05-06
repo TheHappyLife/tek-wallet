@@ -63,7 +63,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
             ></PageHeader>
           }
         >
-          <DefaultPageLayout>
+          <DefaultPageLayout sx={{ border: "2px blue solid" }}>
             <SwiperControlled
               tabs={activityTypes?.map((type, index) => {
                 return (
@@ -87,10 +87,13 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                   />
                 );
               })}
+              sx={{
+                height: "100%",
+              }}
             >
               {activityTypes?.map((type, index) => {
                 return (
-                  <SwiperSlide key={index}>
+                  <SwiperSlide key={index} style={{ border: "2px red solid" }}>
                     <Text
                       onClick={() => {
                         console.warn(activities);
