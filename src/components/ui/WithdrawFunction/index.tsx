@@ -661,7 +661,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                             handleSelectMethod(item as SendMethods)
                           }
                           sx={{
-                            my: theme.mixins.customMargin.m12,
+                            py: theme.mixins.customPadding.p12,
                           }}
                         />
                       </Fragment>
