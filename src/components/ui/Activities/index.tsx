@@ -55,6 +55,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
   return (
     <RequireConnect>
       <DrawerComponent
+        disableSwipe
         direction={DRAWER_DIRECTION.RIGHT}
         ref={drawerRef}
         trigger={props.children}
@@ -71,7 +72,6 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
         >
           <DefaultPageLayout sx={{ height: "100%" }}>
             <SwiperControlled
-              disableSwipe
               swiperProps={{
                 slidesPerView: 1,
                 spaceBetween: 40,
@@ -79,7 +79,6 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
               tabs={activityTypes?.map((type, index) => {
                 return (
                   <Tab
-                    disableRipple
                     key={index}
                     label={type.name}
                     value={index}
