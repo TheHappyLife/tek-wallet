@@ -60,9 +60,20 @@ const SwiperControlled = forwardRef<SwiperControlledRef, SwiperControlledProps>(
         }}
       >
         {props.tabs && (
-          <Tabs value={activeTab} onChange={handleTabChange}>
-            {...props.tabs}
-          </Tabs>
+          <Box
+            sx={{
+              maxWidth: "100%",
+            }}
+          >
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
+              variant="scrollable"
+              scrollButtons="auto"
+            >
+              {...props.tabs}
+            </Tabs>
+          </Box>
         )}
         <Swiper
           {...props.swiperProps}
