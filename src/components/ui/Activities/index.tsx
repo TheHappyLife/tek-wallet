@@ -88,6 +88,9 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                   />
                 );
               })}
+              sx={{
+                height: "100%",
+              }}
               swiperStyle={{
                 flex: 1,
               }}
