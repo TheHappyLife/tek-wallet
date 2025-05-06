@@ -63,7 +63,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
             ></PageHeader>
           }
         >
-          <DefaultPageLayout sx={{ border: "2px blue solid" }}>
+          <DefaultPageLayout sx={{ height: "100%" }}>
             <SwiperControlled
               tabs={activityTypes?.map((type, index) => {
                 return (
