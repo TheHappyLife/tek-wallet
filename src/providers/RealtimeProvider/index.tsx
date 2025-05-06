@@ -93,8 +93,8 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
                 width: "fit-content",
                 borderRadius: theme.mixins.customRadius.r16,
                 mx: "auto",
-                backgroundColor: theme.palette.background.black,
                 padding: `${theme.mixins.customPadding.p0} ${theme.mixins.customPadding.p12}`,
+                fontSize: theme.typography.fontSize14,
               }}
             >
               {notification.message}

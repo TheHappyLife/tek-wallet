@@ -6,6 +6,7 @@ import ReceiveProvider from "../ReceiveProvider";
 import LockTokensProvider from "../LockTokenProvider";
 import WithdrawProvider from "../WithdrawProvider";
 import RealtimeProvider from "../RealtimeProvider";
+import ActivitiesProvider from "../ActivitiesProvider";
 export interface TekWalletProviderProps {
   children: ReactNode;
 }
@@ -15,11 +16,13 @@ function TekWalletProvider({ children }: TekWalletProviderProps) {
     <WalletDataProvider>
       <MuiThemeProvider>
         <RealtimeProvider>
-          <ReceiveProvider>
-            <LockTokensProvider>
-              <WithdrawProvider>{children}</WithdrawProvider>
-            </LockTokensProvider>
-          </ReceiveProvider>
+          <ActivitiesProvider>
+            <ReceiveProvider>
+              <LockTokensProvider>
+                <WithdrawProvider>{children}</WithdrawProvider>
+              </LockTokensProvider>
+            </ReceiveProvider>
+          </ActivitiesProvider>
         </RealtimeProvider>
       </MuiThemeProvider>
     </WalletDataProvider>

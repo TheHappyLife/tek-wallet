@@ -13,11 +13,21 @@ import {
   initialWithdraw,
   WithdrawContext,
 } from "../providers/WithdrawProvider";
+import {
+  RealtimeContext,
+  initialRealtime,
+} from "../providers/RealtimeProvider";
+import {
+  ActivitiesContext,
+  initialActivities,
+} from "../providers/ActivitiesProvider";
 function useWallet(): Wallet {
   const receiveData = useContext(ReceiveContext);
   const withdrawData = useContext(WithdrawContext);
   const walletData = useContext(WalletDataContext);
   const lockTokensData = useContext(LockTokensContext);
+  const realtimeData = useContext(RealtimeContext);
+  const activitiesData = useContext(ActivitiesContext);
   try {
     delete walletData.session;
 
@@ -26,6 +36,8 @@ function useWallet(): Wallet {
       ...receiveData,
       ...lockTokensData,
       ...withdrawData,
+      ...realtimeData,
+      ...activitiesData,
     };
   } catch (error) {
     console.error("🚀 ~ useWallet ~ error:", error);
@@ -36,6 +48,8 @@ function useWallet(): Wallet {
       ...initialReceive,
       ...initialLockTokens,
       ...initialWithdraw,
+      ...initialRealtime,
+      ...initialActivities,
     };
   }
 }

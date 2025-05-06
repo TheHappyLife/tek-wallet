@@ -1,4 +1,6 @@
+import { ActivitiesProviderDataType } from "../providers/ActivitiesProvider/type";
 import { LockTokensProviderDataType } from "../providers/LockTokenProvider/type";
+import { RealtimeProviderDataType } from "../providers/RealtimeProvider/type";
 import { WithdrawCurrency } from "../services/axios/get-withdraw-tokens-list-service/type";
 
 // 1. Enums
@@ -114,7 +116,9 @@ export interface WithdrawProviderDataType {
 export type Wallet = Omit<WalletProviderDataType, "session"> &
   ReceiveProviderDataType &
   LockTokensProviderDataType &
-  WithdrawProviderDataType;
+  WithdrawProviderDataType &
+  RealtimeProviderDataType &
+  ActivitiesProviderDataType;
 export interface LoginInfo {
   accessToken: string;
   refreshToken: string;

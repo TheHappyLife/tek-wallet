@@ -45,7 +45,7 @@ const TokensBoard = () => {
         sx={{
           ...theme.mixins.column,
           gap: theme.mixins.gaps.g12,
-          minHeight: "20rem",
+          minHeight: !tokens ? "20rem" : "unset",
         }}
       >
         {!!tokens && (
@@ -81,6 +81,8 @@ const TokensBoard = () => {
             lineHeight: theme.typography.leading140,
             width: "fit-content",
             px: theme.mixins.customPadding.p5,
+            cursor: "pointer",
+            mx: "auto",
           }}
         >
           View all assets

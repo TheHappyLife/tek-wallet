@@ -6,7 +6,7 @@ import ReceiveFunction from "./components/ui/ReceiveFunction";
 import LockToken from "./components/ui/LockToken";
 import AssetView from "./components/views/AssetView";
 import useWallet from "./hooks/useWallet";
-
+import Activities from "./components/ui/Activities";
 export * from "./types/expose-type";
 export {
   TekWalletProvider,
@@ -17,5 +17,6 @@ export {
   useWallet,
   LockToken,
   AssetView,
+  Activities,
 };
 //
