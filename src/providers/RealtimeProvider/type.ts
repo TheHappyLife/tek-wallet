@@ -13,5 +13,5 @@ export interface NotificationType {
     vertical: "top" | "bottom";
     horizontal: "left" | "center" | "right";
   };
-  open: boolean;
+  open?: boolean;
 }
