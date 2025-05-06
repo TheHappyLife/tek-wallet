@@ -468,7 +468,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                       ...theme.mixins.column,
                       gap: theme.mixins.gaps.g12,
                       backgroundColor: theme.palette.background.black24,
-                      borderRadius: theme.mixins.theBorderRadius.r16,
+                      borderRadius: theme.mixins.customRadius.r16,
                       padding: theme.mixins.customPadding.p16,
                       alignItems: "flex-start",
                       backdropFilter: "blur(10px)",
@@ -506,7 +506,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                         width: "fit-content",
                         height: "fit-content",
                         alignSelf: "center",
-                        borderRadius: theme.mixins.theBorderRadius.r12,
+                        borderRadius: theme.mixins.customRadius.r12,
                         overflow: "hidden",
                         backgroundColor: theme.palette.background.white,
                         backdropFilter: "blur(10px)",
@@ -630,7 +630,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
                           ...theme.mixins.column,
                           gap: theme.mixins.gaps.g4,
                           backgroundColor: theme.palette.background.white16,
-                          borderRadius: theme.mixins.theBorderRadius.r12,
+                          borderRadius: theme.mixins.customRadius.r12,
                           padding: theme.mixins.customPadding.p8,
                         }}
                       >

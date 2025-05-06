@@ -79,7 +79,7 @@ const Formatter: React.FC<FormatterProps> = ({
         "& .MuiPaper-root": {
           backdropFilter: "blur(10px)",
           backgroundColor: "background.black64",
-          borderRadius: theme.mixins.theBorderRadius.r12,
+          borderRadius: theme.mixins.customRadius.r12,
           padding: `${theme.mixins.customPadding.p8} ${theme.mixins.customPadding.p12}`,
           color: "text.white",
           fontSize: "1.2em",

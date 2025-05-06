@@ -119,7 +119,7 @@ const customMargin = {
   m48: "3rem",
 };
 
-const theBorderRadius = {
+const customRadius = {
   full: "999px",
   r12: "0.75rem",
   r16: "1rem",
@@ -174,7 +174,7 @@ const theme: ThemeOptions = createTheme({
     pagePadding,
     customPadding,
     customMargin,
-    theBorderRadius,
+    customRadius,
     gaps,
     row: {
       display: "flex",
@@ -252,7 +252,7 @@ const theme: ThemeOptions = createTheme({
       gap: gaps.g12,
       padding: customPadding.p12,
       backgroundColor: "background.white16",
-      borderRadius: theBorderRadius.r16,
+      borderRadius: customRadius.r16,
     },
     listTitle: {
       color: "text.white",
@@ -274,7 +274,7 @@ const theme: ThemeOptions = createTheme({
       minHeight: "unset",
       minWidth: "unset",
       width: "fit-content",
-      borderRadius: theBorderRadius.full,
+      borderRadius: customRadius.full,
       lineHeight: typography.leading100,
     },
     dialogContent: {

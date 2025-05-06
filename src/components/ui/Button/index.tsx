@@ -67,7 +67,7 @@ Button.Primary = (props: ButtonProps) => {
       color="primary"
       status={status}
       sx={{
-        borderRadius: theme.mixins.theBorderRadius.full,
+        borderRadius: theme.mixins.customRadius.full,
         "&.Mui-disabled": {
           ...(disabledStyles[status] as any),
         },
@@ -99,7 +99,7 @@ Button.Secondary = (props: ButtonProps) => {
       variant="outlined"
       color="secondary"
       sx={{
-        borderRadius: theme.mixins.theBorderRadius.full,
+        borderRadius: theme.mixins.customRadius.full,
         borderColor: "currentColor",
         ...sx,
       }}

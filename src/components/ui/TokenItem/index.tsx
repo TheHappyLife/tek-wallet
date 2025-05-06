@@ -39,7 +39,7 @@ const TokenItem = (props: TokenItemProps) => {
         <Icon
           width={20}
           sx={{
-            borderRadius: theme.mixins.theBorderRadius.full,
+            borderRadius: theme.mixins.customRadius.full,
           }}
           src={currency.link}
         />

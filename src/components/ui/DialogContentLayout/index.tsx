@@ -16,7 +16,7 @@ function DialogContentLayout(props: DialogContentLayoutProps) {
     <Box
       sx={{
         ...theme.mixins.column,
-        borderRadius: theme.mixins.theBorderRadius.r12,
+        borderRadius: theme.mixins.customRadius.r12,
         backgroundColor: theme.palette.background.black,
         boxShadow: theme.shadows[1],
         minWidth: "12rem",

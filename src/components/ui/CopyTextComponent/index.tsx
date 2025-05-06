@@ -54,7 +54,7 @@ const CopyTextComponent = ({
           inset: "-0.125rem",
           backgroundColor: theme.palette.background.black64,
           backdropFilter: "blur(12px)",
-          borderRadius: theme.mixins.theBorderRadius.r12,
+          borderRadius: theme.mixins.customRadius.r12,
           transition: "opacity 0.3s ease-in-out",
         }}
       >

@@ -103,7 +103,7 @@ function Fees(props: FeesProps) {
         "&.MuiAccordion-root": {
           backgroundColor: "transparent",
           margin: 0,
-          borderRadius: theme.mixins.theBorderRadius.r12,
+          borderRadius: theme.mixins.customRadius.r12,
         },
         "&.MuiAccordion-root::before": {
           display: "none",

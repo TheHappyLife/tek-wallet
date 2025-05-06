@@ -39,7 +39,7 @@ const TokenSelection = (props: TokenSelectionProps) => {
           : "background.white16",
         border: "1px solid",
         borderColor: props.active ? "border.secondary" : "transparent",
-        borderRadius: theme.mixins.theBorderRadius.r16,
+        borderRadius: theme.mixins.customRadius.r16,
         padding: theme.mixins.customPadding.p12,
         display: "flex",
         alignItems: "center",
@@ -58,7 +58,7 @@ const TokenSelection = (props: TokenSelectionProps) => {
           width={20}
           src={tokenData?.icon}
           sx={{
-            borderRadius: theme.mixins.theBorderRadius.full,
+            borderRadius: theme.mixins.customRadius.full,
           }}
         />
         <Box

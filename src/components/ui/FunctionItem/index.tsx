@@ -23,7 +23,7 @@ const FunctionItem = (props: FunctionItemProps) => {
       <Icon
         src={props.icon}
         sx={{
-          borderRadius: theme.mixins.theBorderRadius.full,
+          borderRadius: theme.mixins.customRadius.full,
         }}
         width={44}
       />

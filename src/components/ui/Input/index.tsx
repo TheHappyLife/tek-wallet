@@ -26,7 +26,7 @@ const Input = forwardRef<InputRef, InputProps>((props, inputRef) => {
       sx={{
         ...theme.mixins.row,
         gap: theme.mixins.gaps.g12,
-        borderRadius: theme.mixins.theBorderRadius.r12,
+        borderRadius: theme.mixins.customRadius.r12,
         padding: 0,
         backgroundColor: "background.white16",
         border: `1px solid ${theme.palette.border.white24}`,

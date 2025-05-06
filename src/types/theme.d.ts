@@ -41,7 +41,7 @@ declare module "@mui/material/styles" {
     headerTitle: React.CSSProperties;
     noteContent: React.CSSProperties;
     pagePadding: React.CSSProperties;
-    theBorderRadius: Record<string, string>;
+    customRadius: Record<string, string>;
     center: React.CSSProperties;
     fieldTitle: React.CSSProperties;
     value: React.CSSProperties;

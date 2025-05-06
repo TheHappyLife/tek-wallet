@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import useWalletData from "../../hooks/useWalletData";
 import { NotificationType, RealtimeProviderDataType } from "./type";
 import { AblyService } from "../../services/ably/ably.service";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Grow, GrowProps, Snackbar, useTheme } from "@mui/material";
 import { SnackbarProvider } from "notistack";
 
 import Slide, { SlideProps } from "@mui/material/Slide";
@@ -13,13 +13,19 @@ export const initialRealtime: RealtimeProviderDataType = {
   pushNotification: () => {},
 };
 
-function GrowTransition(props: SlideProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function SlideTransition(props: SlideProps) {
   return <Slide {...props} direction="down" />;
+}
+
+function GrowTransition(props: GrowProps) {
+  return <Grow {...props} />;
 }
 
 export const RealtimeContext =
   React.createContext<RealtimeProviderDataType>(initialRealtime);
 function RealtimeProvider({ children }: { children: React.ReactNode }) {
+  const theme = useTheme();
   const { masterWallet } = useWalletData();
   const [isConnected, setIsConnected] = useState<
     RealtimeProviderDataType["isConnected"]
@@ -81,12 +87,15 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
             autoHideDuration={notification.duration ?? 2000}
           >
             <Alert
+              icon={false}
               onClose={() => {
                 closeNotification(notification.id);
               }}
               severity={notification.type}
-              variant="outlined"
-              sx={{ width: "100%" }}
+              sx={{
+                width: "fit-content",
+                borderRadius: theme.mixins.customRadius.r16,
+              }}
             >
               {notification.message}
             </Alert>
