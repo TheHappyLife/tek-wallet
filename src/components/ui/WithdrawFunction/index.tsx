@@ -794,7 +794,9 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     network: selectedNetwork as NetworkData,
                     memo: memo || "",
                   }}
-                ></SendExternalToken>
+                >
+                  <Button.Primary>Send externally</Button.Primary>
+                </SendExternalToken>
                 <ConfirmLayout
                   ref={confirmLayoutDrawerRef}
                   action={ActionConfirm.SEND}
