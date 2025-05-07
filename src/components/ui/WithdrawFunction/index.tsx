@@ -519,7 +519,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     if (isAuthenticated && !sendInternalTokens) {
       updateSendInternalToken();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, withdrawTokens, sendInternalTokens]);
 
   useEffect(() => {
     validateAmount();

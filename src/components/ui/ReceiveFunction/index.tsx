@@ -301,7 +301,7 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>((pr
     if (isAuthenticated && !receiveInternalTokens) {
       updateReceiveInternalToken();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, receiveExternalTokens, receiveInternalTokens]);
 
   return (
     <RequireConnect>

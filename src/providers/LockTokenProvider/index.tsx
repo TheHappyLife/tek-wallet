@@ -34,8 +34,9 @@ function LockTokensProvider({ children }: { children: React.ReactNode }) {
   }, [isAuthenticated, isLoadingLockToken]);
 
   useEffect(() => {
+    if (!!lockTokens) return;
     updateLockToken();
-  }, [updateLockToken]);
+  }, [isAuthenticated, lockTokens]);
 
   return (
     <LockTokensContext.Provider
