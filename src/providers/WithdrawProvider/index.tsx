@@ -8,7 +8,7 @@ export const initialWithdraw: WithdrawProviderDataType = {
   isLoadingWithdrawToken: false,
   withdrawTokens: undefined,
   updateWithdrawToken: () => {},
-  isLoadingSendInternalToken: true,
+  isLoadingSendInternalToken: false,
   sendInternalTokens: undefined,
   updateSendInternalToken: () => {},
 };
