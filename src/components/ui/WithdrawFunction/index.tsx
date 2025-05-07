@@ -98,14 +98,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   const [selectedToken, setSelectedToken] = useState<WithdrawCurrency | undefined>();
   const [selectedNetwork, setSelectedNetwork] = useState<NetworkData>();
   const { isAuthenticated } = useWalletData();
-  const {
-    withdrawTokens,
-    updateWithdrawToken,
-    updateSendInternalToken,
-    sendInternalTokens,
-    isLoadingWithdrawToken,
-    isLoadingSendInternalToken,
-  } = useWithdrawData();
+  const { withdrawTokens, updateWithdrawToken, updateSendInternalToken, sendInternalTokens } = useWithdrawData();
   const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
   const [amount, setAmount] = useState<number | string>("");
   const [memo, setMemo] = useState<string | undefined>(undefined);
@@ -520,13 +513,13 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   };
 
   useEffect(() => {
-    if (isAuthenticated && !withdrawTokens && !isLoadingWithdrawToken) {
+    if (isAuthenticated && !withdrawTokens) {
       updateWithdrawToken();
     }
-    if (isAuthenticated && !sendInternalTokens && !isLoadingSendInternalToken) {
+    if (isAuthenticated && !sendInternalTokens) {
       updateSendInternalToken();
     }
-  }, [isAuthenticated, isLoadingWithdrawToken, isLoadingSendInternalToken]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     validateAmount();
@@ -758,7 +751,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                   </Box>
                 )}
 
-                {estimateFee?.feeDetail?.length && !!amount && (
+                {!!estimateFee?.feeDetail?.length && !!amount && (
                   <Fees feesData={JSON.stringify(estimateFee)} amount={+amount} />
                 )}
 
@@ -838,7 +831,7 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                       {!!memo && selectedMethod === SendMethods.TRANSFER_EXTERNAL && (
                         <LineValue field="Memo" value={memo} />
                       )}
-                      {estimateFee?.feeDetail?.length && !!amount && (
+                      {!!estimateFee?.feeDetail?.length && !!amount && (
                         <Fees feesData={JSON.stringify(estimateFee)} amount={+amount} />
                       )}
                       <LineValue

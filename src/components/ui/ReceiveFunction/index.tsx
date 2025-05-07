@@ -87,14 +87,8 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>((pr
   const [inputAmount, setInputAmount] = useState<number>(0);
   const [amount, setAmount] = useState<number>(0);
   const [amountError, setAmountError] = useState<string>("");
-  const {
-    receiveExternalTokens,
-    updateReceiveExternalToken,
-    isLoadingReceiveExternalToken,
-    isLoadingReceiveInternalToken,
-    receiveInternalTokens,
-    updateReceiveInternalToken,
-  } = useReceiveData();
+  const { receiveExternalTokens, updateReceiveExternalToken, receiveInternalTokens, updateReceiveInternalToken } =
+    useReceiveData();
   const receiveTokens = useMemo(() => {
     if (selectedMethod === ReceiveMethods.RECEIVE_INTERNAL) {
       return receiveInternalTokens;
@@ -301,27 +295,13 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>((pr
     gotoStep(ReceiveStep.SELECT_METHOD);
   };
   useEffect(() => {
-    console.warn(
-      "🚀 ~ useEffect ~ isAuthenticated:",
-      isAuthenticated,
-      receiveExternalTokens,
-      isLoadingReceiveExternalToken,
-      receiveInternalTokens,
-      isLoadingReceiveInternalToken
-    );
-    if (isAuthenticated && !receiveExternalTokens && !isLoadingReceiveExternalToken) {
+    if (isAuthenticated && !receiveExternalTokens) {
       updateReceiveExternalToken();
     }
-    if (isAuthenticated && !receiveInternalTokens && !isLoadingReceiveInternalToken) {
+    if (isAuthenticated && !receiveInternalTokens) {
       updateReceiveInternalToken();
     }
-  }, [
-    isAuthenticated,
-    isLoadingReceiveExternalToken,
-    isLoadingReceiveInternalToken,
-    receiveExternalTokens,
-    receiveInternalTokens,
-  ]);
+  }, [isAuthenticated]);
 
   return (
     <RequireConnect>

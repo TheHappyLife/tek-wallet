@@ -30,6 +30,7 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
   const updateWithdrawToken = useCallback(async () => {
     console.warn("🚀 ~ updateWithdrawToken ~ updateWithdrawToken:", isAuthenticated);
     try {
+      if (isLoadingWithdrawToken) return;
       if (!isAuthenticated) {
         throw new Error("Authenticate to get withdraw tokens");
       }
@@ -43,10 +44,11 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
       setWithdrawTokens(undefined);
       setIsLoadingWithdrawToken(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoadingWithdrawToken]);
   const updateSendInternalToken = useCallback(async () => {
     console.warn("🚀 ~ updateWithdrawToken ~ updateWithdrawToken:", isAuthenticated);
     try {
+      if (isLoadingSendInternalToken) return;
       if (!isAuthenticated) {
         throw new Error("Authenticate to get withdraw tokens");
       }
@@ -60,7 +62,7 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
       setSendInternalTokens(undefined);
       setIsLoadingSendInternalToken(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoadingSendInternalToken]);
 
   return (
     <WithdrawContext.Provider

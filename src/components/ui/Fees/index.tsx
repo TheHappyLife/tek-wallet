@@ -42,7 +42,6 @@ function Fees(props: FeesProps) {
         result[index].isEnoughBalanceToPay = +(token?.current_value ?? 0) >= totalFeeInCurrency;
       }
     });
-    console.warn("🚀 ~ consttokensFee:FeeDetailType[]=useMemo ~ result:", result);
 
     return result;
   }, [tokens, feesData?.feeDetail, amount]);

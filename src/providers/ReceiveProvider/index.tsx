@@ -31,6 +31,7 @@ function ReceiveProvider({ children }: { children: React.ReactNode }) {
 
   const updateReceiveExternalToken = useCallback(async () => {
     try {
+      if (isLoadingReceiveExternalToken) return;
       if (!isAuthenticated) {
         throw new Error("Authenticate to get receive tokens");
       }
@@ -43,10 +44,11 @@ function ReceiveProvider({ children }: { children: React.ReactNode }) {
       console.error("🚀 ~ getBalance ~ error:", error);
       setIsLoadingReceiveExternalToken(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoadingReceiveExternalToken]);
   const updateReceiveInternalToken = useCallback(async () => {
     console.warn("🚀 ~ updateReceiveInternalToken ~ isAuthenticated:", isAuthenticated);
     try {
+      if (isLoadingReceiveInternalToken) return;
       if (!isAuthenticated) {
         throw new Error("Authenticate to get receive tokens");
       }
@@ -59,7 +61,7 @@ function ReceiveProvider({ children }: { children: React.ReactNode }) {
       console.error("🚀 ~ getBalance ~ error:", error);
       setIsLoadingReceiveInternalToken(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoadingReceiveInternalToken]);
 
   return (
     <ReceiveContext.Provider

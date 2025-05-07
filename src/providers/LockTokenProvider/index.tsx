@@ -5,7 +5,7 @@ import useWalletData from "../../hooks/useWalletData";
 import { LockTokensProviderDataType } from "./type";
 import { LockCurrency } from "../../services/axios/get-lock-tokens-list-service/type";
 export const initialLockTokens: LockTokensProviderDataType = {
-  isLoadingLockToken: true,
+  isLoadingLockToken: false,
   lockTokens: undefined,
   updateLockToken: () => {},
 };
@@ -13,11 +13,12 @@ export const initialLockTokens: LockTokensProviderDataType = {
 export const LockTokensContext = React.createContext<LockTokensProviderDataType>(initialLockTokens);
 function LockTokensProvider({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useWalletData();
-  const [isLoadingLockToken, setIsLoadingLockToken] = useState<boolean>(true);
-  const [lockTokens, setLockTokens] = React.useState<LockCurrency[] | undefined>(undefined);
+  const [isLoadingLockToken, setIsLoadingLockToken] = useState<boolean>(initialLockTokens.isLoadingLockToken);
+  const [lockTokens, setLockTokens] = React.useState<LockCurrency[] | undefined>(initialLockTokens.lockTokens);
 
   const updateLockToken = useCallback(async () => {
     try {
+      if (isLoadingLockToken) return;
       if (!isAuthenticated) {
         throw new Error("Authenticate to get lock tokens");
       }
@@ -30,7 +31,7 @@ function LockTokensProvider({ children }: { children: React.ReactNode }) {
       console.error("🚀 ~ getBalance ~ error:", error);
       setIsLoadingLockToken(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoadingLockToken]);
 
   useEffect(() => {
     updateLockToken();
