@@ -122,8 +122,16 @@ const customMargin = {
 
 const customRadius = {
   full: "999px",
+  r6: "0.375rem",
+  r8: "0.5rem",
+  r10: "0.625rem",
   r12: "0.75rem",
   r16: "1rem",
+  r20: "1.25rem",
+  r24: "1.5rem",
+  r32: "2rem",
+  r40: "2.5rem",
+  r48: "3rem",
 };
 
 const shadows = [

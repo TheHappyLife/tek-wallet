@@ -6,6 +6,7 @@ import { AblyService } from "../../services/ably/ably.service";
 import { Alert, Grow, GrowProps, Snackbar, useTheme } from "@mui/material";
 import { SnackbarProvider } from "notistack";
 import { Transaction } from "../../services/axios/get-activities-service/type";
+import { useEventHandler } from "../../hooks/useEventHandler";
 
 export const initialRealtime: RealtimeProviderDataType = {
   transaction: undefined,
@@ -29,6 +30,8 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
   const pushNotification = (notification: NotificationType) => {
     setNotifications((prev) => [...prev, notification]);
   };
+
+  const { eventHandler } = useEventHandler();
 
   useEffect(() => {
     try {
@@ -77,14 +80,14 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
             }}
             slots={{ transition: GrowTransition }}
             key={notification.id}
-            autoHideDuration={notification.duration ?? 2000}
+            autoHideDuration={notification.duration ?? 3000}
           >
             <Alert
               icon={false}
               severity={notification.type}
               sx={{
                 width: "fit-content",
-                borderRadius: theme.mixins.customRadius.r16,
+                borderRadius: theme.mixins.customRadius.r6,
                 mx: "auto",
                 padding: `${theme.mixins.customPadding.p0} ${theme.mixins.customPadding.p12}`,
                 fontSize: theme.typography.fontSize14,
@@ -103,34 +106,3 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
 }
 
 export default RealtimeProvider;
-
-const eventHandler = (messageEvent: Transaction): NotificationType | null => {
-  if (!messageEvent) return null;
-  const type = messageEvent.transaction_type;
-  const amount = messageEvent.amount;
-  const currency = messageEvent.currency_slug;
-  const status = messageEvent.transaction_status;
-  const transactionId = messageEvent.id;
-
-  let notificationType: NotificationType["type"] = "success";
-
-  switch (status) {
-    case "processing":
-      notificationType = "info";
-      break;
-    case "failed":
-      notificationType = "error";
-      break;
-    case "success":
-      notificationType = "success";
-      break;
-    default:
-      notificationType = "info";
-  }
-
-  return {
-    message: `${type} ${amount} ${currency} is ${status}`,
-    type: notificationType,
-    id: `${transactionId}-${status}`,
-  };
-};
