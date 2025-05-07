@@ -38,6 +38,7 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
   useEffect(() => {
     if (!isActive || !type) return;
     if (!!activitiesByType) return;
+    console.warn("🚀 ~ useEffect ~ type:", type);
     updateActivities({
       transaction_types: type.slug,
       page: 1,
