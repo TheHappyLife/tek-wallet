@@ -48,6 +48,10 @@ function ReceiveProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isAuthenticated]);
   const updateReceiveInternalToken = useCallback(async () => {
+    console.warn(
+      "🚀 ~ updateReceiveInternalToken ~ isAuthenticated:",
+      isAuthenticated
+    );
     try {
       if (!isAuthenticated) {
         throw new Error("Authenticate to get receive tokens");
