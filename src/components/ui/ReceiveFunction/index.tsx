@@ -340,7 +340,19 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       gotoStep(ReceiveStep.SELECT_METHOD);
     };
     useEffect(() => {
-      if (isAuthenticated && !receiveTokens && !isLoadingReceiveExternalToken) {
+      console.warn(
+        "🚀 ~ useEffect ~ isAuthenticated:",
+        isAuthenticated,
+        receiveExternalTokens,
+        isLoadingReceiveExternalToken,
+        receiveInternalTokens,
+        isLoadingReceiveInternalToken
+      );
+      if (
+        isAuthenticated &&
+        !receiveExternalTokens &&
+        !isLoadingReceiveExternalToken
+      ) {
         updateReceiveExternalToken();
       }
       if (
@@ -350,7 +362,13 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       ) {
         updateReceiveInternalToken();
       }
-    }, [isAuthenticated]);
+    }, [
+      isAuthenticated,
+      isLoadingReceiveExternalToken,
+      isLoadingReceiveInternalToken,
+      receiveExternalTokens,
+      receiveInternalTokens,
+    ]);
 
     return (
       <RequireConnect>
