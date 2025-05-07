@@ -22,6 +22,7 @@ function EmptyData(props: EmptyDataProps) {
         gap: theme.mixins.gaps.g16,
         alignItems: "center",
         justifyContent: "center",
+        ...props.sx,
       }}
     >
       <Icon width={48} src={props.icon} />

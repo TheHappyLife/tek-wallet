@@ -107,7 +107,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
                   <SwiperSlide
                     key={index}
                     style={{
-                      display: "flex",
+                      position: "relative",
                     }}
                   >
                     <ActivitiesTypeSlice type={type} isActive={true} />
