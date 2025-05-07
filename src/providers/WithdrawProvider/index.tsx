@@ -5,7 +5,7 @@ import useWalletData from "../../hooks/useWalletData";
 import { WithdrawCurrency } from "../../services/axios/get-withdraw-tokens-list-service/type";
 import getWithdrawTokenList from "../../services/axios/get-withdraw-tokens-list-service";
 export const initialWithdraw: WithdrawProviderDataType = {
-  isLoadingWithdrawToken: true,
+  isLoadingWithdrawToken: false,
   withdrawTokens: undefined,
   updateWithdrawToken: () => {},
   isLoadingSendInternalToken: true,

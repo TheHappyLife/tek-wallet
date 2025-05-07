@@ -53,7 +53,7 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
 
   return (
     <Box sx={{ width: "100%", height: "100%", display: "flex" }}>
-      {status === Status.Loading && <WaitingData />}
+      {status === Status.Loading && <WaitingData sx={{ margin: "auto" }} />}
       {status === Status.Empty && (
         <EmptyData
           sx={{ margin: "auto" }}

@@ -9,7 +9,7 @@ import getReceiveExternalTokenList from "../../services/axios/get-receive-extern
 import useWalletData from "../../hooks/useWalletData";
 import getReceiveInternalTokenList from "../../services/axios/get-receive-internal-tokens-list-service";
 export const initialReceive: ReceiveProviderDataType = {
-  isLoadingReceiveExternalToken: true,
+  isLoadingReceiveExternalToken: false,
   receiveExternalTokens: undefined,
   updateReceiveExternalToken: () => {},
   isLoadingReceiveInternalToken: true,
