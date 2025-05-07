@@ -50,7 +50,6 @@ const LoadingLayout = forwardRef<LoadingLayoutRef, LoadingLayoutProps>(
             <CircularProgress color="secondary" size={20} />
             <Text
               sx={{
-                ...theme.mixins.center,
                 fontSize: theme.typography.fontSize12,
                 color: "text.secondary",
               }}

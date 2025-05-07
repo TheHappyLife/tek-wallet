@@ -112,6 +112,8 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
       updateWithdrawToken,
       updateSendInternalToken,
       sendInternalTokens,
+      isLoadingWithdrawToken,
+      isLoadingSendInternalToken,
     } = useWithdrawData();
     const [infoDialogContent, setInfoDialogContent] = useState<ReactNode>();
     const [amount, setAmount] = useState<number | string>("");
@@ -584,10 +586,10 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     useEffect(() => {
-      if (isAuthenticated && !withdrawToken) {
+      if (isAuthenticated && !withdrawToken && !isLoadingWithdrawToken) {
         updateWithdrawToken();
       }
-      if (isAuthenticated && !withdrawToken) {
+      if (isAuthenticated && !withdrawToken && !isLoadingSendInternalToken) {
         updateSendInternalToken();
       }
     }, [isAuthenticated]);

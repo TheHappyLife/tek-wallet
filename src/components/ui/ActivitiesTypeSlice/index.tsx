@@ -5,6 +5,7 @@ import ActivityItem from "../ActivityItem";
 import { TransactionType } from "../../../services/axios/get-activities-service/type";
 import useActivities from "../../../hooks/useActivities";
 import { useEffect, useMemo } from "react";
+import WaitingData from "../WaitingData";
 
 export interface ActivitiesTypeSlicePropsType {
   type: TransactionType;
@@ -43,7 +44,6 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
       isLoadingActivities[type.slug]
     )
       return;
-    console.warn("🚀 ~ useEffect ~ type:", type, activitiesByType);
     updateActivities({
       transaction_types: type.slug,
       page: 1,
@@ -53,6 +53,7 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
 
   return (
     <Box sx={{ width: "100%", height: "100%", display: "flex" }}>
+      {status === Status.Loading && <WaitingData />}
       {status === Status.Empty && (
         <EmptyData
           sx={{ margin: "auto" }}

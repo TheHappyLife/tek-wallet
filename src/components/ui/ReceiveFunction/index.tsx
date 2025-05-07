@@ -100,6 +100,8 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
     const {
       receiveExternalTokens,
       updateReceiveExternalToken,
+      isLoadingReceiveExternalToken,
+      isLoadingReceiveInternalToken,
       receiveInternalTokens,
       updateReceiveInternalToken,
     } = useReceiveData();
@@ -338,10 +340,14 @@ const ReceiveFunction = forwardRef<ReceiveFunctionRef, ReceiveFunctionProps>(
       gotoStep(ReceiveStep.SELECT_METHOD);
     };
     useEffect(() => {
-      if (isAuthenticated && !receiveTokens) {
+      if (isAuthenticated && !receiveTokens && !isLoadingReceiveExternalToken) {
         updateReceiveExternalToken();
       }
-      if (isAuthenticated && !receiveInternalTokens) {
+      if (
+        isAuthenticated &&
+        !receiveInternalTokens &&
+        !isLoadingReceiveInternalToken
+      ) {
         updateReceiveInternalToken();
       }
     }, [isAuthenticated]);
