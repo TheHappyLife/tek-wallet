@@ -21,7 +21,7 @@ const prefix = "activities_";
 
 function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
   const theme = useTheme();
-  const { activities, updateActivities } = useActivities();
+  const { activities, updateActivities, isLoadingActivities } = useActivities();
   const { type, isActive } = props;
   const activitiesByType = useMemo(() => {
     if (!type?.slug) return undefined;
@@ -36,9 +36,14 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
   }, [type, activitiesByType]);
 
   useEffect(() => {
-    if (!isActive || !type) return;
-    if (!!activitiesByType) return;
-    console.warn("🚀 ~ useEffect ~ type:", type);
+    if (
+      !isActive ||
+      !type?.slug ||
+      !!activitiesByType ||
+      isLoadingActivities[type.slug]
+    )
+      return;
+    console.warn("🚀 ~ useEffect ~ type:", type, activitiesByType);
     updateActivities({
       transaction_types: type.slug,
       page: 1,
