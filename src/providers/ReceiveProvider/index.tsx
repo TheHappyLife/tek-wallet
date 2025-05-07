@@ -12,7 +12,7 @@ export const initialReceive: ReceiveProviderDataType = {
   isLoadingReceiveExternalToken: false,
   receiveExternalTokens: undefined,
   updateReceiveExternalToken: () => {},
-  isLoadingReceiveInternalToken: true,
+  isLoadingReceiveInternalToken: false,
   receiveInternalTokens: undefined,
   updateReceiveInternalToken: () => {},
 };
