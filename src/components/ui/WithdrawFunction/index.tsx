@@ -586,13 +586,17 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     };
 
     useEffect(() => {
-      if (isAuthenticated && !withdrawToken && !isLoadingWithdrawToken) {
+      if (isAuthenticated && !withdrawTokens && !isLoadingWithdrawToken) {
         updateWithdrawToken();
       }
-      if (isAuthenticated && !withdrawToken && !isLoadingSendInternalToken) {
+      if (
+        isAuthenticated &&
+        !sendInternalTokens &&
+        !isLoadingSendInternalToken
+      ) {
         updateSendInternalToken();
       }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, isLoadingWithdrawToken, isLoadingSendInternalToken]);
 
     useEffect(() => {
       validateAmount();

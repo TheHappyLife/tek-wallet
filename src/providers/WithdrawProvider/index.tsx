@@ -17,16 +17,17 @@ export const WithdrawContext =
   React.createContext<WithdrawProviderDataType>(initialWithdraw);
 function WithdrawProvider({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useWalletData();
-  const [isLoadingWithdrawToken, setIsLoadingWithdrawToken] =
-    useState<boolean>(true);
+  const [isLoadingWithdrawToken, setIsLoadingWithdrawToken] = useState<boolean>(
+    initialWithdraw.isLoadingWithdrawToken
+  );
   const [withdrawTokens, setWithdrawTokens] = React.useState<
     WithdrawCurrency[] | undefined
-  >(undefined);
+  >(initialWithdraw.withdrawTokens);
   const [isLoadingSendInternalToken, setIsLoadingSendInternalToken] =
-    useState<boolean>(true);
+    useState<boolean>(initialWithdraw.isLoadingSendInternalToken);
   const [sendInternalTokens, setSendInternalTokens] = React.useState<
     WithdrawCurrency[] | undefined
-  >(undefined);
+  >(initialWithdraw.sendInternalTokens);
 
   const updateWithdrawToken = useCallback(async () => {
     console.warn(

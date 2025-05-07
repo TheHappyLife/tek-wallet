@@ -22,15 +22,15 @@ export const ReceiveContext =
 function ReceiveProvider({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useWalletData();
   const [isLoadingReceiveExternalToken, setIsLoadingReceiveExternalToken] =
-    useState<boolean>(true);
+    useState<boolean>(initialReceive.isLoadingReceiveExternalToken);
   const [receiveExternalTokens, setReceiveExternalTokens] = React.useState<
     ReceiveExternalCurrency[] | undefined
-  >(undefined);
+  >(initialReceive.receiveExternalTokens);
   const [isLoadingReceiveInternalToken, setIsLoadingReceiveInternalToken] =
-    useState<boolean>(true);
+    useState<boolean>(initialReceive.isLoadingReceiveInternalToken);
   const [receiveInternalTokens, setReceiveInternalTokens] = React.useState<
     ReceiveInternalCurrency[] | undefined
-  >(undefined);
+  >(initialReceive.receiveInternalTokens);
 
   const updateReceiveExternalToken = useCallback(async () => {
     try {
