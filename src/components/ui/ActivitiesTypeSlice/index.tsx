@@ -46,10 +46,10 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
   }, [isActive, type, activitiesByType, updateActivities]);
 
   return (
-    <>
+    <Box sx={{ width: "100%", height: "100%", display: "flex" }}>
       {status === Status.Empty && (
         <EmptyData
-          sx={{ ...theme.mixins.center }}
+          sx={{ margin: "auto" }}
           icon={getIcon(prefix + "empty_" + type.slug)}
           description={`No ${type.name?.toLowerCase()} activity`}
         />
@@ -70,7 +70,7 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
           })}
         </Box>
       )}
-    </>
+    </Box>
   );
 }
 
