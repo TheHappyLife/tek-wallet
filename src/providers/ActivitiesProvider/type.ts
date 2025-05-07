@@ -6,7 +6,7 @@ import {
 } from "../../services/axios/get-activities-service/type";
 
 export interface ActivitiesProviderDataType {
-  isLoadingActivities: boolean;
+  isLoadingActivities: Partial<Record<TransactionSlug, boolean>>;
   activities: Activities | undefined;
   updateActivities: (query?: GetActivitiesServiceQuery) => void;
   activityTypes: ActivityTypes[] | undefined;
