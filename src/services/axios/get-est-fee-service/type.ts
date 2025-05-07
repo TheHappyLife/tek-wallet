@@ -1,6 +1,8 @@
+import { TransactionSlug } from "../get-activities-service/type";
+
 export interface GetEstimateFeeServiceQuery {
   amount: string;
-  transaction_type: string;
+  transaction_type: TransactionSlug;
   currency: string;
 }
 export interface GetEstimateFeeServiceResponse {

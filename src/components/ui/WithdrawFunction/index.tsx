@@ -50,6 +50,8 @@ import { ActionConfirm } from "../ConfirmLayout/type";
 import ConfirmByPasscode from "../ConfirmByPasscode";
 import LineValue from "../LineValue";
 import sendExternalService from "../../../services/axios/send-external-service";
+import { TransactionSlug } from "../../../services/axios/get-activities-service/type";
+import SendExternalToken from "../SendExternalToken";
 interface WithdrawFunctionProps extends GeneralProps {
   onClose?: ReactEventHandler;
   onOpen?: ReactEventHandler;
@@ -316,13 +318,14 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
     setIsLoadingEstimateFee(true);
     const response = await getEstimateFeeService({
       amount: `${amount}`,
-      transaction_type: "withdrawn",
+      transaction_type:
+        selectedMethod === SendMethods.TRANSFER_EXTERNAL ? TransactionSlug.Withdrawn : TransactionSlug.TransferInternal,
       currency: selectedToken?.slug || "",
     });
     console.warn("🚀 ~ handleGetEstimateFee ~ response:", response);
     setIsLoadingEstimateFee(false);
     setEstimateFee(response?.data);
-  }, [amount, selectedToken, amountError]);
+  }, [amount, selectedToken, amountError, selectedMethod]);
 
   const openScannerAddressQrCode = () => {
     scannerAddressQrCodeRef.current?.open();
@@ -781,6 +784,17 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     </Text>
                   </Box>
                 )}
+                <SendExternalToken
+                  initFeeData={estimateFee}
+                  sendExternalData={{
+                    amount: `${amount}`,
+                    currency_slug: selectedToken?.slug || "",
+                    to_address: recipientAddress || "",
+                    passcode: "",
+                    network: selectedNetwork as NetworkData,
+                    memo: memo || "",
+                  }}
+                ></SendExternalToken>
                 <ConfirmLayout
                   ref={confirmLayoutDrawerRef}
                   action={ActionConfirm.SEND}
