@@ -82,7 +82,7 @@ function ActivityItem(props: ActivityItemProps) {
           height: "fit-content",
         }}
       >
-        <Icon src={type?.icon} width={24} />
+        <Icon src={type?.link} width={24} />
       </Box>
       <Box
         sx={{

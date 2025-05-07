@@ -458,14 +458,31 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
   };
 
   const handleSendInternal = async (passcode: string) => {
-    console.warn("withdraw internal");
-    const response = await sendInternalService({
-      amount: `${amount}`,
-      to_address: recipientAddress || "",
-      currency_slug: selectedToken?.slug || "",
-      passcode,
-    });
-    console.warn("🚀 ~ handleSendInternal ~ response:", response);
+    try {
+      console.warn("withdraw internal");
+      setSendButtonStatus(BUTTON_STATUS.LOADING);
+      const response = await sendInternalService({
+        amount: `${amount}`,
+        to_address: recipientAddress || "",
+        currency_slug: selectedToken?.slug || "",
+        passcode,
+      });
+      console.warn("🚀 ~ handleSendInternal ~ response:", response);
+      if (response.success) {
+        close();
+        confirmLayoutDrawerRef.current?.close();
+        setSendButtonStatus(BUTTON_STATUS.ENABLED);
+        props.onSendSuccess?.(response);
+      } else {
+        throw new Error("Send internal failed");
+      }
+    } catch (err) {
+      console.error(err);
+      setSendButtonStatus(BUTTON_STATUS.ERROR);
+      setTimeout(() => {
+        setSendButtonStatus(BUTTON_STATUS.ENABLED);
+      }, 1200);
+    }
   };
 
   const handleSendExternal = async (passcode: string) => {

@@ -18,8 +18,9 @@
 // import Icon from "../Icon";
 // import Fees from "../Fees";
 // import { FeesDataType } from "../../../services/axios/get-est-fee-service/type";
+// import { NetworkData } from "../../../services/axios/type";
 // interface SendExternalTokenProps extends Omit<ConfirmLayoutProps, "action"> {
-//   sendExternalData: SendExternalBody;
+//   sendExternalData: Omit<SendExternalBody, "network"> & { network: NetworkData };
 //   onSuccess?: (data: SendExternalResponse) => any;
 // }
 
@@ -93,7 +94,7 @@
 //       console.warn("🚀 ~ handleSendExternalToken ~ sendExternalData:", props.sendExternalData, passcode);
 
 //       setButtonStatus(BUTTON_STATUS.LOADING);
-//       const response = await sendExternalService(props.sendExternalData);
+//       const response = await sendExternalService({ ...props.sendExternalData, network: network?.slug });
 //       console.warn("🚀 ~ handleSendExternalToken ~ response:", response);
 //       if (response.success) {
 //         confirmLayoutDrawerRef.current?.close();
@@ -162,8 +163,8 @@
 //                     ml: "auto",
 //                   }}
 //                 >
-//                   {/* <Icon width={20} src={props.sendExternalData.network?.icon} /> */}
-//                   <Text sx={{ ...theme.mixins.value }}>{props.sendExternalData.network}</Text>
+//                   <Icon width={20} src={network?.icon} />
+//                   <Text sx={{ ...theme.mixins.value }}>{network?.name}</Text>
 //                 </Box>
 //               }
 //             />
