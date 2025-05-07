@@ -1,10 +1,6 @@
 "use client";
 import React, { useCallback, useState } from "react";
-import {
-  ReceiveExternalCurrency,
-  ReceiveInternalCurrency,
-  ReceiveProviderDataType,
-} from "../../types/expose-type";
+import { ReceiveExternalCurrency, ReceiveInternalCurrency, ReceiveProviderDataType } from "../../types/expose-type";
 import getReceiveExternalTokenList from "../../services/axios/get-receive-external-tokens-list-service";
 import useWalletData from "../../hooks/useWalletData";
 import getReceiveInternalTokenList from "../../services/axios/get-receive-internal-tokens-list-service";
@@ -17,20 +13,21 @@ export const initialReceive: ReceiveProviderDataType = {
   updateReceiveInternalToken: () => {},
 };
 
-export const ReceiveContext =
-  React.createContext<ReceiveProviderDataType>(initialReceive);
+export const ReceiveContext = React.createContext<ReceiveProviderDataType>(initialReceive);
 function ReceiveProvider({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useWalletData();
-  const [isLoadingReceiveExternalToken, setIsLoadingReceiveExternalToken] =
-    useState<boolean>(initialReceive.isLoadingReceiveExternalToken);
-  const [receiveExternalTokens, setReceiveExternalTokens] = React.useState<
-    ReceiveExternalCurrency[] | undefined
-  >(initialReceive.receiveExternalTokens);
-  const [isLoadingReceiveInternalToken, setIsLoadingReceiveInternalToken] =
-    useState<boolean>(initialReceive.isLoadingReceiveInternalToken);
-  const [receiveInternalTokens, setReceiveInternalTokens] = React.useState<
-    ReceiveInternalCurrency[] | undefined
-  >(initialReceive.receiveInternalTokens);
+  const [isLoadingReceiveExternalToken, setIsLoadingReceiveExternalToken] = useState<boolean>(
+    initialReceive.isLoadingReceiveExternalToken
+  );
+  const [receiveExternalTokens, setReceiveExternalTokens] = React.useState<ReceiveExternalCurrency[] | undefined>(
+    initialReceive.receiveExternalTokens
+  );
+  const [isLoadingReceiveInternalToken, setIsLoadingReceiveInternalToken] = useState<boolean>(
+    initialReceive.isLoadingReceiveInternalToken
+  );
+  const [receiveInternalTokens, setReceiveInternalTokens] = React.useState<ReceiveInternalCurrency[] | undefined>(
+    initialReceive.receiveInternalTokens
+  );
 
   const updateReceiveExternalToken = useCallback(async () => {
     try {
@@ -48,10 +45,7 @@ function ReceiveProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isAuthenticated]);
   const updateReceiveInternalToken = useCallback(async () => {
-    console.warn(
-      "🚀 ~ updateReceiveInternalToken ~ isAuthenticated:",
-      isAuthenticated
-    );
+    console.warn("🚀 ~ updateReceiveInternalToken ~ isAuthenticated:", isAuthenticated);
     try {
       if (!isAuthenticated) {
         throw new Error("Authenticate to get receive tokens");

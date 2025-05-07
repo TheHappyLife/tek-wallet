@@ -13,37 +13,29 @@ export const initialWithdraw: WithdrawProviderDataType = {
   updateSendInternalToken: () => {},
 };
 
-export const WithdrawContext =
-  React.createContext<WithdrawProviderDataType>(initialWithdraw);
+export const WithdrawContext = React.createContext<WithdrawProviderDataType>(initialWithdraw);
 function WithdrawProvider({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useWalletData();
-  const [isLoadingWithdrawToken, setIsLoadingWithdrawToken] = useState<boolean>(
-    initialWithdraw.isLoadingWithdrawToken
+  const [isLoadingWithdrawToken, setIsLoadingWithdrawToken] = useState<boolean>(initialWithdraw.isLoadingWithdrawToken);
+  const [withdrawTokens, setWithdrawTokens] = React.useState<WithdrawCurrency[] | undefined>(
+    initialWithdraw.withdrawTokens
   );
-  const [withdrawTokens, setWithdrawTokens] = React.useState<
-    WithdrawCurrency[] | undefined
-  >(initialWithdraw.withdrawTokens);
-  const [isLoadingSendInternalToken, setIsLoadingSendInternalToken] =
-    useState<boolean>(initialWithdraw.isLoadingSendInternalToken);
-  const [sendInternalTokens, setSendInternalTokens] = React.useState<
-    WithdrawCurrency[] | undefined
-  >(initialWithdraw.sendInternalTokens);
+  const [isLoadingSendInternalToken, setIsLoadingSendInternalToken] = useState<boolean>(
+    initialWithdraw.isLoadingSendInternalToken
+  );
+  const [sendInternalTokens, setSendInternalTokens] = React.useState<WithdrawCurrency[] | undefined>(
+    initialWithdraw.sendInternalTokens
+  );
 
   const updateWithdrawToken = useCallback(async () => {
-    console.warn(
-      "🚀 ~ updateWithdrawToken ~ updateWithdrawToken:",
-      isAuthenticated
-    );
+    console.warn("🚀 ~ updateWithdrawToken ~ updateWithdrawToken:", isAuthenticated);
     try {
       if (!isAuthenticated) {
         throw new Error("Authenticate to get withdraw tokens");
       }
       setIsLoadingWithdrawToken(true);
       const response = await getWithdrawTokenList();
-      console.warn(
-        "🚀 ~ getBalance getWithdrawTokenList ~ response:",
-        response
-      );
+      console.warn("🚀 ~ getBalance getWithdrawTokenList ~ response:", response);
       setWithdrawTokens(response?.supported_tokens);
       setIsLoadingWithdrawToken(false);
     } catch (error) {
@@ -53,20 +45,14 @@ function WithdrawProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isAuthenticated]);
   const updateSendInternalToken = useCallback(async () => {
-    console.warn(
-      "🚀 ~ updateWithdrawToken ~ updateWithdrawToken:",
-      isAuthenticated
-    );
+    console.warn("🚀 ~ updateWithdrawToken ~ updateWithdrawToken:", isAuthenticated);
     try {
       if (!isAuthenticated) {
         throw new Error("Authenticate to get withdraw tokens");
       }
       setIsLoadingSendInternalToken(true);
       const response = await getWithdrawTokenList();
-      console.warn(
-        "🚀 ~ getBalance getWithdrawTokenList ~ response:",
-        response
-      );
+      console.warn("🚀 ~ getBalance getWithdrawTokenList ~ response:", response);
       setSendInternalTokens(response?.supported_tokens);
       setIsLoadingSendInternalToken(false);
     } catch (error) {

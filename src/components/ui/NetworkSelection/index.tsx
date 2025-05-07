@@ -25,9 +25,7 @@ const NetworkSelection = (props: NetworkSelectionProps) => {
       {...rest}
       sx={{
         ...theme.mixins.row,
-        backgroundColor: props.active
-          ? "background.secondary16"
-          : "background.white16",
+        backgroundColor: props.active ? "background.secondary16" : "background.white16",
         padding: `${theme.mixins.customPadding.p16} ${theme.mixins.customPadding.p8}`,
         borderRadius: theme.mixins.customRadius.r12,
         border: "1px solid",
@@ -36,11 +34,7 @@ const NetworkSelection = (props: NetworkSelectionProps) => {
       }}
       onClick={() => onClick?.(networkData)}
     >
-      <Icon
-        src={networkData?.icon}
-        sx={{ borderRadius: theme.mixins.customRadius.full }}
-        width={24}
-      />
+      <Icon src={networkData?.icon} sx={{ borderRadius: theme.mixins.customRadius.full }} width={24} />
       <Text
         sx={{
           ...theme.mixins.value,

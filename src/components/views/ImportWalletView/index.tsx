@@ -1,13 +1,9 @@
 "use client";
 import { GeneralProps } from "../../../types/ui";
 import DefaultPageLayout from "../../../components/layouts/DefaultPageLayout";
-import SwiperControlled, {
-  SwiperControlledRef,
-} from "../../../components/ui/SwiperControlled";
+import SwiperControlled, { SwiperControlledRef } from "../../../components/ui/SwiperControlled";
 import { SwiperSlide } from "swiper/react";
-import ChildPageLayout, {
-  ChildPageLayoutRef,
-} from "../../../components/layouts/ChildPageLayout";
+import ChildPageLayout, { ChildPageLayoutRef } from "../../../components/layouts/ChildPageLayout";
 import PageHeader from "../../../components/ui/PageHeader";
 import { useRef, useState } from "react";
 import Text from "../../../components/ui/Text";
@@ -29,9 +25,7 @@ const ImportWalletView = (props: ImportWalletViewProps) => {
   const swiperControlledRef = useRef<SwiperControlledRef>(null);
   const childPageLayoutRef = useRef<ChildPageLayoutRef>(null);
   const { importWallet } = useWalletData();
-  const handleChangeSeedPhrase = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const handleChangeSeedPhrase = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSeedPhrase(event.target.value);
   };
 
@@ -62,12 +56,7 @@ const ImportWalletView = (props: ImportWalletViewProps) => {
   return (
     <ChildPageLayout
       ref={childPageLayoutRef}
-      header={
-        <PageHeader
-          overrideBack={props.onBack}
-          title="Import wallet"
-        ></PageHeader>
-      }
+      header={<PageHeader overrideBack={props.onBack} title="Import wallet"></PageHeader>}
     >
       <DefaultPageLayout
         sx={{
@@ -132,13 +121,10 @@ const ImportWalletView = (props: ImportWalletViewProps) => {
                   ...theme.mixins.sessionDescription,
                 }}
               >
-                Your seed phrase is a list of words that are used to create your
-                wallet. It is important to keep it safe and private.
+                Your seed phrase is a list of words that are used to create your wallet. It is important to keep it safe
+                and private.
               </Text>
-              <Button.Primary
-                sx={{ width: "100% !important", marginTop: "auto" }}
-                onClick={handleImportWallet}
-              >
+              <Button.Primary sx={{ width: "100% !important", marginTop: "auto" }} onClick={handleImportWallet}>
                 Import
               </Button.Primary>
             </Box>

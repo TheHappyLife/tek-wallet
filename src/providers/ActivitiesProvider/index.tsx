@@ -4,10 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import useWalletData from "../../hooks/useWalletData";
 import { Activities, ActivitiesProviderDataType, ActivityTypes } from "./type";
 import getActivitiesServices from "../../services/axios/get-activities-service";
-import {
-  GetActivitiesServiceQuery,
-  TransactionSlug,
-} from "../../services/axios/get-activities-service/type";
+import { GetActivitiesServiceQuery, TransactionSlug } from "../../services/axios/get-activities-service/type";
 import { ACTIVITIES_PAGE_SIZE, ACTIVITIES_TYPE_ALL } from "./const";
 export const initialActivities: ActivitiesProviderDataType = {
   isLoadingActivities: {},
@@ -18,19 +15,12 @@ export const initialActivities: ActivitiesProviderDataType = {
   gotoPage: () => {},
 };
 
-export const ActivitiesContext =
-  React.createContext<ActivitiesProviderDataType>(initialActivities);
+export const ActivitiesContext = React.createContext<ActivitiesProviderDataType>(initialActivities);
 function ActivitiesProvider({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useWalletData();
-  const [isLoadingActivities, setIsLoadingActivities] = useState<
-    Partial<Record<TransactionSlug, boolean>>
-  >({});
-  const [activities, setActivities] = React.useState<Activities | undefined>(
-    undefined
-  );
-  const [activityTypes, setActivityTypes] = React.useState<
-    ActivityTypes[] | undefined
-  >(undefined);
+  const [isLoadingActivities, setIsLoadingActivities] = useState<Partial<Record<TransactionSlug, boolean>>>({});
+  const [activities, setActivities] = React.useState<Activities | undefined>(undefined);
+  const [activityTypes, setActivityTypes] = React.useState<ActivityTypes[] | undefined>(undefined);
 
   const [page, setPage] = useState<number>(1);
 
@@ -51,17 +41,11 @@ function ActivitiesProvider({ children }: { children: React.ReactNode }) {
         }));
         const response = await getActivitiesServices(query);
         console.warn("🚀 ~ getBalance ~ response:", response);
-        setActivityTypes([
-          ACTIVITIES_TYPE_ALL,
-          ...(response?.data?.transaction_types ?? []),
-        ]);
+        setActivityTypes([ACTIVITIES_TYPE_ALL, ...(response?.data?.transaction_types ?? [])]);
         setActivities((prev) => {
           return {
             ...(prev ?? {}),
-            [slug]: [
-              ...(prev?.[slug] ?? []),
-              ...(response?.data?.transactions ?? []),
-            ],
+            [slug]: [...(prev?.[slug] ?? []), ...(response?.data?.transactions ?? [])],
           };
         });
         setIsLoadingActivities((prev) => ({

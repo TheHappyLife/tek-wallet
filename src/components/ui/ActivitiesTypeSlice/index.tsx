@@ -37,13 +37,7 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
   }, [type, activitiesByType]);
 
   useEffect(() => {
-    if (
-      !isActive ||
-      !type?.slug ||
-      !!activitiesByType ||
-      isLoadingActivities[type.slug]
-    )
-      return;
+    if (!isActive || !type?.slug || !!activitiesByType || isLoadingActivities[type.slug]) return;
     updateActivities({
       transaction_types: type.slug,
       page: 1,

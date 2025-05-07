@@ -5,34 +5,24 @@ import { NotificationType, RealtimeProviderDataType } from "./type";
 import { AblyService } from "../../services/ably/ably.service";
 import { Alert, Grow, GrowProps, Snackbar, useTheme } from "@mui/material";
 import { SnackbarProvider } from "notistack";
+import { Transaction } from "../../services/axios/get-activities-service/type";
 
-import Slide, { SlideProps } from "@mui/material/Slide";
 export const initialRealtime: RealtimeProviderDataType = {
   transaction: undefined,
   isConnected: false,
   pushNotification: () => {},
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function SlideTransition(props: SlideProps) {
-  return <Slide {...props} direction="down" />;
-}
-
 function GrowTransition(props: GrowProps) {
   return <Grow {...props} />;
 }
 
-export const RealtimeContext =
-  React.createContext<RealtimeProviderDataType>(initialRealtime);
+export const RealtimeContext = React.createContext<RealtimeProviderDataType>(initialRealtime);
 function RealtimeProvider({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const { masterWallet } = useWalletData();
-  const [isConnected, setIsConnected] = useState<
-    RealtimeProviderDataType["isConnected"]
-  >(initialRealtime.isConnected);
-  const [transaction, setTransaction] = useState<
-    RealtimeProviderDataType["transaction"]
-  >(initialRealtime.transaction);
+  const [isConnected, setIsConnected] = useState<RealtimeProviderDataType["isConnected"]>(initialRealtime.isConnected);
+  const [transaction, setTransaction] = useState<RealtimeProviderDataType["transaction"]>(initialRealtime.transaction);
 
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
 
@@ -48,8 +38,13 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
       ablyService.listenMessage(masterWallet, (message) => {
         // eslint-disable-next-line no-console
         console.log("🚀 ~ ablyService.listenMessage ~ message:", message);
+        const eventData = message.data as Transaction;
         setIsConnected(true);
-        setTransaction(message);
+        setTransaction(eventData);
+        const theMessage = eventHandler(eventData);
+        if (theMessage) {
+          pushNotification(theMessage);
+        }
       });
     } catch (error) {
       console.error("🚀 ~ TEK-WALLET: Error connecting to realtime", error);
@@ -57,9 +52,7 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
   }, [masterWallet]);
 
   const closeNotification = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, open: false } : n))
-    );
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, open: false } : n)));
   };
 
   return (
@@ -95,6 +88,9 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
                 mx: "auto",
                 padding: `${theme.mixins.customPadding.p0} ${theme.mixins.customPadding.p12}`,
                 fontSize: theme.typography.fontSize14,
+                "& .MuiAlert-message": {
+                  padding: `${theme.mixins.customPadding.p6} ${theme.mixins.customPadding.p0}`,
+                },
               }}
             >
               {notification.message}
@@ -107,3 +103,34 @@ function RealtimeProvider({ children }: { children: React.ReactNode }) {
 }
 
 export default RealtimeProvider;
+
+const eventHandler = (messageEvent: Transaction): NotificationType | null => {
+  if (!messageEvent) return null;
+  const type = messageEvent.transaction_type;
+  const amount = messageEvent.amount;
+  const currency = messageEvent.currency_slug;
+  const status = messageEvent.transaction_status;
+  const transactionId = messageEvent.id;
+
+  let notificationType: NotificationType["type"] = "success";
+
+  switch (status) {
+    case "processing":
+      notificationType = "info";
+      break;
+    case "failed":
+      notificationType = "error";
+      break;
+    case "success":
+      notificationType = "success";
+      break;
+    default:
+      notificationType = "info";
+  }
+
+  return {
+    message: `${type} ${amount} ${currency} is ${status}`,
+    type: notificationType,
+    id: `${transactionId}-${status}`,
+  };
+};

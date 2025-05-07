@@ -36,22 +36,15 @@ export const initialWalletData: WalletProviderDataType = {
   getSeedPhrase: () => Promise.resolve({} as GetSeedPhraseServiceResponse),
 };
 
-export const WalletDataContext =
-  React.createContext<WalletProviderDataType>(initialWalletData);
+export const WalletDataContext = React.createContext<WalletProviderDataType>(initialWalletData);
 function WalletDataProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
-  const [session, setSession] = React.useState<LoginInfoResponse | undefined>(
-    undefined
-  );
+  const [session, setSession] = React.useState<LoginInfoResponse | undefined>(undefined);
   const [isAuthLoading, setIsAuthLoading] = React.useState<boolean>(false);
   const [isTokensLoading, setIsTokensLoading] = React.useState<boolean>(false);
   const [tokens, setTokens] = React.useState<Balance[] | undefined>(undefined);
-  const [masterWallet, setMasterWallet] = React.useState<string | undefined>(
-    undefined
-  );
-  const [blockchainWallets, setBlockchainWallets] = React.useState<
-    BlockchainWalletType[] | undefined
-  >(undefined);
+  const [masterWallet, setMasterWallet] = React.useState<string | undefined>(undefined);
+  const [blockchainWallets, setBlockchainWallets] = React.useState<BlockchainWalletType[] | undefined>(undefined);
 
   const timeout = React.useRef<NodeJS.Timeout | undefined>(undefined);
 

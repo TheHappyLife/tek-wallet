@@ -1,20 +1,10 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionProps,
-  AccordionSummary,
-  Box,
-  useTheme,
-} from "@mui/material";
+import { Accordion, AccordionDetails, AccordionProps, AccordionSummary, Box, useTheme } from "@mui/material";
 import Icon from "../Icon";
 import getIcon from "../../../utils/getIcon";
 import Text from "../Text";
 import Formatter from "../Formatter";
 import { Fragment } from "react/jsx-runtime";
-import {
-  FeeDetailType,
-  FeesDataType,
-} from "../../../services/axios/get-est-fee-service/type";
+import { FeeDetailType, FeesDataType } from "../../../services/axios/get-est-fee-service/type";
 import parsePropsData from "../../../utils/parsePropsData";
 import useWalletData from "../../../hooks/useWalletData";
 import { useMemo } from "react";
@@ -36,9 +26,7 @@ function Fees(props: FeesProps) {
     const result: FeeDetailType[] = [];
 
     feesData?.feeDetail?.forEach((fee) => {
-      const index = result?.findIndex(
-        (feeDetail) => feeDetail.currency?.slug === fee?.currency?.slug
-      );
+      const index = result?.findIndex((feeDetail) => feeDetail.currency?.slug === fee?.currency?.slug);
       if (index === -1) {
         result.push(fee);
       } else {
@@ -47,25 +35,14 @@ function Fees(props: FeesProps) {
         result[index].feeInCurrency += fee.feeInCurrency;
         result[index].feeInUSD += fee.feeInUSD;
         result[index].feePercent += fee.feePercent;
-        result[index].feePercentInCurrency =
-          (result[index].feeInCurrency ?? 0) + amount * (fee.feePercent / 100);
-        result[index].feePercentInUSD =
-          (result[index].feeInUSD ?? 0) +
-          amount * (fee.feePercent / 100) * rate;
-        const totalFeeInCurrency =
-          (result[index].feeInCurrency ?? 0) +
-          (result[index].feePercentInCurrency ?? 0);
-        const token = tokens?.find(
-          (token) => token.currency_slug === fee?.currency?.slug
-        );
-        result[index].isEnoughBalanceToPay =
-          +(token?.current_value ?? 0) >= totalFeeInCurrency;
+        result[index].feePercentInCurrency = (result[index].feeInCurrency ?? 0) + amount * (fee.feePercent / 100);
+        result[index].feePercentInUSD = (result[index].feeInUSD ?? 0) + amount * (fee.feePercent / 100) * rate;
+        const totalFeeInCurrency = (result[index].feeInCurrency ?? 0) + (result[index].feePercentInCurrency ?? 0);
+        const token = tokens?.find((token) => token.currency_slug === fee?.currency?.slug);
+        result[index].isEnoughBalanceToPay = +(token?.current_value ?? 0) >= totalFeeInCurrency;
       }
     });
-    console.warn(
-      "🚀 ~ consttokensFee:FeeDetailType[]=useMemo ~ result:",
-      result
-    );
+    console.warn("🚀 ~ consttokensFee:FeeDetailType[]=useMemo ~ result:", result);
 
     return result;
   }, [tokens, feesData?.feeDetail, amount]);
@@ -73,9 +50,7 @@ function Fees(props: FeesProps) {
   const feeCheckedBalance: FeeDetailType[] = useMemo(() => {
     return (
       feesData?.feeDetail?.map((fee) => {
-        const theFee = tokensFee?.find(
-          (feeDetail) => feeDetail.currency?.slug === fee?.currency?.slug
-        );
+        const theFee = tokensFee?.find((feeDetail) => feeDetail.currency?.slug === fee?.currency?.slug);
 
         return {
           ...fee,
@@ -89,10 +64,7 @@ function Fees(props: FeesProps) {
   }, [feeCheckedBalance]);
 
   const totalFeeInUSD = useMemo(() => {
-    return tokensFee?.reduce(
-      (acc, fee) => acc + (fee.feeInUSD ?? 0) + (fee.feePercentInUSD ?? 0),
-      0
-    );
+    return tokensFee?.reduce((acc, fee) => acc + (fee.feeInUSD ?? 0) + (fee.feePercentInUSD ?? 0), 0);
   }, [tokensFee]);
 
   return (
@@ -127,9 +99,7 @@ function Fees(props: FeesProps) {
         ...sx,
       }}
     >
-      <AccordionSummary
-        expandIcon={<Icon src={getIcon("arrow_down")} width={20} />}
-      >
+      <AccordionSummary expandIcon={<Icon src={getIcon("arrow_down")} width={20} />}>
         <Box sx={{ ...theme.mixins.row, width: "100%" }}>
           <Text sx={{ ...theme.mixins.fieldTitle }}>Total fees</Text>
           <Text sx={{ ...theme.mixins.value, ml: "auto" }}>
@@ -221,9 +191,7 @@ const FeeDetail = ({
   return (
     <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
       <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g4 }}>
-        <Text sx={{ ...theme.mixins.fieldTitle, whiteSpace: "nowrap" }}>
-          {feeName}
-        </Text>
+        <Text sx={{ ...theme.mixins.fieldTitle, whiteSpace: "nowrap" }}>{feeName}</Text>
       </Box>
       <Box
         sx={{

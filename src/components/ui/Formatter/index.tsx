@@ -119,33 +119,25 @@ const Formatter: React.FC<FormatterProps> = ({
                 <span className="font-primary">
                   {"0.0"}
                   <sub>{lengthFromDot}</sub>
-                  {formattedNumber.slice(
-                    2 + lengthFromDot,
-                    lengthValueAllowed - 2 + lengthFromDot
-                  )}
+                  {formattedNumber.slice(2 + lengthFromDot, lengthValueAllowed - 2 + lengthFromDot)}
                 </span>
               ) : (
                 <span className="font-primary">
                   {lessThan
                     ? "0.01"
                     : formatter(
-                        isLessThan
-                          ? Number(numberDisplay).toFixed(2)
-                          : numberDisplay,
+                        isLessThan ? Number(numberDisplay).toFixed(2) : numberDisplay,
                         useCompact,
                         useCompactOnThousand,
                         lengthValueAllowed
                       )}
                 </span>
               )}
-              {!hideUnit &&
-                !!unitDisplay &&
-                !noUnitSpacing &&
-                !(numberDisplay === 0) && (
-                  <Box component="span" style={unitStyle} onClick={onClickUnit}>
-                    {unitDisplay}
-                  </Box>
-                )}
+              {!hideUnit && !!unitDisplay && !noUnitSpacing && !(numberDisplay === 0) && (
+                <Box component="span" style={unitStyle} onClick={onClickUnit}>
+                  {unitDisplay}
+                </Box>
+              )}
             </>
           )}
         </Box>

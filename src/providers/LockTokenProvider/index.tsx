@@ -10,14 +10,11 @@ export const initialLockTokens: LockTokensProviderDataType = {
   updateLockToken: () => {},
 };
 
-export const LockTokensContext =
-  React.createContext<LockTokensProviderDataType>(initialLockTokens);
+export const LockTokensContext = React.createContext<LockTokensProviderDataType>(initialLockTokens);
 function LockTokensProvider({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useWalletData();
   const [isLoadingLockToken, setIsLoadingLockToken] = useState<boolean>(true);
-  const [lockTokens, setLockTokens] = React.useState<
-    LockCurrency[] | undefined
-  >(undefined);
+  const [lockTokens, setLockTokens] = React.useState<LockCurrency[] | undefined>(undefined);
 
   const updateLockToken = useCallback(async () => {
     try {

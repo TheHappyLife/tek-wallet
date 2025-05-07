@@ -1,11 +1,4 @@
-import {
-  Box,
-  TextField,
-  useTheme,
-  TextFieldProps,
-  BoxProps,
-  SxProps,
-} from "@mui/material";
+import { Box, TextField, useTheme, TextFieldProps, BoxProps, SxProps } from "@mui/material";
 import { forwardRef } from "react";
 interface InputProps extends BoxProps {
   inputRest?: TextFieldProps;

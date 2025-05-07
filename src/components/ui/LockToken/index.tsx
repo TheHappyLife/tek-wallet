@@ -8,14 +8,7 @@ import { LockData } from "./type";
 import LineValue from "../LineValue";
 import Formatter from "../Formatter";
 import ConfirmByPasscode from "../ConfirmByPasscode";
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react";
 import useLockTokenData from "../../../hooks/useLockTokenData";
 import Text from "../Text";
 import { LockCurrency } from "../../../services/axios/get-lock-tokens-list-service/type";
@@ -48,24 +41,13 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
   const confirmLayoutDrawerRef = useRef<DrawerComponentRef>(null);
   const [token, setToken] = useState<LockCurrency | undefined>(undefined);
   const [error, setError] = useState<LockTokenError | undefined>(undefined);
-  const [errorAmount, setErrorAmount] = useState<string | number | undefined>(
-    undefined
-  );
-  const [buttonStatus, setButtonStatus] = useState<BUTTON_STATUS>(
-    BUTTON_STATUS.ENABLED
-  );
+  const [errorAmount, setErrorAmount] = useState<string | number | undefined>(undefined);
+  const [buttonStatus, setButtonStatus] = useState<BUTTON_STATUS>(BUTTON_STATUS.ENABLED);
 
   const validateAmount = useCallback(
     (lockData: LockData) => {
-      const token = lockTokens?.find(
-        (token) => token.slug === lockData.tokenSlug
-      );
-      console.warn(
-        "🚀 ~ validateAmount ~ lockData:",
-        lockData,
-        lockTokens,
-        token
-      );
+      const token = lockTokens?.find((token) => token.slug === lockData.tokenSlug);
+      console.warn("🚀 ~ validateAmount ~ lockData:", lockData, lockTokens, token);
       setToken(token);
       if (!token) {
         setError(LockTokenError.TOKEN_NOT_FOUND);
@@ -142,23 +124,14 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
 
   return (
     <RequireConnect>
-      <ConfirmLayout
-        ref={confirmLayoutDrawerRef}
-        action={ActionConfirm.LOCK}
-        trigger={props.children}
-      >
+      <ConfirmLayout ref={confirmLayoutDrawerRef} action={ActionConfirm.LOCK} trigger={props.children}>
         <Box sx={{ ...theme.mixins.column, gap: theme.mixins.gaps.g12 }}>
           <Box
             sx={{
               ...theme.mixins.paper,
             }}
           >
-            <LineValue
-              field="Amount"
-              value={
-                <Formatter value={props.lockData.amount} unit={token?.name} />
-              }
-            />
+            <LineValue field="Amount" value={<Formatter value={props.lockData.amount} unit={token?.name} />} />
           </Box>
           <Text
             sx={{
@@ -182,20 +155,11 @@ const LockToken = forwardRef<LockTokenRef, LockTokenProps>((props, ref) => {
                 mt: theme.mixins.gaps.g6,
               }}
             >
-              {error}{" "}
-              {!!errorAmount && (
-                <Formatter value={errorAmount} unit={` ${token?.name}`} />
-              )}
+              {error} {!!errorAmount && <Formatter value={errorAmount} unit={` ${token?.name}`} />}
             </Text>
           )}
-          <ConfirmByPasscode
-            action={ActionConfirm.LOCK}
-            onConfirmSuccess={handleLockToken}
-          >
-            <Button.Primary
-              status={!!error ? BUTTON_STATUS.DISABLED : buttonStatus}
-              sx={{ width: "100%" }}
-            >
+          <ConfirmByPasscode action={ActionConfirm.LOCK} onConfirmSuccess={handleLockToken}>
+            <Button.Primary status={!!error ? BUTTON_STATUS.DISABLED : buttonStatus} sx={{ width: "100%" }}>
               Confirm
             </Button.Primary>
           </ConfirmByPasscode>

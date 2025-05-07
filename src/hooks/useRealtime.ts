@@ -1,8 +1,5 @@
 import { useContext } from "react";
-import {
-  initialRealtime,
-  RealtimeContext,
-} from "../providers/RealtimeProvider";
+import { initialRealtime, RealtimeContext } from "../providers/RealtimeProvider";
 import { RealtimeProviderDataType } from "../providers/RealtimeProvider/type";
 function useRealtime(): RealtimeProviderDataType {
   try {

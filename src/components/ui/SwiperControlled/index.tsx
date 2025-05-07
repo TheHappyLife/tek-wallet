@@ -19,84 +19,82 @@ export interface SwiperControlledRef {
   update: () => void;
 }
 
-const SwiperControlled = forwardRef<SwiperControlledRef, SwiperControlledProps>(
-  (props, ref) => {
-    const [activeTab, setActiveTab] = useState(props.initialActiveTab || 0);
-    const swiperRef = useRef<SwiperRef>(null);
-    const slideTo = (index: number) => {
-      setActiveTab(index);
-      swiperRef.current?.swiper?.slideTo(index);
-    };
-    const next = () => {
-      swiperRef.current?.swiper?.slideNext();
-    };
-    const prev = () => {
-      swiperRef.current?.swiper?.slidePrev();
-    };
-    const update = () => {
-      swiperRef.current?.swiper?.update();
-    };
-    useImperativeHandle(ref, () => ({
-      slideTo,
-      next,
-      prev,
-      update,
-    }));
-    const handleSlideChange = (swiper: SwiperType) => {
-      setActiveTab(swiper.activeIndex);
-    };
-    const handleTabChange = (event: React.SyntheticEvent, value: number) => {
-      setActiveTab(value);
-      swiperRef.current?.swiper?.slideTo(value);
-    };
+const SwiperControlled = forwardRef<SwiperControlledRef, SwiperControlledProps>((props, ref) => {
+  const [activeTab, setActiveTab] = useState(props.initialActiveTab || 0);
+  const swiperRef = useRef<SwiperRef>(null);
+  const slideTo = (index: number) => {
+    setActiveTab(index);
+    swiperRef.current?.swiper?.slideTo(index);
+  };
+  const next = () => {
+    swiperRef.current?.swiper?.slideNext();
+  };
+  const prev = () => {
+    swiperRef.current?.swiper?.slidePrev();
+  };
+  const update = () => {
+    swiperRef.current?.swiper?.update();
+  };
+  useImperativeHandle(ref, () => ({
+    slideTo,
+    next,
+    prev,
+    update,
+  }));
+  const handleSlideChange = (swiper: SwiperType) => {
+    setActiveTab(swiper.activeIndex);
+  };
+  const handleTabChange = (event: React.SyntheticEvent, value: number) => {
+    setActiveTab(value);
+    swiperRef.current?.swiper?.slideTo(value);
+  };
 
-    return (
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          ...props.sx,
-        }}
-      >
-        {props.tabs && (
-          <Box
+  return (
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        ...props.sx,
+      }}
+    >
+      {props.tabs && (
+        <Box
+          sx={{
+            maxWidth: "100%",
+          }}
+        >
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            variant="scrollable"
+            scrollButtons="auto"
             sx={{
-              maxWidth: "100%",
+              minHeight: "unset",
+              ...props.tabsSx,
             }}
           >
-            <Tabs
-              value={activeTab}
-              onChange={handleTabChange}
-              variant="scrollable"
-              scrollButtons="auto"
-              sx={{
-                minHeight: "unset",
-                ...props.tabsSx,
-              }}
-            >
-              {...props.tabs}
-            </Tabs>
-          </Box>
-        )}
-        <Swiper
-          {...props.swiperProps}
-          onSlideChange={handleSlideChange}
-          ref={swiperRef}
-          initialSlide={activeTab}
-          style={{
-            width: "100%",
-            // flex: 1,
-            ...props.swiperStyle,
-          }}
-          allowTouchMove={!props.disableSwipe}
-        >
-          {props.children}
-        </Swiper>
-      </Box>
-    );
-  }
-);
+            {...props.tabs}
+          </Tabs>
+        </Box>
+      )}
+      <Swiper
+        {...props.swiperProps}
+        onSlideChange={handleSlideChange}
+        ref={swiperRef}
+        initialSlide={activeTab}
+        style={{
+          width: "100%",
+          // flex: 1,
+          ...props.swiperStyle,
+        }}
+        allowTouchMove={!props.disableSwipe}
+      >
+        {props.children}
+      </Swiper>
+    </Box>
+  );
+});
 
 SwiperControlled.displayName = "SwiperControlled";
 

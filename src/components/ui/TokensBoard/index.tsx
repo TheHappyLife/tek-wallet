@@ -31,13 +31,8 @@ const TokensBoard = () => {
             ml: "auto",
           }}
         >
-          <Text sx={{ ...theme.mixins.valueDescription }}>
-            Hide small assets
-          </Text>
-          <CheckBoxComponent
-            sx={{ width: "1.5rem", height: "1.5rem" }}
-            color="primary"
-          />
+          <Text sx={{ ...theme.mixins.valueDescription }}>Hide small assets</Text>
+          <CheckBoxComponent sx={{ width: "1.5rem", height: "1.5rem" }} color="primary" />
         </Box>
       </Box>
       <Divider />

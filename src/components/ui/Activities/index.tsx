@@ -1,10 +1,7 @@
 "use client";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { GeneralProps, UnknownFunction } from "../../../types/ui";
-import DrawerComponent, {
-  DRAWER_DIRECTION,
-  DrawerComponentRef,
-} from "../DrawerComponent";
+import DrawerComponent, { DRAWER_DIRECTION, DrawerComponentRef } from "../DrawerComponent";
 import RequireConnect from "../RequireConnect";
 import DefaultPageLayout from "../../layouts/DefaultPageLayout";
 import ChildPageLayout from "../../layouts/ChildPageLayout";
@@ -59,14 +56,7 @@ const Activities = forwardRef<ActivitiesRef, ActivitiesProps>((props, ref) => {
         onOpen={props.onOpen}
         onClose={handleOnClose}
       >
-        <ChildPageLayout
-          header={
-            <PageHeader
-              title="Activities"
-              overrideBack={handleBack}
-            ></PageHeader>
-          }
-        >
+        <ChildPageLayout header={<PageHeader title="Activities" overrideBack={handleBack}></PageHeader>}>
           <DefaultPageLayout sx={{ height: "100%" }}>
             <SwiperControlled
               swiperProps={{

@@ -253,9 +253,7 @@ export function getLocaleInLocal(): {
   formatInDateFns: Format;
 } {
   const localeFromLocal = localStorage?.getItem("locale") as BCP47LanguageTag;
-  const bcp47locale: BCP47LanguageTag = Object.keys(supportedLocales)?.includes(
-    localeFromLocal
-  )
+  const bcp47locale: BCP47LanguageTag = Object.keys(supportedLocales)?.includes(localeFromLocal)
     ? localeFromLocal
     : "en-US";
 

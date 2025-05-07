@@ -1,9 +1,6 @@
 import { GetConfigTokenListQuery } from "../get-config-tokens-list-service";
 import { Paginated, NetworkData } from "../type";
-export type GetWithdrawTokenListQuery = Omit<
-  GetConfigTokenListQuery,
-  "transactionType"
->;
+export type GetWithdrawTokenListQuery = Omit<GetConfigTokenListQuery, "transactionType">;
 export interface WithdrawCurrency {
   id: number;
   status: string;

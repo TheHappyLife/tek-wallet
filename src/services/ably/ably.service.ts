@@ -21,19 +21,13 @@ export class AblyService {
     return this.ably;
   }
 
-  async listenMessage(
-    walletAddress: string,
-    onMessage: (message: Message) => void
-  ) {
+  async listenMessage(walletAddress: string, onMessage: (message: Message) => void) {
     try {
       const channel = this.ably.channels.get(walletAddress);
 
-      await channel.subscribe(
-        ABLY_CHANNELS_NAME.TRANSACTION,
-        (message: Message) => {
-          onMessage(message);
-        }
-      );
+      await channel.subscribe(ABLY_CHANNELS_NAME.TRANSACTION, (message: Message) => {
+        onMessage(message);
+      });
 
       // await this.cleanup(walletAddress);
     } catch (error) {
@@ -50,11 +44,7 @@ export class AblyService {
     return this.ably.channels.get(channel).publish(message);
   }
 
-  async subscribe(
-    channel: string,
-    event: string,
-    callback: (message: any) => void
-  ) {
+  async subscribe(channel: string, event: string, callback: (message: any) => void) {
     await this.ably.channels.get(channel).subscribe(event, callback);
   }
 

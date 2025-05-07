@@ -14,10 +14,7 @@ interface TokenItemProps {
 
 const TokenItem = (props: TokenItemProps) => {
   const theme = useTheme();
-  const tokenData = useMemo(
-    () => JSON.parse(props.tokenData) as Balance,
-    [props.tokenData]
-  );
+  const tokenData = useMemo(() => JSON.parse(props.tokenData) as Balance, [props.tokenData]);
 
   const currency = useMemo(() => tokenData.currency, [tokenData]);
 
@@ -50,9 +47,7 @@ const TokenItem = (props: TokenItemProps) => {
           }}
         >
           <Text sx={{ ...theme.mixins.value }}>{currency.name}</Text>
-          <Text sx={{ ...theme.mixins.valueDescription }}>
-            {currency.full_name}
-          </Text>
+          <Text sx={{ ...theme.mixins.valueDescription }}>{currency.full_name}</Text>
         </Box>
       </Box>
       <Box

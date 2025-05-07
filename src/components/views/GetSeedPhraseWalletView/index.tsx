@@ -1,13 +1,9 @@
 "use client";
 import { GeneralProps } from "../../../types/ui";
 import DefaultPageLayout from "../../../components/layouts/DefaultPageLayout";
-import SwiperControlled, {
-  SwiperControlledRef,
-} from "../../../components/ui/SwiperControlled";
+import SwiperControlled, { SwiperControlledRef } from "../../../components/ui/SwiperControlled";
 import { SwiperSlide } from "swiper/react";
-import ChildPageLayout, {
-  ChildPageLayoutRef,
-} from "../../../components/layouts/ChildPageLayout";
+import ChildPageLayout, { ChildPageLayoutRef } from "../../../components/layouts/ChildPageLayout";
 import PageHeader from "../../../components/ui/PageHeader";
 import OTP, { OtpInputType } from "../../../components/ui/OTP";
 import { useRef, useState } from "react";
@@ -36,9 +32,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
   const [seedPhrase, setSeedPhrase] = useState<string | undefined>(undefined);
   const swiperControlledRef = useRef<SwiperControlledRef>(null);
   const childPageLayoutRef = useRef<ChildPageLayoutRef>(null);
-  const [currentStep, setCurrentStep] = useState(
-    GetSeedPhraseWalletViewStep.ENTER_PASSCODE
-  );
+  const [currentStep, setCurrentStep] = useState(GetSeedPhraseWalletViewStep.ENTER_PASSCODE);
   const { getSeedPhrase } = useWalletData();
   const gotoStep = (step: GetSeedPhraseWalletViewStep) => {
     setCurrentStep(step);
@@ -112,12 +106,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
   return (
     <ChildPageLayout
       ref={childPageLayoutRef}
-      header={
-        <PageHeader
-          overrideBack={handleBack}
-          title="Backup Wallet"
-        ></PageHeader>
-      }
+      header={<PageHeader overrideBack={handleBack} title="Backup Wallet"></PageHeader>}
     >
       <DefaultPageLayout
         sx={{
@@ -202,17 +191,14 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
                       lineHeight: theme.typography.leading100,
                     }}
                   >
-                    {index + 1}. <span> </span>{" "}
-                    {isShowSeedPhrase ? word : "********"}
+                    {index + 1}. <span> </span> {isShowSeedPhrase ? word : "********"}
                   </Text>
                 ))}
               </Box>
               <Text sx={{ marginTop: "auto", ...theme.mixins.noteContent }}>
-                Please do not store your seed phrase digitally (e.g., text files
-                on your computer, email...). Write it down and keep it in a
-                secure, confidential location that is resistant to adverse
-                conditions like moisture, fire, or other hazards for safe
-                storage.
+                Please do not store your seed phrase digitally (e.g., text files on your computer, email...). Write it
+                down and keep it in a secure, confidential location that is resistant to adverse conditions like
+                moisture, fire, or other hazards for safe storage.
               </Text>
               <Box
                 sx={{
@@ -223,9 +209,7 @@ const GetSeedPhraseWalletView = (props: GetSeedPhraseWalletViewProps) => {
                 }}
               >
                 <Icon
-                  src={getIcon(
-                    isShowSeedPhrase ? "show_seed_phrase" : "hide_seed_phrase"
-                  )}
+                  src={getIcon(isShowSeedPhrase ? "show_seed_phrase" : "hide_seed_phrase")}
                   width={24}
                   onClick={toggleShowSeedPhrase}
                   sx={{

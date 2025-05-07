@@ -1,8 +1,5 @@
 "use client";
-import DrawerComponent, {
-  DRAWER_DIRECTION,
-  DrawerComponentRef,
-} from "../DrawerComponent";
+import DrawerComponent, { DRAWER_DIRECTION, DrawerComponentRef } from "../DrawerComponent";
 import AuthView from "../../../components/views/AuthView";
 import { GeneralProps } from "../../../types/ui";
 import useWalletData from "../../../hooks/useWalletData";
@@ -29,16 +26,9 @@ function RequireConnect({ children }: RequireConnectProps) {
       <>
         <Box sx={{ position: "relative" }}>
           {children}
-          <Box
-            sx={{ position: "absolute", inset: 0, zIndex: 10 }}
-            onClick={handleOpenAuthView}
-          ></Box>
+          <Box sx={{ position: "absolute", inset: 0, zIndex: 10 }} onClick={handleOpenAuthView}></Box>
         </Box>
-        <DrawerComponent
-          ref={authViewRef}
-          direction={DRAWER_DIRECTION.RIGHT}
-          onClick={stopPropagation}
-        >
+        <DrawerComponent ref={authViewRef} direction={DRAWER_DIRECTION.RIGHT} onClick={stopPropagation}>
           <AuthView onBack={backAuthView} />
         </DrawerComponent>
       </>

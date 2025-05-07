@@ -4,10 +4,7 @@ import DefaultPageLayout from "../../../components/layouts/DefaultPageLayout";
 import Image from "../../../components/ui/Image";
 import Button from "../../../components/ui/Button";
 import Text from "../../../components/ui/Text";
-import DrawerComponent, {
-  DRAWER_DIRECTION,
-  DrawerComponentRef,
-} from "../../../components/ui/DrawerComponent";
+import DrawerComponent, { DRAWER_DIRECTION, DrawerComponentRef } from "../../../components/ui/DrawerComponent";
 import CreateWalletView from "../CreateWalletView";
 import { useRef } from "react";
 import ImportWalletView from "../ImportWalletView";
@@ -32,14 +29,7 @@ const AuthView = (props: AuthViewProps) => {
   };
 
   return (
-    <ChildPageLayout
-      header={
-        <PageHeader
-          title="Connect Wallet"
-          overrideBack={props.onBack}
-        ></PageHeader>
-      }
-    >
+    <ChildPageLayout header={<PageHeader title="Connect Wallet" overrideBack={props.onBack}></PageHeader>}>
       <DefaultPageLayout
         sx={{
           display: "flex",
@@ -70,22 +60,14 @@ const AuthView = (props: AuthViewProps) => {
               width: "100%",
             }}
             ref={createWalletDrawerRef}
-            trigger={
-              <Button.Primary sx={{ width: "100%" }}>
-                Create a new wallet
-              </Button.Primary>
-            }
+            trigger={<Button.Primary sx={{ width: "100%" }}>Create a new wallet</Button.Primary>}
             direction={DRAWER_DIRECTION.RIGHT}
           >
             <CreateWalletView onBack={onBackCreateWallet} />
           </DrawerComponent>
           <DrawerComponent
             ref={importWalletDrawerRef}
-            trigger={
-              <Button.Secondary sx={{ width: "100%" }}>
-                I have a wallet
-              </Button.Secondary>
-            }
+            trigger={<Button.Secondary sx={{ width: "100%" }}>I have a wallet</Button.Secondary>}
             direction={DRAWER_DIRECTION.RIGHT}
           >
             <ImportWalletView onBack={onBackImportWallet} />
@@ -96,10 +78,9 @@ const AuthView = (props: AuthViewProps) => {
               ...theme.mixins.sessionDescription,
             }}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
-            eos odio. Accusamus ea praesentium unde deserunt delectus, nihil
-            corporis, mollitia ipsum impedit cupiditate eveniet vero esse
-            facilis, incidunt in sequi?
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, eos odio. Accusamus ea praesentium unde
+            deserunt delectus, nihil corporis, mollitia ipsum impedit cupiditate eveniet vero esse facilis, incidunt in
+            sequi?
           </Text>
         </Box>
       </DefaultPageLayout>

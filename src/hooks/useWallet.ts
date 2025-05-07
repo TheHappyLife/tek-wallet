@@ -1,26 +1,11 @@
 import { useContext } from "react";
 import { ReceiveContext, initialReceive } from "../providers/ReceiveProvider";
-import {
-  initialWalletData,
-  WalletDataContext,
-} from "../providers/WalletDataProvider";
+import { initialWalletData, WalletDataContext } from "../providers/WalletDataProvider";
 import { Wallet } from "../types/expose-type";
-import {
-  initialLockTokens,
-  LockTokensContext,
-} from "../providers/LockTokenProvider";
-import {
-  initialWithdraw,
-  WithdrawContext,
-} from "../providers/WithdrawProvider";
-import {
-  RealtimeContext,
-  initialRealtime,
-} from "../providers/RealtimeProvider";
-import {
-  ActivitiesContext,
-  initialActivities,
-} from "../providers/ActivitiesProvider";
+import { initialLockTokens, LockTokensContext } from "../providers/LockTokenProvider";
+import { initialWithdraw, WithdrawContext } from "../providers/WithdrawProvider";
+import { RealtimeContext, initialRealtime } from "../providers/RealtimeProvider";
+import { ActivitiesContext, initialActivities } from "../providers/ActivitiesProvider";
 function useWallet(): Wallet {
   const receiveData = useContext(ReceiveContext);
   const withdrawData = useContext(WithdrawContext);

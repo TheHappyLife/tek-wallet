@@ -11,9 +11,7 @@ export interface GetConfigTokenListQuery {
   transactionType: TransactionType;
 }
 
-const getConfigTokenList = async <T>(
-  query?: GetConfigTokenListQuery
-): Promise<T> => {
+const getConfigTokenList = async <T>(query?: GetConfigTokenListQuery): Promise<T> => {
   const response = await userClientRequest.get("/platform-config/list-tokens", {
     params: {
       page: query?.page,

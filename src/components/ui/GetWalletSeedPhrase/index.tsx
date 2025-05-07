@@ -1,8 +1,5 @@
 "use client";
-import DrawerComponent, {
-  DRAWER_DIRECTION,
-  DrawerComponentRef,
-} from "../DrawerComponent";
+import DrawerComponent, { DRAWER_DIRECTION, DrawerComponentRef } from "../DrawerComponent";
 import { GeneralProps } from "../../../types/ui";
 import { useRef } from "react";
 import RequireConnect from "../RequireConnect";

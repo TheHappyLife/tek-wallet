@@ -1,13 +1,9 @@
 "use client";
 import { GeneralProps } from "../../../types/ui";
 import DefaultPageLayout from "../../../components/layouts/DefaultPageLayout";
-import SwiperControlled, {
-  SwiperControlledRef,
-} from "../../../components/ui/SwiperControlled";
+import SwiperControlled, { SwiperControlledRef } from "../../../components/ui/SwiperControlled";
 import { SwiperSlide } from "swiper/react";
-import ChildPageLayout, {
-  ChildPageLayoutRef,
-} from "../../../components/layouts/ChildPageLayout";
+import ChildPageLayout, { ChildPageLayoutRef } from "../../../components/layouts/ChildPageLayout";
 import PageHeader from "../../../components/ui/PageHeader";
 import OTP, { OtpInputType } from "../../../components/ui/OTP";
 import { useRef, useState } from "react";
@@ -31,9 +27,7 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
   const [confirmOtp, setConfirmOtp] = useState("");
   const swiperControlledRef = useRef<SwiperControlledRef>(null);
   const childPageLayoutRef = useRef<ChildPageLayoutRef>(null);
-  const [currentStep, setCurrentStep] = useState(
-    CreateWalletViewStep.CREATE_PASSCODE
-  );
+  const [currentStep, setCurrentStep] = useState(CreateWalletViewStep.CREATE_PASSCODE);
   const { createWallet } = useWalletData();
   const gotoStep = (step: CreateWalletViewStep) => {
     setCurrentStep(step);
@@ -50,9 +44,7 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
       case CreateWalletViewStep.CONFIRM_PASSCODE:
         setCurrentStep(CreateWalletViewStep.CREATE_PASSCODE);
         clearInputsValue();
-        swiperControlledRef.current?.slideTo(
-          CreateWalletViewStep.CREATE_PASSCODE
-        );
+        swiperControlledRef.current?.slideTo(CreateWalletViewStep.CREATE_PASSCODE);
 
         break;
       case CreateWalletViewStep.CREATE_PASSCODE:
@@ -106,9 +98,7 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
   return (
     <ChildPageLayout
       ref={childPageLayoutRef}
-      header={
-        <PageHeader overrideBack={handleBack} title="Passcode"></PageHeader>
-      }
+      header={<PageHeader overrideBack={handleBack} title="Passcode"></PageHeader>}
     >
       <DefaultPageLayout
         sx={{
@@ -156,8 +146,8 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
                   ...theme.mixins.sessionDescription,
                 }}
               >
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Necessitatibus, eos! Dolore quae vero in ducimus doloribus
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus, eos! Dolore quae vero in
+                ducimus doloribus
               </Text>
             </Box>
           </SwiperSlide>
@@ -190,8 +180,8 @@ const CreateWalletView = (props: CreateWalletViewProps) => {
                   ...theme.mixins.sessionDescription,
                 }}
               >
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Necessitatibus, eos! Dolore quae vero in ducimus doloribus
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus, eos! Dolore quae vero in
+                ducimus doloribus
               </Text>
             </Box>
           </SwiperSlide>

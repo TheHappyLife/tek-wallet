@@ -27,14 +27,8 @@ function EmptyData(props: EmptyDataProps) {
     >
       <Icon width={48} src={props.icon} />
       <Text sx={{ ...theme.mixins.sessionTitle }}>{props.title}</Text>
-      <Text sx={{ ...theme.mixins.sessionDescription }}>
-        {props.description}
-      </Text>
-      {props.action && (
-        <Button.Primary onClick={props.action}>
-          {props.actionText}
-        </Button.Primary>
-      )}
+      <Text sx={{ ...theme.mixins.sessionDescription }}>{props.description}</Text>
+      {props.action && <Button.Primary onClick={props.action}>{props.actionText}</Button.Primary>}
     </Box>
   );
 }

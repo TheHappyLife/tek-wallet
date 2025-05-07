@@ -15,12 +15,7 @@ export interface NeonLineChartPropsTypes extends GeneralProps {
   showMinMaxValues?: boolean;
 }
 
-function NeonLineChart({
-  series,
-  categories,
-  showMinMaxValues = false,
-  sx,
-}: NeonLineChartPropsTypes) {
+function NeonLineChart({ series, categories, showMinMaxValues = false, sx }: NeonLineChartPropsTypes) {
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
   const { formatValue } = useFormatter();
   const theme = useTheme();
@@ -211,11 +206,7 @@ function NeonLineChart({
           </motion.div>
         </>
       )}
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={options}
-        ref={chartComponentRef}
-      />
+      <HighchartsReact highcharts={Highcharts} options={options} ref={chartComponentRef} />
     </Box>
   );
 }

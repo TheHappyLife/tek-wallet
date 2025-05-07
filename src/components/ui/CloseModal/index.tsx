@@ -7,13 +7,7 @@ interface CloseModalProps extends GeneralProps {}
 const CloseModal = (props: CloseModalProps) => {
   const { ...rest } = props;
 
-  return (
-    <Icon
-      src={getIcon("close_modal")}
-      sx={{ width: "1.5rem", height: "1.5rem", ...props.sx }}
-      {...rest}
-    />
-  );
+  return <Icon src={getIcon("close_modal")} sx={{ width: "1.5rem", height: "1.5rem", ...props.sx }} {...rest} />;
 };
 
 export default CloseModal;

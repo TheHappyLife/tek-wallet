@@ -12,12 +12,9 @@ export default function roundToTwoSignificantDecimals(num: number) {
     const indexOfFirstNumberNotZeroAfterDot = stringValue
       .split("")
       ?.findIndex((char: string, i: number) => +char != 0 && i > indexOfDot);
-    const numOfNumberRemain =
-      indexOfFirstNumberNotZeroAfterDot - indexOfDot + 1;
+    const numOfNumberRemain = indexOfFirstNumberNotZeroAfterDot - indexOfDot + 1;
 
-    return reduceZeroNoNecessary(
-      Math.floor(+num * 10 ** numOfNumberRemain) / 10 ** numOfNumberRemain
-    );
+    return reduceZeroNoNecessary(Math.floor(+num * 10 ** numOfNumberRemain) / 10 ** numOfNumberRemain);
   } catch {
     return num;
   }

@@ -1,8 +1,5 @@
 import { useContext } from "react";
-import {
-  initialActivities,
-  ActivitiesContext,
-} from "../providers/ActivitiesProvider";
+import { initialActivities, ActivitiesContext } from "../providers/ActivitiesProvider";
 import { ActivitiesProviderDataType } from "../providers/ActivitiesProvider/type";
 function useActivities(): ActivitiesProviderDataType {
   try {

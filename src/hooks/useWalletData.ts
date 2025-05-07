@@ -1,8 +1,5 @@
 import { useContext } from "react";
-import {
-  WalletDataContext,
-  initialWalletData,
-} from "../providers/WalletDataProvider";
+import { WalletDataContext, initialWalletData } from "../providers/WalletDataProvider";
 import { WalletProviderDataType } from "../types/expose-type";
 function useWalletData(): WalletProviderDataType {
   try {

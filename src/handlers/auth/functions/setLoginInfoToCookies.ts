@@ -11,13 +11,9 @@ const setLoginInfoToCookies = async (loginInfo: LoginInfo) => {
   };
   console.warn("🚀 ~ data:", data);
 
-  const token = jwt.sign(
-    data,
-    process.env.TEK_WALLET_AUTH_SECRET || "your-default-secret-key",
-    {
-      algorithm: "HS256",
-    }
-  );
+  const token = jwt.sign(data, process.env.TEK_WALLET_AUTH_SECRET || "your-default-secret-key", {
+    algorithm: "HS256",
+  });
 
   const cookieStore = await cookies();
   cookieStore.set("tek_wallet_login", token, {

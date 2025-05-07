@@ -3,9 +3,7 @@ import { Dialog, DialogProps } from "@mui/material";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { GeneralProps } from "../../../types/ui";
 
-interface AppDialogProps
-  extends Omit<DialogProps, "open">,
-    Omit<GeneralProps, "sx" | "onClick"> {
+interface AppDialogProps extends Omit<DialogProps, "open">, Omit<GeneralProps, "sx" | "onClick"> {
   overrideOpen?: boolean;
 }
 

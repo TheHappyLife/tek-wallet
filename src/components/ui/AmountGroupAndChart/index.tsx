@@ -15,15 +15,12 @@ const fakeSeries = [
   {
     name: "All",
     data: [
-      1003785.6864951615, 1003795.988344575, 1003827.99766239,
-      1003899.7426850981, 1003891.7710159089, 1003810.6439517767,
-      1003780.7195320514, 1003797.9506016063, 1003781.455378438,
-      1003782.0072632281, 1003715.167883104, 1003724.9791682598,
-      1003716.6018329085, 1003711.3282671372, 1003686.1868489254,
-      1003625.4795220237, 1003584.3334449014, 1003498.9139435134,
-      1003310.7825506503, 1003339.72584186, 1003334.3069939599,
-      1003364.3540547496, 1003394.4011155394, 1003398.386950134,
-      1003233.005474726, 1003185.2981006557, 1003165.7981714085,
+      1003785.6864951615, 1003795.988344575, 1003827.99766239, 1003899.7426850981, 1003891.7710159089,
+      1003810.6439517767, 1003780.7195320514, 1003797.9506016063, 1003781.455378438, 1003782.0072632281,
+      1003715.167883104, 1003724.9791682598, 1003716.6018329085, 1003711.3282671372, 1003686.1868489254,
+      1003625.4795220237, 1003584.3334449014, 1003498.9139435134, 1003310.7825506503, 1003339.72584186,
+      1003334.3069939599, 1003364.3540547496, 1003394.4011155394, 1003398.386950134, 1003233.005474726,
+      1003185.2981006557, 1003165.7981714085,
     ],
   },
 ];
@@ -67,9 +64,7 @@ const variants = {
 
 const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
   const [expandAreaChart, setExpandAreaChart] = useState(false);
-  const [timeRangeData, setTimeRangeData] = useState<
-    TimeFilterData | undefined
-  >();
+  const [timeRangeData, setTimeRangeData] = useState<TimeFilterData | undefined>();
   const theme = useTheme();
   const handleChangeTimeRange = (data: TimeFilterData) => {
     setTimeRangeData(data);
@@ -100,9 +95,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
               left: 0,
               bottom: 0,
               transition: "all 500ms ease-in-out",
-              transform: !expandAreaChart
-                ? "translateY(-100%) translateX(25%) scale(0.5)"
-                : "none",
+              transform: !expandAreaChart ? "translateY(-100%) translateX(25%) scale(0.5)" : "none",
             }}
           >
             <DelayMounted delay={800}>
@@ -142,11 +135,7 @@ const AmountGroupAndChart = (props: AmountGroupAndChartProps) => {
               },
             }}
           >
-            <TimeFilter
-              hideAll
-              initialValue={defaultTimeRange}
-              onChange={handleChangeTimeRange}
-            />
+            <TimeFilter hideAll initialValue={defaultTimeRange} onChange={handleChangeTimeRange} />
           </motion.div>
         </Box>
         <Icon

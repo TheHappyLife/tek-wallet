@@ -43,14 +43,7 @@ const CustomOtpInput = (props: CustomOtpInputProps) => {
         />
       );
     default:
-      return (
-        <OtpInput
-          {...rest}
-          renderInput={(props) => (
-            <input {...props} inputMode="text" type="text" />
-          )}
-        />
-      );
+      return <OtpInput {...rest} renderInput={(props) => <input {...props} inputMode="text" type="text" />} />;
   }
 };
 

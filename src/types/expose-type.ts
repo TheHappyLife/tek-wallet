@@ -126,8 +126,7 @@ export interface LoginInfo {
   refreshExpiresAt: number;
 }
 
-export interface LoginInfoResponse
-  extends Omit<LoginInfo, "refreshToken" | "refreshExpiresAt"> {}
+export interface LoginInfoResponse extends Omit<LoginInfo, "refreshToken" | "refreshExpiresAt"> {}
 
 export interface WalletData {
   id: string;

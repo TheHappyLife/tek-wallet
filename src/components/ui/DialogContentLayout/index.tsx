@@ -2,8 +2,7 @@ import { Box, BoxProps, Divider, useTheme } from "@mui/material";
 import { ReactNode } from "react";
 import Text from "../Text";
 
-interface DialogContentLayoutProps
-  extends Omit<BoxProps, "content" | "actions"> {
+interface DialogContentLayoutProps extends Omit<BoxProps, "content" | "actions"> {
   content?: ReactNode;
   actions?: ReactNode;
 }

@@ -1,17 +1,7 @@
-import {
-  Box,
-  CircularProgress,
-  ListItemButton,
-  ListItemButtonProps,
-  useTheme,
-} from "@mui/material";
+import { Box, CircularProgress, ListItemButton, ListItemButtonProps, useTheme } from "@mui/material";
 import { useCallback, useMemo } from "react";
 import parsePropsData from "../../../utils/parsePropsData";
-import {
-  Transaction,
-  TransactionSlug,
-  TransactionStatus,
-} from "../../../services/axios/get-activities-service/type";
+import { Transaction, TransactionSlug, TransactionStatus } from "../../../services/axios/get-activities-service/type";
 import Icon from "../Icon";
 import Text from "../Text";
 import Formatter from "../Formatter";
@@ -36,13 +26,11 @@ function ActivityItem(props: ActivityItemProps) {
     return type === TransactionSlug.Deposit;
   }, [type]);
   const descriptionElement = useMemo(() => {
-    const isReceive =
-      type === TransactionSlug.Receive || type === TransactionSlug.Deposit;
+    const isReceive = type === TransactionSlug.Receive || type === TransactionSlug.Deposit;
     if (isReceive) {
       return <>From: {compactWalletAddress(activityData?.from_address)}</>;
     }
-    const isSend =
-      type === TransactionSlug.Send || type === TransactionSlug.Withdrawn;
+    const isSend = type === TransactionSlug.Send || type === TransactionSlug.Withdrawn;
     if (isSend) {
       return <>To: {compactWalletAddress(activityData?.to_address)}</>;
     }
@@ -97,15 +85,11 @@ function ActivityItem(props: ActivityItemProps) {
           width: "fit-content",
         }}
       >
-        <Text sx={theme.mixins.activityTitle}>
-          {activityData.transaction_type}
-        </Text>
+        <Text sx={theme.mixins.activityTitle}>{activityData.transaction_type}</Text>
         <Text sx={theme.mixins.activityDescription}>{descriptionElement}</Text>
         {status !== TransactionStatus.Success && (
           <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
-            {status === TransactionStatus.Processing && (
-              <CircularProgress color="secondary" size={16} />
-            )}
+            {status === TransactionStatus.Processing && <CircularProgress color="secondary" size={16} />}
             <Text
               sx={{
                 fontSize: theme.typography.fontSize12,
@@ -134,11 +118,7 @@ function ActivityItem(props: ActivityItemProps) {
             textAlign: "right",
           }}
         >
-          <Formatter
-            start={isIncrease ? "+" : "-"}
-            value={activityData.amount}
-            unit={activityData.currency_slug}
-          />
+          <Formatter start={isIncrease ? "+" : "-"} value={activityData.amount} unit={activityData.currency_slug} />
         </Text>
 
         <Text sx={{ ...theme.mixins.valueDescription, textAlign: "right" }}>

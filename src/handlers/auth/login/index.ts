@@ -1,19 +1,12 @@
 import getLoginInfoFromCookies from "../functions/getLoginInfoFromCookies";
 import { NextResponse } from "next/server";
 import isExpired from "../functions/isExpired";
-import {
-  LoginMessage,
-  LoginResponse,
-  REFRESH_TOKEN_STATUS,
-  ResponseError,
-} from "../../../types/expose-type";
+import { LoginMessage, LoginResponse, REFRESH_TOKEN_STATUS, ResponseError } from "../../../types/expose-type";
 import refreshTokenKeycloak from "../functions/refreshTokenKeycloak";
 import setLoginInfoToCookies from "../functions/setLoginInfoToCookies";
 import clearLoginInfo from "../functions/clearLoginInfo";
 
-const loginHandler = async (): Promise<
-  NextResponse<LoginResponse | ResponseError>
-> => {
+const loginHandler = async (): Promise<NextResponse<LoginResponse | ResponseError>> => {
   try {
     const loginInfo = await getLoginInfoFromCookies();
     console.warn("🚀 ~ loginHandler ~ loginInfo:", loginInfo);
@@ -49,19 +42,10 @@ const loginHandler = async (): Promise<
     }
 
     //access token is expired and refresh token is not expired
-    if (
-      isExpired(loginInfo.expiresAt) &&
-      !isExpired(loginInfo.refreshExpiresAt)
-    ) {
+    if (isExpired(loginInfo.expiresAt) && !isExpired(loginInfo.refreshExpiresAt)) {
       //refresh token
-      const refreshedTokens = await refreshTokenKeycloak(
-        loginInfo.refreshToken
-      );
-      console.warn(
-        "🚀 ~ jwt ~ refreshedTokens:",
-        loginInfo.refreshToken,
-        refreshedTokens
-      );
+      const refreshedTokens = await refreshTokenKeycloak(loginInfo.refreshToken);
+      console.warn("🚀 ~ jwt ~ refreshedTokens:", loginInfo.refreshToken, refreshedTokens);
       if (refreshedTokens.status === REFRESH_TOKEN_STATUS.SUCCESS) {
         const data = refreshedTokens.data;
         loginInfo.accessToken = data?.access_token;

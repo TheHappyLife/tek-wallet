@@ -9,12 +9,7 @@ interface SafeSvgRendererProps extends GeneralProps {
   height?: number | string;
 }
 
-const SafeSvgRenderer: React.FC<SafeSvgRendererProps> = ({
-  svgString,
-  width = "100%",
-  height = "100%",
-  sx,
-}) => {
+const SafeSvgRenderer: React.FC<SafeSvgRendererProps> = ({ svgString, width = "100%", height = "100%", sx }) => {
   const sanitizedSvg = DOMPurify.sanitize(svgString, {
     USE_PROFILES: { svg: true, svgFilters: true },
     ADD_TAGS: ["use"],

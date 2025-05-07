@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import { ResponseError, SignOutResponse } from "../../../types/expose-type";
 import clearLoginInfo from "../functions/clearLoginInfo";
 
-const signoutHandler = async (): Promise<
-  NextResponse<SignOutResponse | ResponseError>
-> => {
+const signoutHandler = async (): Promise<NextResponse<SignOutResponse | ResponseError>> => {
   try {
     await clearLoginInfo();
 

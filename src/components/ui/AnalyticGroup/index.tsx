@@ -22,10 +22,7 @@ const AnalyticGroup = (props: AnalyticGroupProps) => {
           fontSize: theme.typography.fontSize20,
         }}
       >
-        <Formatter
-          sx={{ fontWeight: theme.typography.fontWeight700 }}
-          value={1000000}
-        />
+        <Formatter sx={{ fontWeight: theme.typography.fontWeight700 }} value={1000000} />
         <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>
           <Text
             sx={{

@@ -17,9 +17,7 @@ const AssetView = () => {
   return (
     <>
       {!isAuthenticated && (
-        <Text sx={{ ...theme.mixins.sessionDescription }}>
-          Please connect your wallet to get asset information
-        </Text>
+        <Text sx={{ ...theme.mixins.sessionDescription }}>Please connect your wallet to get asset information</Text>
       )}
       {!!isAuthenticated && (
         <DefaultPageLayout>
@@ -36,35 +34,19 @@ const AssetView = () => {
           >
             <ReceiveFunction>
               <ListItem>
-                <FunctionItem
-                  icon={getIcon("receive")}
-                  label="Receive"
-                  sx={{ width: "100%" }}
-                />
+                <FunctionItem icon={getIcon("receive")} label="Receive" sx={{ width: "100%" }} />
               </ListItem>
             </ReceiveFunction>
             <WithdrawFunction>
               <ListItem>
-                <FunctionItem
-                  icon={getIcon("withdraw")}
-                  label="Withdraw"
-                  sx={{ width: "100%" }}
-                />
+                <FunctionItem icon={getIcon("withdraw")} label="Withdraw" sx={{ width: "100%" }} />
               </ListItem>
             </WithdrawFunction>
             <ListItem>
-              <FunctionItem
-                icon={getIcon("fortune", "gif")}
-                label="Fortune"
-                sx={{ width: "100%" }}
-              />
+              <FunctionItem icon={getIcon("fortune", "gif")} label="Fortune" sx={{ width: "100%" }} />
             </ListItem>
             <ListItem>
-              <FunctionItem
-                icon={getIcon("p2p", "gif")}
-                label="P2P"
-                sx={{ width: "100%" }}
-              />
+              <FunctionItem icon={getIcon("p2p", "gif")} label="P2P" sx={{ width: "100%" }} />
             </ListItem>
           </Box>
           <TokensBoard />

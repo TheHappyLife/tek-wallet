@@ -3,9 +3,7 @@ export default function getStandardNumber(value: number | string): string {
   if (!stringValue.includes("e-")) {
     return stringValue;
   } else {
-    const beforeE = stringValue
-      .slice(0, stringValue.indexOf("e-"))
-      .replace(".", "");
+    const beforeE = stringValue.slice(0, stringValue.indexOf("e-")).replace(".", "");
     const afterE = stringValue.slice(stringValue.indexOf("e-") + 2);
 
     let result = "";

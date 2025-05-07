@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface RealtimeProviderDataType {
   transaction: any;
   isConnected: boolean;
@@ -5,7 +7,7 @@ export interface RealtimeProviderDataType {
 }
 
 export interface NotificationType {
-  message: string;
+  message: ReactNode;
   type: "success" | "error" | "warning" | "info";
   duration?: number;
   id: string;

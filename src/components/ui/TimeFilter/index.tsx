@@ -1,10 +1,4 @@
-import {
-  Box,
-  Chip,
-  ToggleButton,
-  ToggleButtonGroup,
-  useTheme,
-} from "@mui/material";
+import { Box, Chip, ToggleButton, ToggleButtonGroup, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import Text from "../Text";
 import { subDays } from "date-fns";
@@ -21,10 +15,7 @@ export enum TimeFilterType {
 
 export interface TimeFilterProps extends GeneralProps {
   initialValue?: TimeFilterType;
-  onChange?: (
-    value: TimeFilterData,
-    event?: React.MouseEvent<HTMLElement>
-  ) => any;
+  onChange?: (value: TimeFilterData, event?: React.MouseEvent<HTMLElement>) => any;
   hideAll?: boolean;
 }
 
@@ -34,11 +25,7 @@ export interface TimeFilterData {
   endDate?: string;
 }
 
-const TimeFilter = ({
-  initialValue = TimeFilterType.ALL,
-  onChange,
-  hideAll,
-}: TimeFilterProps) => {
+const TimeFilter = ({ initialValue = TimeFilterType.ALL, onChange, hideAll }: TimeFilterProps) => {
   const theme = useTheme();
   const [value, setValue] = useState<TimeFilterData>({
     type: initialValue,
@@ -51,16 +38,14 @@ const TimeFilter = ({
 
     switch (type) {
       case TimeFilterType.TODAY:
-        const { startDate, endDate } =
-          getMaxTime(new Date().toISOString(), new Date().toISOString()) ?? {};
+        const { startDate, endDate } = getMaxTime(new Date().toISOString(), new Date().toISOString()) ?? {};
         newData.startDate = startDate;
         newData.endDate = endDate;
         break;
       case TimeFilterType.SEVEN_DAYS: {
         const today = new Date();
         const sevenPreDay = subDays(today, 7);
-        const { startDate, endDate } =
-          getMaxTime(sevenPreDay.toISOString(), today.toISOString()) ?? {};
+        const { startDate, endDate } = getMaxTime(sevenPreDay.toISOString(), today.toISOString()) ?? {};
         newData.startDate = startDate;
         newData.endDate = endDate;
         break;
@@ -68,8 +53,7 @@ const TimeFilter = ({
       case TimeFilterType.THIRTY_DAYS: {
         const today = new Date();
         const oneMonthPreDay = subDays(today, 30);
-        const { startDate, endDate } =
-          getMaxTime(oneMonthPreDay.toISOString(), today.toISOString()) ?? {};
+        const { startDate, endDate } = getMaxTime(oneMonthPreDay.toISOString(), today.toISOString()) ?? {};
         newData.startDate = startDate;
         newData.endDate = endDate;
         break;
@@ -82,10 +66,7 @@ const TimeFilter = ({
     return newData;
   };
 
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newValueArray: TimeFilterType[]
-  ) => {
+  const handleChange = (event: React.MouseEvent<HTMLElement>, newValueArray: TimeFilterType[]) => {
     try {
       const newValue = newValueArray?.[0];
       if (newValue === value?.type) return;
@@ -105,9 +86,7 @@ const TimeFilter = ({
           return `${formatDate(dateData?.startDate || "")}`;
         case TimeFilterType.SEVEN_DAYS:
         case TimeFilterType.THIRTY_DAYS:
-          return `${formatDate(dateData?.startDate || "")} - ${formatDate(
-            dateData?.endDate || ""
-          )}`;
+          return `${formatDate(dateData?.startDate || "")} - ${formatDate(dateData?.endDate || "")}`;
         default:
           return null;
       }
@@ -140,11 +119,7 @@ const TimeFilter = ({
       >
         {getTimeFilterLabel(value)}
       </Text>
-      <ToggleButtonGroup
-        defaultValue={initialValue}
-        onChange={handleChange}
-        sx={{ gap: theme.mixins.gaps.g8 }}
-      >
+      <ToggleButtonGroup defaultValue={initialValue} onChange={handleChange} sx={{ gap: theme.mixins.gaps.g8 }}>
         {Object.values(TimeFilterType).map((type) => {
           if (hideAll && type === TimeFilterType.ALL) return null;
 

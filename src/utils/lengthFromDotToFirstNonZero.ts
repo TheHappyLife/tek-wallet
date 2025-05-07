@@ -4,10 +4,7 @@ export default function lengthFromDotToFirstNonZero(numString: string): number {
     return -1;
   }
   let firstNonZeroIndex = dotIndex + 1;
-  while (
-    firstNonZeroIndex < numString?.length &&
-    numString[firstNonZeroIndex] === "0"
-  ) {
+  while (firstNonZeroIndex < numString?.length && numString[firstNonZeroIndex] === "0") {
     firstNonZeroIndex++;
   }
 

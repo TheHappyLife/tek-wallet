@@ -31,10 +31,7 @@ const StatusDisplay = (props: StatusDisplayProps) => {
         gap: "0.5rem",
       }}
     >
-      <Image
-        src={getIcon(`status_${props.status}`, "gif")}
-        sx={{ width: "1.5rem", height: "1.5rem" }}
-      />
+      <Image src={getIcon(`status_${props.status}`, "gif")} sx={{ width: "1.5rem", height: "1.5rem" }} />
       <Text
         sx={{
           color: statusColor[props.status],

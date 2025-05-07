@@ -19,14 +19,8 @@ const Icon = (props: IconProps) => {
       {...rest}
       sx={{
         display: "block",
-        width:
-          (width ?? height ?? false)
-            ? `${(width || height || 0) / 16}rem`
-            : "auto",
-        height:
-          (height ?? width ?? false)
-            ? `${(height || width || 0) / 16}rem`
-            : "auto",
+        width: (width ?? height ?? false) ? `${(width || height || 0) / 16}rem` : "auto",
+        height: (height ?? width ?? false) ? `${(height || width || 0) / 16}rem` : "auto",
         ...sx,
       }}
     />
