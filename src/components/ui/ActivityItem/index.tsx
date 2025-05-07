@@ -20,23 +20,28 @@ function ActivityItem(props: ActivityItemProps) {
 
     return parsePropsData<Transaction>(data);
   }, [data]);
-  const type = activityData?.transaction_type;
   const status = activityData?.transaction_status;
-  const isIncrease = useMemo(() => {
-    return type === TransactionSlug.Deposit;
+  const type = useMemo(() => {
+    return activityData?.transaction_type;
+  }, [activityData]);
+  const slug = useMemo(() => {
+    return type?.slug;
   }, [type]);
+  const isIncrease = useMemo(() => {
+    return slug === TransactionSlug.Deposit;
+  }, [slug]);
   const descriptionElement = useMemo(() => {
-    const isReceive = type === TransactionSlug.Receive || type === TransactionSlug.Deposit;
+    const isReceive = slug === TransactionSlug.Receive || slug === TransactionSlug.Deposit;
     if (isReceive) {
       return <>From: {compactWalletAddress(activityData?.from_address)}</>;
     }
-    const isSend = type === TransactionSlug.Send || type === TransactionSlug.Withdrawn;
+    const isSend = slug === TransactionSlug.Send || slug === TransactionSlug.Withdrawn;
     if (isSend) {
       return <>To: {compactWalletAddress(activityData?.to_address)}</>;
     }
 
     return null;
-  }, [status]);
+  }, [slug, activityData?.from_address, activityData?.to_address]);
   const getStatusColor = useCallback(() => {
     switch (status) {
       case TransactionStatus.Processing:
@@ -77,7 +82,7 @@ function ActivityItem(props: ActivityItemProps) {
           height: "fit-content",
         }}
       >
-        <Icon src={activityData.icon} width={24} />
+        <Icon src={type?.icon} width={24} />
       </Box>
       <Box
         sx={{
@@ -85,7 +90,7 @@ function ActivityItem(props: ActivityItemProps) {
           width: "fit-content",
         }}
       >
-        <Text sx={theme.mixins.activityTitle}>{activityData.transaction_type}</Text>
+        <Text sx={theme.mixins.activityTitle}>{type?.name}</Text>
         <Text sx={theme.mixins.activityDescription}>{descriptionElement}</Text>
         {status !== TransactionStatus.Success && (
           <Box sx={{ ...theme.mixins.row, gap: theme.mixins.gaps.g4 }}>

@@ -21,18 +21,18 @@ export interface Data {
   paginated: Paginated;
 }
 
-export interface TransactionType {
-  name: string;
-  slug: TransactionSlug;
-}
+// export interface TransactionType {
+//   name: string;
+//   slug: TransactionSlug;
+// }
 
 export interface Transaction {
   id: number;
-  transaction_type: TransactionSlug;
+  transaction_type: TransactionType;
   from_address: string;
   to_address: string;
   network: string;
-  from_app_slug: null | string;
+  from_app_slug: string;
   currency_slug: string;
   fee: string;
   amount: string;
@@ -41,11 +41,42 @@ export interface Transaction {
   user_updated: string;
   date_created: string;
   date_updated: null;
-  description: null | string;
+  description: null;
   from_locked_balance: null;
   to_locked_balance: null;
-  icon: string;
 }
+
+export interface TransactionType {
+  id: number;
+  status: string;
+  name: string;
+  slug: TransactionSlug;
+  description: null;
+  icon: string;
+  link: string;
+  icon_svg: string;
+}
+
+// export interface Transaction {
+//   id: number;
+//   transaction_type: TransactionSlug;
+//   from_address: string;
+//   to_address: string;
+//   network: string;
+//   from_app_slug: null | string;
+//   currency_slug: string;
+//   fee: string;
+//   amount: string;
+//   transaction_status: TransactionStatus;
+//   user_created: string;
+//   user_updated: string;
+//   date_created: string;
+//   date_updated: null;
+//   description: null | string;
+//   from_locked_balance: null;
+//   to_locked_balance: null;
+//   icon: string;
+// }
 
 export enum TransactionSlug {
   All = "all",

@@ -37,7 +37,7 @@ export const useEventHandler = (): EventHandlerHookType => {
     return {
       message: (
         <>
-          <Text sx={{ textTransform: "capitalize" }}>{type}</Text> <Formatter value={amount} unit={currency} /> is{" "}
+          <Text sx={{ textTransform: "capitalize" }}>{type.name}</Text> <Formatter value={amount} unit={currency} /> is{" "}
           {status}
         </>
       ),
