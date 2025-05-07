@@ -5,7 +5,7 @@ export interface GetActivitiesServiceQuery {
   take?: number;
   from_date?: string;
   to_date?: string;
-  transaction_type?: TransactionSlug;
+  transaction_types?: TransactionSlug;
 }
 
 export interface GetActivitiesServiceResponse {

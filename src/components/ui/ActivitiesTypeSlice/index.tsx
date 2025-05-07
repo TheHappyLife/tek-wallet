@@ -39,14 +39,14 @@ function ActivitiesTypeSlice(props: ActivitiesTypeSlicePropsType) {
     if (!isActive || !type) return;
     if (!!activitiesByType) return;
     updateActivities({
-      transaction_type: type.slug,
+      transaction_types: type.slug,
       page: 1,
       take: 10,
     });
   }, [isActive, type, activitiesByType, updateActivities]);
 
   return (
-    <Box>
+    <Box sx={{ width: "100%" }}>
       {status === Status.Empty && (
         <EmptyData
           icon={getIcon(prefix + "empty_" + type.slug)}

@@ -40,7 +40,7 @@ function ActivitiesProvider({ children }: { children: React.ReactNode }) {
 
   const updateActivities = useCallback(
     async (query?: GetActivitiesServiceQuery) => {
-      const slug = query?.transaction_type ?? ACTIVITIES_TYPE_ALL.slug;
+      const slug = query?.transaction_types ?? ACTIVITIES_TYPE_ALL.slug;
       try {
         if (!isAuthenticated) {
           throw new Error("Authenticate to get receive tokens");
@@ -85,7 +85,7 @@ function ActivitiesProvider({ children }: { children: React.ReactNode }) {
       page,
       take: ACTIVITIES_PAGE_SIZE,
     });
-  }, [updateActivities]);
+  }, [updateActivities, activities]);
 
   return (
     <ActivitiesContext.Provider
