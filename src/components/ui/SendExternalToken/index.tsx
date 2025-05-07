@@ -22,7 +22,7 @@ import { NetworkData } from "../../../services/axios/type";
 import getEstimateFeeService from "../../../services/axios/get-est-fee-service";
 import { TransactionSlug } from "../../../services/axios/get-activities-service/type";
 
-interface SendExternalDataType extends Omit<SendExternalBody, "network"> {
+interface SendExternalDataType extends Omit<SendExternalBody, "network" | "passcode"> {
   network: NetworkData;
 }
 interface SendExternalTokenProps extends Omit<ConfirmLayoutProps, "action"> {
@@ -115,7 +115,7 @@ const SendExternalToken = forwardRef<SendExternalTokenRef, SendExternalTokenProp
       console.warn("🚀 ~ handleSendExternalToken ~ sendExternalData:", props.sendExternalData, passcode);
 
       setButtonStatus(BUTTON_STATUS.LOADING);
-      const response = await sendExternalService({ ...props.sendExternalData, network: network?.slug });
+      const response = await sendExternalService({ ...props.sendExternalData, network: network?.slug, passcode });
       console.warn("🚀 ~ handleSendExternalToken ~ response:", response);
       if (response.success) {
         confirmLayoutDrawerRef.current?.close();

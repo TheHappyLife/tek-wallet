@@ -790,7 +790,6 @@ const WithdrawFunction = forwardRef<WithdrawFunctionRef, WithdrawFunctionProps>(
                     amount: `${amount}`,
                     currency_slug: selectedToken?.slug || "",
                     to_address: recipientAddress || "",
-                    passcode: "",
                     network: selectedNetwork as NetworkData,
                     memo: memo || "",
                   }}
