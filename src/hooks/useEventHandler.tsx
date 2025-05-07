@@ -1,3 +1,5 @@
+import Formatter from "../components/ui/Formatter";
+import Text from "../components/ui/Text";
 import { NotificationType } from "../providers/RealtimeProvider/type";
 import { Transaction } from "../services/axios/get-activities-service/type";
 
@@ -33,7 +35,12 @@ export const useEventHandler = (): EventHandlerHookType => {
     }
 
     return {
-      message: `${type} ${amount} ${currency} is ${status}`,
+      message: (
+        <>
+          <Text sx={{ textTransform: "capitalize" }}>{type}</Text> <Formatter value={amount} unit={currency} /> is{" "}
+          {status}
+        </>
+      ),
       type: notificationType,
       id: `${transactionId}-${status}`,
     };
